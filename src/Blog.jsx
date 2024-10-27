@@ -1,69 +1,22 @@
+import { Route, Routes } from "react-router";
 import "./Blog.css";
-import { BlogCard } from "./components/BlogCard/BlogCard";
-import { Header } from "./components/Header/Header";
-import {
-  Field,
-  Login,
-  LoginForm,
-  MainPageContainer,
-  Section,
-  TopHeader,
-} from "./components/styled-components/styled-components";
+import { Main, Header } from "./components";
+import { Footer } from "./components/Footer/Footer";
 
 function Blog() {
   return (
     <div className="app">
       <Header />
-      <main className="mainBlock">
-        <Section className="block">
-          <MainPageContainer>
-            <TopHeader>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</TopHeader>
-            <LoginForm>
-              <Field />
-              <Field />
-              <Login>Login</Login>
-            </LoginForm>
-          </MainPageContainer>
-        </Section>
-        <Section className="block block2">
-          <div className="container">
-            <div className="card-container">
-              <BlogCard />
-              <BlogCard />
-              <BlogCard />
-              <BlogCard />
-              <BlogCard />
-              <BlogCard />
-              <BlogCard />
-              <BlogCard />
-              <BlogCard />
-              <BlogCard />
-              <BlogCard />
-              <BlogCard />
-              <BlogCard />
-              <BlogCard />
-              <BlogCard />
-              <BlogCard />
-              <BlogCard />
-              <BlogCard />
-              <BlogCard />
-              <BlogCard />
-              <BlogCard />
-              <BlogCard />
-              <BlogCard />
-              <BlogCard />
-              <BlogCard />
-              <BlogCard />
-              <BlogCard />
-              <BlogCard />
-              <BlogCard />
-            </div>
-            <footer className="footer">
-              <p>Никита Рябиков, 2024</p>
-            </footer>
-          </div>
-        </Section>
-      </main>
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="/login" element={<div>Страница входа</div>} />
+        <Route path="/register" element={<div>Страница регистрации</div>} />
+        <Route path="/users" element={<div>Пользователи</div>} />
+        <Route path="/post" element={<div>Новая статья</div>} />
+        <Route path="/post/:postId" element={<div>Статья</div>} />
+        <Route path="*" element={<div>Ошибка</div>} />
+      </Routes>
+      <Footer />
     </div>
   );
 }

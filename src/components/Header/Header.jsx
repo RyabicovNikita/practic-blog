@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Button } from "../Button/Button";
+import { Link } from "react-router-dom";
 
 export const Header = () => {
   const defaultStyle = {
@@ -25,10 +26,7 @@ export const Header = () => {
     gap: 30px;
     background-color: #474545c2;
   `;
-  const Logo = styled.div`
-    ${defaultStyle}
-    font-size: 65px;
-  `;
+
   const Profile = styled.div`
     ${defaultStyle}
     background-color: black;
@@ -38,12 +36,12 @@ export const Header = () => {
   `;
   return (
     <Header className="header">
-      <Logo>DESIGN</Logo>
+      <Link className="logo">Blog</Link>
       <Navigate className="navigate">
         <Button active={true}>Main</Button>
         <Button>Contacts</Button>
       </Navigate>
-      <Profile>Ghost</Profile>
+      <Profile className="user">Ghost</Profile>
     </Header>
   );
 };

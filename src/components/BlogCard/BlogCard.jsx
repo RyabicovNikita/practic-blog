@@ -3,6 +3,7 @@ import "./BlogCard.css";
 export const BlogCard = () => (
   <>
     <div className="blog-card spring-fever">
+      <img className="img2" alt="" src={require("./images/black-pin.png")} />
       <div className="img-container">
         <img
           className="img"
