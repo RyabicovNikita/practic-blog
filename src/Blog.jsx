@@ -1,5 +1,4 @@
-import styled from "styled-components";
-import "./App.css";
+import "./Blog.css";
 import { BlogCard } from "./components/BlogCard/BlogCard";
 import { Header } from "./components/Header/Header";
 import {
@@ -11,7 +10,7 @@ import {
   TopHeader,
 } from "./components/styled-components/styled-components";
 
-function App() {
+function Blog() {
   return (
     <div className="app">
       <Header />
@@ -69,4 +68,4 @@ function App() {
   );
 }
 
-export default App;
+export default Blog;
