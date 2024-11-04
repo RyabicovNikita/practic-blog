@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { BlogCard } from "../BlogCard/BlogCard";
 import { Footer } from "../Footer/Footer";
+import { Link } from "react-router-dom";
+import "./Main.scss";
 
 export const Main = () => {
   const flexToCenter = {
@@ -21,13 +23,14 @@ export const Main = () => {
     font-family: "Elite";
     font-size: 25px;
   `;
-  const Login = styled.a`
+  const Login = styled(Link)`
     padding: 15px;
     background-color: black;
     ${mainBRadius}
     width: 150px;
     color: white;
     text-align: center;
+    text-decoration: none;
   `;
   const LoginForm = styled.div`
     ${flexToCenter}
@@ -45,28 +48,35 @@ export const Main = () => {
     text-align: center;
     scroll-snap-align: start;
     scroll-snap-stop: always;
+    position: relative;
+    width: 100%;
+    text-align: center;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
   `;
 
   const MainPageContainer = styled.div`
     ${flexToCenter}
-    flex-direction:column;
+    height: 70%;
+    flex-direction: column;
     gap: 50px;
   `;
+
   return (
-    <main className="mainBlock">
-      <Section className="block">
+    <main className="main-content">
+      <Section className="main-content__section">
         <MainPageContainer>
           <TopHeader>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</TopHeader>
           <LoginForm>
             <InputField />
             <InputField />
-            <Login>Login</Login>
+            <Login to="/login">Login</Login>
           </LoginForm>
         </MainPageContainer>
       </Section>
-      <Section className="block block2">
-        <div className="container">
-          <div className="card-container">
+      <Section className="main-content__section cards-section">
+        <div className="cards-section__scrollable-cards">
+          <div className="cards-section__container">
             <BlogCard />
             <BlogCard />
           </div>

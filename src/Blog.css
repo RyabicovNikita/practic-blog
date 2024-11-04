@@ -4,53 +4,7 @@
   flex-direction: column;
 }
 
-.block {
-  position: relative;
-  width: 100%;
-  text-align: center;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-  background-image: url("./images/main-page-background.png");
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  background-origin: border-box;
-  background-position: top;
-}
-/* .block2 {
-  background-image: url("./images/backgroundForBlock2.PNG");
-  background-size: cover;
-  background-repeat: no-repeat;
-} */
-.mainBlock {
-  height: 100vh;
-  overflow-y: auto;
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
-}
-
-.block2 {
-  background-image: url("./images/content-background.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
-.header {
-  background-image: url("./images/header-background.png");
-  background-size: cover;
-  background-origin: border-box;
-  background-position: top;
-  background-repeat: no-repeat;
-}
-
 .card-container {
-  display: grid;
-  grid-template-columns: 2fr 2fr 2fr 2fr;
-  gap: 20px;
-  padding-left: 25px;
-  padding-right: 25px;
-  box-sizing: border-box;
 }
 
 .footer {
@@ -61,31 +15,8 @@
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 30px;
-  height: 100%;
-  overflow-y: scroll;
 }
 
-.logo {
-  text-decoration: none;
-  color: white;
-  display: flex;
-  justify-content: center;
-  padding: 10px;
-  border-radius: 15px;
-  display: flex;
-  font-size: 65px;
-  width: 270px;
-  background-image: url("./images/freepik-export-202410271705229jFW.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-.logo:hover {
-  color: gray;
-  transition: 0.6s;
-  cursor: pointer;
+.icon {
+  font-size: inherit;
 }

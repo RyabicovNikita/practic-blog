@@ -2,11 +2,15 @@ import { Route, Routes } from "react-router";
 import "./Blog.css";
 import { Main, Header } from "./components";
 import { Footer } from "./components/Footer/Footer";
+import { useState } from "react";
+import { ContextMenu } from "./components/ContextMenu/ContextMenu";
 
 function Blog() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
     <div className="app">
-      <Header />
+      <Header setIsMenuOpen={setIsMenuOpen} />
+      {isMenuOpen && <ContextMenu />}
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<div>Страница входа</div>} />

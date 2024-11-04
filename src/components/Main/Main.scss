@@ -1,0 +1,41 @@
+.main-content {
+  height: 100vh;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  &__section {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    background-image: url("../../images/main-page-background.png");
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-origin: border-box;
+    background-position: top;
+  }
+}
+.cards-section {
+  background-image: url("../../images/content-background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  &__scrollable-cards {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 30px;
+    height: 100%;
+    overflow-y: scroll;
+  }
+  &__container {
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr 2fr;
+    gap: 20px;
+    padding-left: 25px;
+    padding-right: 25px;
+    box-sizing: border-box;
+  }
+}
