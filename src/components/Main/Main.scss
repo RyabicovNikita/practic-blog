@@ -10,12 +10,21 @@
     scroll-snap-align: start;
     scroll-snap-stop: always;
     background-image: url("../../images/main-page-background.png");
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
     background-size: cover;
     background-origin: border-box;
     background-position: top;
+  }
+  &__auth-input {
+    padding: 15px;
+    background-color: #2f2d2dc2;
+    border-radius: 15px;
+    width: 400px;
+    color: white;
+    font-family: "Elite";
+    font-size: 25px;
+  }
+  &__auth-input:focus {
+    outline: none;
   }
 }
 .cards-section {

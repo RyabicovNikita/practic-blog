@@ -68,8 +68,8 @@ export const Main = () => {
         <MainPageContainer>
           <TopHeader>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</TopHeader>
           <LoginForm>
-            <InputField />
-            <InputField />
+            <input className="main-content__auth-input" placeholder="Login" />
+            <input className="main-content__auth-input" placeholder="Password" />
             <Login to="/login">Login</Login>
           </LoginForm>
         </MainPageContainer>

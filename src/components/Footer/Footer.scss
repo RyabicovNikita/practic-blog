@@ -1,0 +1,26 @@
+.footer {
+  max-height: 450px;
+  display: flex;
+  font-size: 30px;
+  width: 100%;
+  min-height: 150px;
+  background-color: black;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* padding: 15px; */
+  padding-left: 10px;
+  padding-right: 10px;
+  box-sizing: border-box;
+
+  &__info {
+    display: flex;
+    gap: 10px;
+  }
+  &__weather {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+  }
+}

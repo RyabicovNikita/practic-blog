@@ -1,7 +1,6 @@
-import { addUser } from "../services/db-actions";
-
 import { getUser } from "./get";
 import { createSession } from "./session";
+import { addUser } from "../services/db-requests/users";
 
 export const server = {
   async authorize(inputLogin, inputPassword) {

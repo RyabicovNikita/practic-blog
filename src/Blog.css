@@ -1,20 +1,9 @@
 .app {
+  height: 100%;
   text-align: center;
   display: flex;
+  justify-content: space-between;
   flex-direction: column;
-}
-
-.card-container {
-}
-
-.footer {
-  width: 100%;
-  min-height: 250px;
-  background-color: black;
-  color: white;
-}
-
-.container {
 }
 
 .icon {
