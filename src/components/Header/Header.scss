@@ -42,8 +42,21 @@
     background-position: center;
     background-repeat: no-repeat;
   }
+  &__auth-button {
+    text-decoration: none;
+    color: white;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 55px;
+    display: flex;
+    font-size: 45px;
+    width: 150px;
+    background-color: black;
+  }
   &__logo:hover,
-  .backIcon:hover {
+  .backIcon:hover,
+  &__auth-button:hover {
     color: gray;
     transition: 0.6s;
     cursor: pointer;

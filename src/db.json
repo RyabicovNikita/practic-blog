@@ -6,23 +6,51 @@
       "password": "1234",
       "registed_at": "2024-10-25",
       "role_id": 0
+    },
+    {
+      "id": "a733",
+      "login": "Test",
+      "password": "nikita123",
+      "registed_at": "2061-01-2908:40",
+      "role_id": 2
+    },
+    {
+      "id": "4f7d",
+      "login": "Test123",
+      "password": "123456",
+      "registed_at": "2040-11-2503:31",
+      "role_id": 2
+    },
+    {
+      "id": "80ff",
+      "login": "Test55",
+      "password": "123456",
+      "registed_at": "2045-03-3106:02",
+      "role_id": 2
+    },
+    {
+      "id": "98cd",
+      "login": "asdasd",
+      "password": "123456",
+      "registed_at": "2058-09-0809:29",
+      "role_id": 2
     }
   ],
   "roles": [
     {
-      "id": 0,
+      "id": "0",
       "name": "Администратор"
     },
     {
-      "id": 1,
+      "id": "1",
       "name": "Модератор"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Читатель"
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Гость"
     }
   ],

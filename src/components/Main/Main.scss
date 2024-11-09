@@ -26,6 +26,12 @@
   &__auth-input:focus {
     outline: none;
   }
+  &__arrow-container {
+    position: absolute;
+    bottom: 25%;
+    width: 100%;
+    height: 70px;
+  }
 }
 .cards-section {
   background-image: url("../../images/content-background.png");
@@ -46,5 +52,22 @@
     padding-left: 25px;
     padding-right: 25px;
     box-sizing: border-box;
+  }
+}
+
+.drop-down-icon {
+  position: absolute;
+  top: 0;
+  animation: key-down-move alternate;
+  animation-duration: 2s;
+
+  animation-iteration-count: infinite;
+}
+@keyframes key-down-move {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: 100%;
   }
 }

@@ -7,7 +7,9 @@ import { Input } from "./components/Input/Input";
 import { setUser } from "../../services/store/actions/actions";
 import "./AuthForm.scss";
 import { useDispatch } from "react-redux";
-const authFormSchema = yup.object().shape({
+import { useNavigate } from "react-router";
+
+const shapeObject = {
   login: yup
     .string()
     .required("Поле логин является обязательным для заполнения")
@@ -18,51 +20,75 @@ const authFormSchema = yup.object().shape({
     .string()
     .required("Введите пароль")
     .matches(/^[\w#$]+$/, "Неверно заполнен пароль. Допускаются только буквы, цифры и знакие #%")
-    .min(6, "Неверный пародь. Минимальный размер - 3 символа")
-    .max(30, "Неверный пароль. Максимальный размер - 15 символов"),
-});
+    .min(6, "Неверный пародь. Минимальный размер - 6 символа")
+    .max(30, "Неверный пароль. Максимальный размер - 30 символов"),
+  repeat_password: yup.string().required("Повторите пароль"),
+};
+
 export const AuthForm = () => {
+  const navigate = useNavigate();
+  const [isRegister, setIsRegister] = useState(false);
+  const authFormSchema = yup.object().shape(shapeObject);
+  const formParams = isRegister
+    ? {
+        defaultValues: {
+          login: "",
+          password: "",
+          repeat_password: "",
+        },
+        resolver: yupResolver(authFormSchema),
+      }
+    : {
+        defaultValues: {
+          login: "",
+          password: "",
+        },
+      };
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      login: "",
-      password: "",
-    },
-    resolver: yupResolver(authFormSchema),
-  });
+  } = useForm(formParams);
 
   const [serverError, setServerError] = useState(null);
 
   const dispatch = useDispatch();
 
-  const onSubmit = ({ login, password }) => {
-    server.authorize(login, password).then(({ error, res }) => {
-      if (error) {
-        setServerError(error);
-        return;
-      }
-      dispatch(setUser(res));
-    });
+  const onSubmit = async ({ login, password, repeat_password }) => {
+    let response;
+    response = isRegister
+      ? await server.register(login, password, repeat_password)
+      : await server.authorize(login, password);
+    const { error, res } = response;
+    if (error) {
+      setServerError(error);
+      return;
+    }
+    console.log(res);
+    dispatch(setUser(res));
+    navigate("/");
   };
-  const formError = errors?.login?.message || errors?.password?.message;
+  const formError = errors?.login?.message || errors?.password?.message || errors?.repeat_password?.message;
 
   const errorMessage = formError || serverError;
   return (
-    <div class="auth">
-      <div class="auth__auth-blur">
+    <div className="auth">
+      <div className="auth__auth-blur">
         <form onSubmit={handleSubmit(onSubmit)} className="auth__auth-form">
           <div className="auth__header-container">
-            <h1 className="auth__header active">SIGN IN</h1>
-            <h1 className="auth__header">SIGN UP</h1>
+            <a onClick={() => setIsRegister(false)} className={`auth__header ${!isRegister ? "active" : ""}`}>
+              SIGN IN
+            </a>
+            <a onClick={() => setIsRegister(true)} className={`auth__header ${isRegister ? "active" : ""}`}>
+              SIGN UP
+            </a>
           </div>
           <div className="auth__input-fields">
             <Input
               className="auth__input"
               type="text"
               placeholder="Username"
+              name="login"
               {...register("login", {
                 onChange: () => setServerError(null),
               })}
@@ -70,15 +96,27 @@ export const AuthForm = () => {
             <Input
               className="auth__input"
               type="password"
+              name="password"
               placeholder="Password"
               {...register("password", {
                 onChange: () => setServerError(null),
               })}
             />
+            {isRegister && (
+              <Input
+                className="auth__input"
+                name="repeat_password"
+                type="password"
+                placeholder="Repeat password"
+                {...register("repeat_password", {
+                  onChange: () => setServerError(null),
+                })}
+              />
+            )}
           </div>
-          <div>
+          <div className="auth__submit-error">
             <button disabled={!!formError} className="auth__submit" type="submit">
-              Login
+              {isRegister ? "Register" : "Login"}
             </button>
             {errorMessage && <div className="auth__error">{errorMessage}</div>}
           </div>

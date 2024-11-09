@@ -15,6 +15,11 @@
     color: red;
     margin-top: 25px;
   }
+  &__successful {
+    font-size: 15px;
+    color: green;
+    margin-top: 25px;
+  }
   &__auth-blur {
     width: 100%;
     height: 100%;
@@ -30,7 +35,8 @@
     padding: 25px;
     box-sizing: border-box;
     width: 300px;
-    height: 300px;
+    min-height: 300px;
+    height: max-content;
     z-index: 1;
     animation: displayAuthForm 1s;
     animation-fill-mode: forwards;
@@ -70,6 +76,14 @@
     border-radius: 15px;
     font-family: "Boozy";
     font-size: 18px;
+  }
+  &__submit-error {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
   }
   input:focus {
     transition: 1s;
