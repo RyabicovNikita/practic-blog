@@ -1,6 +1,5 @@
-import { getUser } from "./get";
-import { createSession } from "./session";
-import { addUser } from "../services/db-requests/users";
+import { addUser, getUser } from "../services";
+import { sessions } from "./sessions";
 
 export const server = {
   async authorize(inputLogin, inputPassword) {
@@ -18,7 +17,12 @@ export const server = {
 
     return {
       error: null,
-      res: createSession(user.role_id),
+      res: {
+        id: user.id,
+        login: user.login,
+        roleId: user.role_id,
+        session: sessions.create(user),
+      },
     };
   },
   async register(inputLogin, inputPassword) {
@@ -32,7 +36,12 @@ export const server = {
 
     return {
       error: null,
-      res: createSession(user.role_id),
+      res: {
+        id: user.id,
+        login: user.login,
+        roleId: user.role_id,
+        session: sessions.create(user),
+      },
     };
   },
 };

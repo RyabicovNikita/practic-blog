@@ -1,7 +1,7 @@
-import { ROLE } from "../services";
+import { ROLES } from "../services";
 
 const removeComment = () => console.log("remove comment");
-export const createSession = (roleID) => {
+export const addSession = (roleID) => {
   const session = {
     logout() {
       Object.keys(session).forEach((key) => {
@@ -10,15 +10,15 @@ export const createSession = (roleID) => {
     },
   };
   switch (roleID) {
-    case ROLE.ADMIN: {
+    case ROLES.ADMIN: {
       session.removeComment = removeComment;
       break;
     }
-    case ROLE.MODERATOR: {
+    case ROLES.MODERATOR: {
       session.removeComment = removeComment;
       break;
     }
-    case ROLE.READER: {
+    case ROLES.READER: {
       break;
     }
     default:

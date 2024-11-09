@@ -1,9 +1,12 @@
 import * as yup from "yup";
-import "./AuthForm.scss";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { server } from "../../bff/server";
 import { useState } from "react";
+import { Input } from "./components/Input/Input";
+import { setUser } from "../../services/store/actions/actions";
+import "./AuthForm.scss";
+import { useDispatch } from "react-redux";
 const authFormSchema = yup.object().shape({
   login: yup
     .string()
@@ -32,11 +35,16 @@ export const AuthForm = () => {
   });
 
   const [serverError, setServerError] = useState(null);
+
+  const dispatch = useDispatch();
+
   const onSubmit = ({ login, password }) => {
     server.authorize(login, password).then(({ error, res }) => {
       if (error) {
         setServerError(error);
+        return;
       }
+      dispatch(setUser(res));
     });
   };
   const formError = errors?.login?.message || errors?.password?.message;
@@ -51,7 +59,7 @@ export const AuthForm = () => {
             <h1 className="auth__header">SIGN UP</h1>
           </div>
           <div className="auth__input-fields">
-            <input
+            <Input
               className="auth__input"
               type="text"
               placeholder="Username"
@@ -59,7 +67,7 @@ export const AuthForm = () => {
                 onChange: () => setServerError(null),
               })}
             />
-            <input
+            <Input
               className="auth__input"
               type="password"
               placeholder="Password"

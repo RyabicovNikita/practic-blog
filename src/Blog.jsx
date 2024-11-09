@@ -4,7 +4,7 @@ import { Main, Header } from "./components";
 import { Footer } from "./components/Footer/Footer";
 import { useState } from "react";
 import { ContextMenu } from "./components/ContextMenu/ContextMenu";
-import { AuthForm } from "./components/AuthForm/AuthForm";
+import { AuthForm } from "./pages/AuthForm/AuthForm";
 
 function Blog() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
