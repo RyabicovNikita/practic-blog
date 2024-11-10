@@ -33,20 +33,24 @@ export const server = {
       },
     };
   },
-  async register(inputLogin, inputPassword, repeatPassword) {
-    if (inputPassword !== repeatPassword)
+  async register(inputLogin, inputPassword) {
+    let user;
+    try {
+      user = await getUser(inputLogin);
+      if (user)
+        return {
+          error: "Такой логин уже занят",
+          res: null,
+        };
+      const promise = await addUser(inputLogin, inputPassword);
+      user = await promise.json();
+    } catch (error) {
+      console.error(error);
       return {
-        error: "Введённые пароли не совпадают",
+        error: "Ошибка сервера",
         res: null,
       };
-    let user = await getUser(inputLogin);
-    if (user)
-      return {
-        error: "Такой логин уже занят",
-        res: null,
-      };
-    user = await addUser(inputLogin, inputPassword);
-    console.log(user);
+    }
     return {
       error: null,
       res: {
@@ -55,5 +59,8 @@ export const server = {
         session: sessions.create(user),
       },
     };
+  },
+  async logout(session) {
+    sessions.remove(session);
   },
 };

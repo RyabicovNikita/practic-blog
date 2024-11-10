@@ -4,14 +4,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { ContextMenu } from "../ContextMenu/ContextMenu";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectUser } from "../../services/selectors/selectors";
+import { selectUserLogin, selectUserSession } from "../../services/selectors/selectors";
 import { logoutUser } from "../../services/store/actions/actions";
 import "./Header.scss";
 
 export const Header = () => {
   const navigate = useNavigate();
 
-  const user = useSelector(selectUser);
+  const userSession = useSelector(selectUserSession);
+
+  const userLogin = useSelector(selectUserLogin);
 
   const dispatch = useDispatch();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -59,8 +61,7 @@ export const Header = () => {
   };
 
   const onLogoutClick = () => {
-    console.log(user);
-    dispatch(logoutUser(user.id));
+    dispatch(logoutUser(userSession));
   };
 
   return (
@@ -77,7 +78,7 @@ export const Header = () => {
           <div className="logo icon">
             <i className="fa fa-reply backIcon" aria-hidden="true" onClick={onReplyIconClick}></i>
           </div>
-          {user?.login ? (
+          {userLogin ? (
             <a onClick={onLogoutClick} className="header__auth-button">
               Logout
             </a>

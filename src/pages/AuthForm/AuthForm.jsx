@@ -22,7 +22,10 @@ const shapeObject = {
     .matches(/^[\w#$]+$/, "Неверно заполнен пароль. Допускаются только буквы, цифры и знакие #%")
     .min(6, "Неверный пародь. Минимальный размер - 6 символа")
     .max(30, "Неверный пароль. Максимальный размер - 30 символов"),
-  repeat_password: yup.string().required("Повторите пароль"),
+  repeat_password: yup
+    .string()
+    .required("Повторите пароль")
+    .oneOf([yup.ref("password"), null], "Пароли должны совпадать"),
 };
 
 export const AuthForm = () => {
@@ -43,9 +46,11 @@ export const AuthForm = () => {
           login: "",
           password: "",
         },
+        resolver: null,
       };
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm(formParams);
@@ -54,19 +59,24 @@ export const AuthForm = () => {
 
   const dispatch = useDispatch();
 
-  const onSubmit = async ({ login, password, repeat_password }) => {
+  const onSubmit = async ({ login, password }) => {
     let response;
-    response = isRegister
-      ? await server.register(login, password, repeat_password)
-      : await server.authorize(login, password);
+    response = isRegister ? await server.register(login, password) : await server.authorize(login, password);
     const { error, res } = response;
     if (error) {
       setServerError(error);
       return;
     }
-    console.log(res);
     dispatch(setUser(res));
     navigate("/");
+  };
+  const onSignInClick = () => {
+    setIsRegister(false);
+    reset();
+  };
+  const onSignOutClick = () => {
+    setIsRegister(true);
+    reset();
   };
   const formError = errors?.login?.message || errors?.password?.message || errors?.repeat_password?.message;
 
@@ -76,10 +86,10 @@ export const AuthForm = () => {
       <div className="auth__auth-blur">
         <form onSubmit={handleSubmit(onSubmit)} className="auth__auth-form">
           <div className="auth__header-container">
-            <a onClick={() => setIsRegister(false)} className={`auth__header ${!isRegister ? "active" : ""}`}>
+            <a onClick={onSignInClick} className={`auth__header ${!isRegister ? "active" : ""}`}>
               SIGN IN
             </a>
-            <a onClick={() => setIsRegister(true)} className={`auth__header ${isRegister ? "active" : ""}`}>
+            <a onClick={onSignOutClick} className={`auth__header ${isRegister ? "active" : ""}`}>
               SIGN UP
             </a>
           </div>
