@@ -72,14 +72,16 @@ export const AuthForm = () => {
   };
   const onSignInClick = () => {
     setIsRegister(false);
+    setServerError(null);
     reset();
   };
   const onSignOutClick = () => {
     setIsRegister(true);
+    setServerError(null);
     reset();
   };
-  const formError = errors?.login?.message || errors?.password?.message || errors?.repeat_password?.message;
 
+  const formError = errors?.login?.message || errors?.password?.message || errors?.repeat_password?.message;
   const errorMessage = formError || serverError;
   return (
     <div className="auth">
