@@ -42,8 +42,7 @@ export const server = {
           error: "Такой логин уже занят",
           res: null,
         };
-      const promise = await addUser(inputLogin, inputPassword);
-      user = await promise.json();
+      user = await addUser(inputLogin, inputPassword);
     } catch (error) {
       console.error(error);
       return {
@@ -54,6 +53,7 @@ export const server = {
     return {
       error: null,
       res: {
+        id: user.id,
         login: user.login,
         roleId: user.role_id,
         session: sessions.create(user),

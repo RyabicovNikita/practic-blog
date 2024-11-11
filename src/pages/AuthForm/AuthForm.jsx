@@ -32,6 +32,8 @@ export const AuthForm = () => {
   const navigate = useNavigate();
   const [isRegister, setIsRegister] = useState(false);
   const authFormSchema = yup.object().shape(shapeObject);
+  const [serverError, setServerError] = useState(null);
+  const dispatch = useDispatch();
   const formParams = isRegister
     ? {
         defaultValues: {
@@ -54,10 +56,6 @@ export const AuthForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm(formParams);
-
-  const [serverError, setServerError] = useState(null);
-
-  const dispatch = useDispatch();
 
   const onSubmit = async ({ login, password }) => {
     let response;
