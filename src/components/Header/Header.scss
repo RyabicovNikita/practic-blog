@@ -49,12 +49,12 @@
     color: white;
     display: flex;
     justify-content: center;
-    padding: 10px;
     border-radius: 55px;
     display: flex;
     font-size: 45px;
     width: 150px;
     background-color: black;
+    box-shadow: 1px -1px 15px 10px black;
   }
   &__logo:hover,
   .backIcon:hover,
