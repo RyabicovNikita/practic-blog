@@ -1,18 +1,23 @@
 .footer {
   max-height: 450px;
   display: flex;
-  font-size: 30px;
   width: 100%;
   min-height: 150px;
   background-color: black;
   color: white;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: flex-start;
   /* padding: 15px; */
   padding-left: 10px;
   padding-right: 10px;
   box-sizing: border-box;
+  box-shadow: 0px -7px 15px 12px black;
+  &__container {
+    width: 100%;
+    display: flex;
+    margin-top: 15px;
+    justify-content: space-between;
+  }
 
   &__info {
     display: flex;
@@ -22,5 +27,7 @@
     padding: 0;
     margin: 0;
     list-style-type: none;
+    display: flex;
+    gap: 15px;
   }
 }

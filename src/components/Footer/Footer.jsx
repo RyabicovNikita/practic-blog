@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { getWeatherUserCountry } from "../../services/weathers";
 import "./Footer.scss";
 
 export const Footer = () => {
@@ -15,15 +14,17 @@ export const Footer = () => {
   }, []);
   return (
     <footer className="footer">
-      <div className="footer__info">
-        <span className="footer__blog-name">Design-blog</span>
-        <span className="footer__current-year">{new Date().getFullYear()}</span>
+      <div className="footer__container">
+        <div className="footer__info">
+          <span className="footer__blog-name">Design-blog</span>
+          <span className="footer__current-year">{new Date().getFullYear()}</span>
+        </div>
+        <ul className="footer__weather">
+          <li> {userCountry}</li>
+          <li> {temp}</li>
+          <li>⛅️ {weather}</li>
+        </ul>
       </div>
-      <ul className="footer__weather">
-        <li> {userCountry}</li>
-        <li> {temp}</li>
-        <li> {weather}</li>
-      </ul>
     </footer>
   );
 };
