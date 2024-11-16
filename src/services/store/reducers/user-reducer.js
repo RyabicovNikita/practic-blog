@@ -1,5 +1,5 @@
 import { ROLES } from "../../constants";
-import { ACTION_TYPES } from "../actions/action-types";
+import { USER_ACTION_TYPES } from "../actions/constants";
 
 const initialUserState = {
   id: null,
@@ -10,13 +10,13 @@ const initialUserState = {
 
 export const userReducer = (state = initialUserState, action) => {
   switch (action.type) {
-    case ACTION_TYPES.SET_USER: {
+    case USER_ACTION_TYPES.SET_USER: {
       return {
         ...state,
         ...action.payload,
       };
     }
-    case ACTION_TYPES.LOGOUT: {
+    case USER_ACTION_TYPES.LOGOUT: {
       return initialUserState;
     }
     default:

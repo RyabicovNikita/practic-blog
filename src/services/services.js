@@ -1,5 +1,6 @@
-export const generateDate = () =>
-  new Date(Math.random() * 1000000000000 + 1999999999999).toISOString().substring(0, 16).replace("T", "");
+import { DateTime } from "luxon";
+
+export const generateDate = () => DateTime.now().toLocaleString();
 
 export function uuidv4() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
@@ -8,3 +9,8 @@ export function uuidv4() {
     return v.toString(16);
   });
 }
+
+export const mergeClasses = (classes, separator) =>
+  Array.isArray(classes)
+    ? classes.reduce((acc, className) => (acc.length > 0 ? (acc += separator + className) : (acc = className)), "")
+    : "";

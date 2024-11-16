@@ -9,9 +9,10 @@ const InputContainer = forwardRef(({ className, ...props }, ref) => (
 export const Input = styled(InputContainer)`
   font-family: "Renju";
   width: 100%;
-  height: 20px;
   border: 0;
   padding: 0;
   border-bottom: 2px solid white;
   background-color: #00000000;
+  font-size: 1em;
+  padding-top: 1em;
 `;

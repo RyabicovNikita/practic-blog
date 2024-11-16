@@ -1,8 +1,8 @@
 import { ROLES } from "../constants";
 import { generateDate } from "../services";
 
-export const getUsers = () => fetch("http://localhost:3005/users").then((res) => res.json());
-export const getUser = async (login) =>
+export const getUsersFromDb = () => fetch("http://localhost:3005/users").then((res) => res.json());
+export const getUser = (login) =>
   fetch(`http://localhost:3005/users?login=${login}`)
     .then((data) => data.json())
     .then((user) => user?.[0]);
