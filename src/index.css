@@ -4,6 +4,7 @@
 @import url(//fonts.googleapis.com/css?family=Abril+Fatface|Droid+Serif:400,700,400italic,700italic);
 .app {
   background-color: black;
+  font-size: 30px;
 }
 body {
   height: 100vh;
@@ -11,7 +12,6 @@ body {
   margin: 0;
   overflow: clip;
   color: white;
-  font-size: 50px;
   font-family: "Boozy";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
