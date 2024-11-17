@@ -1,6 +1,7 @@
 import { USER_ACTION_TYPES, USERS_ACTION_TYPES } from "./constants";
 import { server } from "../../../bff/server";
-import { getUsersFromDb } from "../../db-requests";
+import { getUsersFromDb } from "../../../api";
+import { getRolesFromDb } from "../../../api/role-requests";
 
 export const setUser = (user) => ({
   type: USER_ACTION_TYPES.SET_USER,

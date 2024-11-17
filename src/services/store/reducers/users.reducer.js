@@ -9,8 +9,7 @@ export const usersReducer = (state = initialUsersState, { type, payload }) => {
       return {
         ...state,
         users: payload?.map((user) => {
-          const { role_id, ...userData } = user;
-          return { ...userData, role: Object.keys(ROLES).find((key) => ROLES[key] === role_id) };
+          return { ...user, role: Object.keys(ROLES).find((key) => ROLES[key] === user.role_id) };
         }),
       };
     default:

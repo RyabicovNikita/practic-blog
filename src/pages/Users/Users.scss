@@ -17,24 +17,6 @@
     overflow-y: scroll;
     box-shadow: 0px 15px 30px 30px black;
   }
-  &__table {
-    padding: 20px;
-    :last-child {
-      border: 0;
-    }
-  }
-  &__row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-column-gap: 1px;
-    border-bottom: 1px solid white;
-    background-color: white;
-  }
-  &__cell {
-    background-color: black;
-    height: fit-content;
-    padding: 15px;
-  }
 }
 
 @keyframes blur-test {

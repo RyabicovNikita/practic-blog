@@ -2,16 +2,17 @@ import { useEffect, useState } from "react";
 import "./Users.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsers } from "../../services/store/actions";
-import { UserCard } from "./components/UserCard/UserCard";
 import { selectUsers } from "../../services/selectors/selectors";
 import { Error } from "../../components";
 import { Table } from "../../components/Table/Table";
-import { TableContext } from "../../services/context/context";
+import { RoleWithSaveIcon } from "./components/RoleWithSaveIcon/RoleWithSaveIcon";
+import { RecordSelectionMenu } from "./components/RecordSelectionMenu/RecordSelectionMenu";
 
 export const Users = () => {
   const dispatch = useDispatch();
   const users = useSelector(selectUsers);
   const [error, setError] = useState(null);
+  const [roleIsSelected, setRoleIsSelected] = useState(false);
   useEffect(() => {
     getUsers().then((action) => {
       if (action.error) {
@@ -40,25 +41,35 @@ export const Users = () => {
       padding: "15px",
     },
   };
+
+  const handleSelectRole = (roleID) => {
+    console.log(roleID);
+    setRoleIsSelected(false);
+  };
+
   return (
     <div className="users">
+      {roleIsSelected && <RecordSelectionMenu onSelectRole={handleSelectRole} />}
       <div className="users__scrollable">
         {error ? (
           <Error className={"users__error"}>{error}</Error>
         ) : (
-          <div className="users__table">
-            {/* <div className="users__row">
-              <div className="users__cell">Login</div>
-              <div className="users__cell">Create date</div>
-              <div className="users__cell">Role</div>
-            </div> */}
-            <Table
-              styles={tableStyleProps}
-              data={users && users.map((user) => ({ columns: [user.login, user.registed_at, user.role] }))}
-            />
-
-            {/* {users && users?.map((user) => <UserCard user={user} />)} */}
-          </div>
+          <Table
+            styles={tableStyleProps}
+            data={
+              users &&
+              users.map((user) => ({
+                columns: [
+                  user.login,
+                  user.registed_at,
+                  <RoleWithSaveIcon
+                    setRoleIsSelected={setRoleIsSelected}
+                    role={{ id: user.role_id, name: user.role }}
+                  />,
+                ],
+              }))
+            }
+          />
         )}
       </div>
     </div>

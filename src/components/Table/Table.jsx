@@ -5,10 +5,10 @@ import { Cell } from "./Cell";
 const TableLayout = ({ className, data, styles }) => (
   <div className={className}>
     {data &&
-      data.map(({ columns }) => (
+      data.map(({ columns, onCellClick }) => (
         <RowContainer rowData={data} styles={styles}>
           {columns.map((cellContent) => (
-            <Cell cellContent={cellContent} styles={styles.cell} />
+            <Cell onCellClick={onCellClick} cellContent={cellContent} styles={styles.cell} />
           ))}
         </RowContainer>
       ))}
