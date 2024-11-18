@@ -74,19 +74,19 @@
   "roles": [
     {
       "id": "0",
-      "name": "Администратор"
+      "name": "ADMIN"
     },
     {
       "id": "1",
-      "name": "Модератор"
+      "name": "MODERATOR"
     },
     {
       "id": "2",
-      "name": "Читатель"
+      "name": "READER"
     },
     {
       "id": "3",
-      "name": "Гость"
+      "name": "GHOST"
     }
   ],
   "posts": [

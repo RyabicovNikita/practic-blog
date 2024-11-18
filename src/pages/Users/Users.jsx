@@ -1,72 +1,73 @@
 import { useEffect, useState } from "react";
 import "./Users.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { getUsers } from "../../services/store/actions";
-import { selectUsers } from "../../services/selectors/selectors";
+import { getRoles, getUsers } from "../../services/store/actions";
+import { selectRoles, selectUsers, selectUserSession } from "../../services/selectors/selectors";
 import { Error } from "../../components";
 import { Table } from "../../components/Table/Table";
 import { RoleWithSaveIcon } from "./components/RoleWithSaveIcon/RoleWithSaveIcon";
-import { RecordSelectionMenu } from "./components/RecordSelectionMenu/RecordSelectionMenu";
+
+const tableStyleProps = {
+  table: {
+    padding: "20px",
+  },
+  row: {
+    "grid-column-gap": "1px",
+    "border-bottom": "1px solid white",
+    "background-color": "white",
+  },
+  cell: {
+    "background-color": "black",
+    height: "fit-content",
+    padding: "15px",
+  },
+};
 
 export const Users = () => {
   const dispatch = useDispatch();
   const users = useSelector(selectUsers);
-  const [error, setError] = useState(null);
-  const [roleIsSelected, setRoleIsSelected] = useState(false);
+  const roles = useSelector(selectRoles);
+  const userSession = useSelector(selectUserSession);
+  const [usersError, setUsersError] = useState(null);
+  const [rolesError, setRolesError] = useState(null);
   useEffect(() => {
-    getUsers().then((action) => {
+    getRoles(userSession).then((action) => {
       if (action.error) {
-        setError(action.errorMsg);
+        setRolesError(action.error);
         console.error(action.error);
         return;
       } else {
         dispatch(action);
-        setError(null);
+        setRolesError(null);
+      }
+    });
+    getUsers(userSession).then((action) => {
+      if (action.error) {
+        setUsersError(action.error);
+        console.error(action.error);
+        return;
+      } else {
+        dispatch(action);
+        setUsersError(null);
       }
     });
   }, []);
 
-  const tableStyleProps = {
-    table: {
-      padding: "20px",
-    },
-    row: {
-      "grid-column-gap": "1px",
-      "border-bottom": "1px solid white",
-      "background-color": "white",
-    },
-    cell: {
-      "background-color": "black",
-      height: "fit-content",
-      padding: "15px",
-    },
-  };
-
-  const handleSelectRole = (roleID) => {
-    console.log(roleID);
-    setRoleIsSelected(false);
-  };
+  console.log(users);
+  console.log(roles);
 
   return (
     <div className="users">
-      {roleIsSelected && <RecordSelectionMenu onSelectRole={handleSelectRole} />}
       <div className="users__scrollable">
-        {error ? (
-          <Error className={"users__error"}>{error}</Error>
+        {usersError || rolesError ? (
+          <Error>{usersError || rolesError}</Error>
         ) : (
           <Table
             styles={tableStyleProps}
             data={
               users &&
               users.map((user) => ({
-                columns: [
-                  user.login,
-                  user.registed_at,
-                  <RoleWithSaveIcon
-                    setRoleIsSelected={setRoleIsSelected}
-                    role={{ id: user.role_id, name: user.role }}
-                  />,
-                ],
+                columns: [user.login, user.registed_at, <RoleWithSaveIcon user={user} />],
               }))
             }
           />

@@ -57,8 +57,9 @@
   }
   &__header {
     font-family: "Beast";
-    font-size: 1vw;
+    font-size: 1em;
     cursor: pointer;
+    white-space: nowrap;
   }
 
   &__input-fields {
@@ -72,7 +73,7 @@
   &__input::placeholder {
     color: white;
     font-family: "Elite";
-    font-size: 1vw;
+    font-size: 1em;
     text-shadow: 0px 3px black;
   }
   &__submit {
@@ -84,7 +85,7 @@
     border: 0;
     border-radius: 15px;
     font-family: "Boozy";
-    font-size: 1.5vw;
+    font-size: 1.5em;
   }
   &__submit-error {
     margin-top: 10px;

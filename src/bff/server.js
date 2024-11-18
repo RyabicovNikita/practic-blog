@@ -28,7 +28,7 @@ export const server = {
       res: {
         id: user.id,
         login: user.login,
-        roleId: user.role_id,
+        role_id: user.role_id,
         session: sessions.create(user),
       },
     };
@@ -55,7 +55,7 @@ export const server = {
       res: {
         id: user.id,
         login: user.login,
-        roleId: user.role_id,
+        role_id: user.role_id,
         session: sessions.create(user),
       },
     };

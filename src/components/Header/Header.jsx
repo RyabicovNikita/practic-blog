@@ -62,6 +62,7 @@ export const Header = () => {
 
   const onLogoutClick = () => {
     dispatch(logoutUser(userSession));
+    navigate(-1);
   };
 
   return (

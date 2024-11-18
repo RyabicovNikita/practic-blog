@@ -6,6 +6,8 @@
   justify-content: center;
   align-items: center;
   color: white;
+  left: 0;
+  top: 0;
   &__bg {
     backdrop-filter: blur(1px);
     background-color: #0001;
@@ -16,9 +18,9 @@
   &__content {
     background-color: white;
     color: black;
-    min-width: 50vw;
+    min-width: 20vw;
     min-height: 20vh;
     z-index: 5;
-    border-radius: 7px;
+    border-radius: 30px;
   }
 }
