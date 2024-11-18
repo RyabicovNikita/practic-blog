@@ -4,7 +4,7 @@ import { USER_ACTION_TYPES } from "../actions/constants";
 const initialUserState = {
   id: null,
   login: null,
-  roleId: ROLES.GHOST,
+  role_id: ROLES.GHOST,
   session: null,
 };
 
@@ -18,6 +18,12 @@ export const userReducer = (state = initialUserState, action) => {
     }
     case USER_ACTION_TYPES.LOGOUT: {
       return initialUserState;
+    }
+    case USER_ACTION_TYPES.UPDATE_USER_ROLE: {
+      return {
+        ...state,
+        role_id: action.payload,
+      };
     }
     default:
       return state;

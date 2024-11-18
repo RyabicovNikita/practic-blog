@@ -1,7 +1,11 @@
 export const USER_ACTION_TYPES = {
   SET_USER: "SET_USER",
   LOGOUT: "LOGOUT",
+  UPDATE_USER_ROLE: "UPDATE_USER_ROLE",
 };
 export const USERS_ACTION_TYPES = {
   GET_USERS: "GET_USERS",
+};
+export const ROLES_ACTION_TYPES = {
+  GET_ROLES: "GET_ROLES",
 };
