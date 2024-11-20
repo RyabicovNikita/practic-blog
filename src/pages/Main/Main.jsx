@@ -1,11 +1,13 @@
 import styled from "styled-components";
-import { BlogCard } from "../BlogCard/BlogCard";
-import { Footer } from "../Footer/Footer";
-import "./Main.scss";
+import { BlogCard } from "../../components/BlogCard/BlogCard";
+import { Footer } from "./components/Footer/Footer";
 import { useEffect } from "react";
 import { getPosts } from "../../api";
 import { useDispatch, useSelector } from "react-redux";
-import { selectPosts } from "../../services/selectors/selectors";
+
+import "./Main.scss";
+import { selectPosts } from "../../services/store/selectors/selectors";
+import { POSTS_ACTION_TYPES } from "../../services/store/actions";
 
 export const Main = () => {
   const dispatch = useDispatch();
@@ -43,7 +45,7 @@ export const Main = () => {
   `;
 
   useEffect(() => {
-    getPosts().then((action) => dispatch(action));
+    getPosts().then((posts) => dispatch({ type: POSTS_ACTION_TYPES.GET_POSTS, payload: posts }));
   }, []);
 
   return (

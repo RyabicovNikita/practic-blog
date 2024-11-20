@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import "./RoleWithSaveIcon.scss";
 import { RecordSelectionMenu } from "../RecordSelectionMenu/RecordSelectionMenu";
 import { useDispatch, useSelector } from "react-redux";
-import { selectRoles, selectUser } from "../../../../services/selectors/selectors";
+
 import { deleteUser, postUserRole } from "../../../../api";
+import { selectRoles, selectUser } from "../../../../services/store/selectors/selectors";
 export const RoleWithSaveIcon = ({ user }) => {
   const dispatch = useDispatch();
   const currentUser = useSelector(selectUser);

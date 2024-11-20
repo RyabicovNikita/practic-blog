@@ -1,3 +1,3 @@
 export * from "./user-requests";
-export * from "./role-requests";
+export * from "./roles-requests";
 export * from "./post=requests";

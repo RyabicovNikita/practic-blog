@@ -1,7 +1,7 @@
 import { ROLES_ACTION_TYPES, USER_ACTION_TYPES, USERS_ACTION_TYPES } from "./constants";
 import { server } from "../../../bff/server";
 import { getUsersFromDb } from "../../../api";
-import { getRolesFromDb } from "../../../api/role-requests";
+import { getRolesFromDb } from "../../../api/roles-requests";
 import { sessions } from "../../../bff/sessions";
 import { ROLES } from "../../constants";
 

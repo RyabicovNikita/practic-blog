@@ -1,8 +1,7 @@
 import "./RecordSelectionMenu.scss";
 import { Table } from "../../../../components/Table/Table";
-import { useDispatch, useSelector } from "react-redux";
-import { USER_ACTION_TYPES } from "../../../../services/store/actions";
-import { selectRolesWithoutGhost } from "../../../../services/selectors/selectors";
+import { selectRolesWithoutGhost } from "../../../../services/store/selectors/selectors";
+import { useSelector } from "react-redux";
 
 const tableStyleProps = {
   table: {

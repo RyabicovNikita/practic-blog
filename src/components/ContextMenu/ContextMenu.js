@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "./ContextMenu.scss";
 import { useSelector } from "react-redux";
-import { selectUserLogin } from "../../services/selectors/selectors";
+import { selectUserLogin } from "../../services/store/selectors/selectors";
 export const ContextMenu = ({ setIsMenuOpen, animation }) => {
   const userLogin = useSelector(selectUserLogin);
   const onItemClick = () => {

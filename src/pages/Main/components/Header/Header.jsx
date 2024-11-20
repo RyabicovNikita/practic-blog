@@ -1,12 +1,14 @@
 import styled from "styled-components";
-import { Button } from "../Button/Button";
-import { Link, useNavigate } from "react-router-dom";
-import { ContextMenu } from "../ContextMenu/ContextMenu";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { selectUserLogin, selectUserSession } from "../../services/selectors/selectors";
-import { logoutUser } from "../../services/store/actions/actions";
+
 import "./Header.scss";
+import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { logoutUser } from "../../../../services/store/actions";
+import { Link } from "react-router-dom";
+import { Button } from "../../../../components";
+import { ContextMenu } from "../../../../components/ContextMenu/ContextMenu";
+import { selectUserLogin, selectUserSession } from "../../../../services/store/selectors/selectors";
 
 export const Header = () => {
   const navigate = useNavigate();

@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import "./Users.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { getRoles, getUsers, ROLES_ACTION_TYPES, USERS_ACTION_TYPES } from "../../services/store/actions";
-import { selectUsers, selectUserSession } from "../../services/selectors/selectors";
 import { Error } from "../../components";
 import { Table } from "../../components/Table/Table";
 import { RoleWithSaveIcon } from "./components/RoleWithSaveIcon/RoleWithSaveIcon";
+import { selectUser, selectUserSession } from "../../services/store/selectors/selectors";
 
 const tableStyleProps = {
   table: {
@@ -25,7 +25,7 @@ const tableStyleProps = {
 
 export const Users = () => {
   const dispatch = useDispatch();
-  const users = useSelector(selectUsers);
+  const users = useSelector(selectUser);
   const userSession = useSelector(selectUserSession);
   const [usersError, setUsersError] = useState(null);
   const [rolesError, setRolesError] = useState(null);

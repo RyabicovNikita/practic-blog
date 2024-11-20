@@ -16,3 +16,7 @@ export const ROLES_ACTION_TYPES = {
 export const POSTS_ACTION_TYPES = {
   GET_POSTS: "GET_POSTS",
 };
+
+export const POST_ACTION_TYPES = {
+  GET_POST: "GET_POST",
+};
