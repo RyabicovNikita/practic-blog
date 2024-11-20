@@ -2,8 +2,15 @@ import styled from "styled-components";
 import { BlogCard } from "../BlogCard/BlogCard";
 import { Footer } from "../Footer/Footer";
 import "./Main.scss";
+import { useEffect } from "react";
+import { getPosts } from "../../api";
+import { useDispatch, useSelector } from "react-redux";
+import { selectPosts } from "../../services/selectors/selectors";
 
 export const Main = () => {
+  const dispatch = useDispatch();
+  const posts = useSelector(selectPosts);
+  console.log(posts);
   const flexToCenter = {
     display: "flex",
     "align-items": "center",
@@ -35,6 +42,10 @@ export const Main = () => {
     gap: 350px;
   `;
 
+  useEffect(() => {
+    getPosts().then((action) => dispatch(action));
+  }, []);
+
   return (
     <main className="main-content">
       <Section className="main-content__section">
@@ -48,8 +59,7 @@ export const Main = () => {
       <Section className="main-content__section cards-section">
         <div className="cards-section__scrollable-cards">
           <div className="cards-section__container">
-            <BlogCard />
-            <BlogCard />
+            {posts?.length > 0 && posts.map((post) => <BlogCard post={post} key={post.id} />)}
           </div>
           <Footer />
         </div>

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import "./Users.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { getRoles, getUsers } from "../../services/store/actions";
-import { selectRoles, selectUsers, selectUserSession } from "../../services/selectors/selectors";
+import { getRoles, getUsers, ROLES_ACTION_TYPES, USERS_ACTION_TYPES } from "../../services/store/actions";
+import { selectUsers, selectUserSession } from "../../services/selectors/selectors";
 import { Error } from "../../components";
 import { Table } from "../../components/Table/Table";
 import { RoleWithSaveIcon } from "./components/RoleWithSaveIcon/RoleWithSaveIcon";
@@ -26,7 +26,6 @@ const tableStyleProps = {
 export const Users = () => {
   const dispatch = useDispatch();
   const users = useSelector(selectUsers);
-  const roles = useSelector(selectRoles);
   const userSession = useSelector(selectUserSession);
   const [usersError, setUsersError] = useState(null);
   const [rolesError, setRolesError] = useState(null);
@@ -51,11 +50,11 @@ export const Users = () => {
         setUsersError(null);
       }
     });
+    return () => {
+      dispatch({ type: USERS_ACTION_TYPES.CLEAR_USERS });
+      dispatch({ type: ROLES_ACTION_TYPES.CLEAR_ROLES });
+    };
   }, []);
-
-  console.log(users);
-  console.log(roles);
-
   return (
     <div className="users">
       <div className="users__scrollable">

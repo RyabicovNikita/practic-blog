@@ -20,3 +20,32 @@ export const addUser = (login, password) =>
       role_id: ROLES.READER,
     }),
   }).then((newUserData) => newUserData.json());
+
+export const postUserRole = (id, newRoleID) => (dispatch) => {
+  fetch(`http://localhost:3005/users/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify({
+      role_id: newRoleID,
+    }),
+  })
+    .then((res) => res.json())
+    .then((newUser) =>
+      dispatch({
+        type: "UPDATE_USER_ROLE",
+        payload: { login: newUser.login, role_id: newUser.role_id },
+      })
+    );
+};
+
+export const deleteUser = (id) => (dispatch) => {
+  fetch(`http://localhost:3005/users/${id}`, {
+    method: "DELETE",
+  }).then((res) => {
+    if (res.ok) {
+      dispatch({ type: "DELETE_USER", payload: id });
+    }
+  });
+};

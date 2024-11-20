@@ -9,6 +9,8 @@ export const rolesReducer = (state = initialRolesState, { type, payload }) => {
         ...state,
         roles: payload.map((role) => ({ ...role, id: Number(role.id) })),
       };
+    case ROLES_ACTION_TYPES.CLEAR_ROLES:
+      return initialRolesState;
     default:
       return state;
   }

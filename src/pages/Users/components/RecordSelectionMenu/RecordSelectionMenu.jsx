@@ -20,12 +20,10 @@ const tableStyleProps = {
 };
 export const RecordSelectionMenu = ({ setSelectedRole, setIsMenuSelectOpen }) => {
   const roles = useSelector(selectRolesWithoutGhost);
-  const dispatch = useDispatch();
 
   const handleCellClick = (role) => {
     setIsMenuSelectOpen(false);
-    setSelectedRole(role.name);
-    dispatch({ type: USER_ACTION_TYPES.UPDATE_USER_ROLE, payload: role.id });
+    setSelectedRole(role);
   };
 
   return (

@@ -18,17 +18,24 @@
   }
   &__select {
     margin-right: 10px;
+  }
+  &__save,
+  &__delete,
+  &__select {
     cursor: pointer;
   }
-  &__save {
-    cursor: pointer;
-  }
-  &__save-icon {
-    all: unset;
+  &__save-user {
     width: 25.73px;
     height: 30px;
   }
-  &__save-icon:disabled &__save {
+  &__save-user:disabled &__save {
     color: gray;
+  }
+
+  &__delete-user:disabled &__delete {
+    color: gray;
+  }
+  button {
+    all: unset;
   }
 }
