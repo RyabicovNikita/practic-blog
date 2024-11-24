@@ -2,12 +2,14 @@ import { useSelector } from "react-redux";
 import "./PostContent.scss";
 import { selectPost } from "../../../../services/store/selectors/selectors";
 
-export const PostContent = () => {
+export const PostContent = ({ setIsModalOpen }) => {
   const post = useSelector(selectPost);
 
   const { content, image_url, published_at, title } = post;
 
-  const handleDelete = () => {};
+  const handleDelete = () => {
+    setIsModalOpen(true);
+  };
 
   const handleEdit = () => {};
   return (

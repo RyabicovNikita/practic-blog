@@ -11,7 +11,7 @@ export const RoleWithSaveIcon = ({ user }) => {
   const [isMenuSelectOpen, setIsMenuSelectOpen] = useState(false);
   const roles = useSelector(selectRoles);
   const [selectedRole, setSelectedRole] = useState(roles?.find((role) => role.id === user.role_id));
-  console.log(selectedRole);
+
   const onSelectClick = () => {
     setIsMenuSelectOpen(true);
   };

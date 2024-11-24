@@ -1,4 +1,4 @@
-import { generateDateTime } from "../services";
+import { fetchDeleteComment, generateDateTime } from "../services";
 
 export const getPosts = () =>
   fetch("http://localhost:3005/posts")
@@ -23,3 +23,8 @@ export const fetchAddCommentInPost = (userId, postId, content) =>
       published_at: generateDateTime(),
     }),
   }).then((data) => data.json());
+
+export const fetchDeletePost = (id) =>
+  fetch(`http://localhost:3005/posts/${id}`, {
+    method: "DELETE",
+  });

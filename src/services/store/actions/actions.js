@@ -1,6 +1,13 @@
 import { POST_ACTION_TYPES, ROLES_ACTION_TYPES, USER_ACTION_TYPES, USERS_ACTION_TYPES } from "./constants";
 import { server } from "../../../bff/server";
-import { fetchAddCommentInPost, fetchCommentsPost, getPostById, getUsersFromDb } from "../../../api";
+import {
+  fetchAddCommentInPost,
+  fetchCommentsPost,
+  fetchDeletePost,
+  fetchDeleteComment,
+  getPostById,
+  getUsersFromDb,
+} from "../../../api";
 import { getRolesFromDb } from "../../../api/roles-requests";
 import { sessions } from "../../../bff/sessions";
 import { DATE_FORMATS, ROLES } from "../../constants";
@@ -86,4 +93,17 @@ export const getPost = async (postId) => {
   });
 
   return { ...post, comments: sortByDateComments };
+};
+
+export const deletePost = async (postId) => {
+  try {
+    const comments = await fetchCommentsPost(postId);
+    comments.forEach(async ({ id }) => {
+      await fetchDeleteComment(id);
+    });
+    await fetchDeletePost(postId);
+    return { type: POST_ACTION_TYPES.DELETE_POST };
+  } catch (error) {
+    console.error(error);
+  }
 };
