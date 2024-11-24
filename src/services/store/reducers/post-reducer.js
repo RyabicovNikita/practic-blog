@@ -7,7 +7,8 @@ export const postReducer = (state = initialPostState, { type, payload }) => {
     case POST_ACTION_TYPES.GET_POST:
       return { ...state, ...payload };
     case POST_ACTION_TYPES.ADD_COMMENT:
-      return { ...state, comments: [...state.comments, payload] };
+      state.comments.unshift({ ...payload });
+      return { ...state };
     case POST_ACTION_TYPES.GET_COMMENTS:
       return { ...state, comments: [...payload] };
     default:

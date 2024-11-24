@@ -11,27 +11,38 @@ import "./Comments.scss";
 export const Comments = () => {
   const [error, setError] = useState(null);
   const { id: postId } = useSelector(selectPost);
-  const { id: userId } = useSelector(selectUser);
+  const user = useSelector(selectUser);
   const comments = useSelector(selectComments);
   const dispatch = useDispatch();
 
   const handleSubmit = (formData) => {
     const comment = formData.get("input-comment");
     if (!comment) return;
-    if (!userId) {
+    if (comment.length > 1000) {
+      setError("Длина символов в комментарии не может превышать 1000 символов.");
+      return;
+    } else setError(null);
+    if (!user.id) {
       setError("Только авторизированные пользователи могут оставлять комментарии.");
       setTimeout(() => setError(null), 3000);
       return;
     } else setError(null);
-    dispatch(addNewComment(userId, postId, comment));
+    dispatch(addNewComment(user, postId, comment));
   };
   return (
     <div className="comments">
       <form action={handleSubmit} className="comments__new-comment">
-        <textarea className="comments__comment" type="text" name="input-comment" placeholder="Комментарий..."></textarea>
-        <button className="comments__add-comment">
-          <i className="fa fa-paper-plane comments__add-comment-icon" aria-hidden="true"></i>
-        </button>
+        <div className="comments__input-container">
+          <textarea
+            className="comments__comment"
+            type="text"
+            name="input-comment"
+            placeholder="Комментарий..."
+          ></textarea>
+          <button className="comments__add-comment">
+            <i className="fa fa-paper-plane comments__add-comment-icon" aria-hidden="true"></i>
+          </button>
+        </div>
         {error && (
           <div className="comments__error-window">
             <Error>{error}</Error>

@@ -10,7 +10,7 @@ export const getPostById = (id) =>
     .then((res) => res.json())
     .then((post) => post);
 
-export const fetchCommentInPost = (userId, postId, content) =>
+export const fetchAddCommentInPost = (userId, postId, content) =>
   fetch(`http://localhost:3005/comments`, {
     method: "POST",
     headers: {

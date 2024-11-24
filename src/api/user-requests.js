@@ -6,6 +6,7 @@ export const getUser = (login) =>
   fetch(`http://localhost:3005/users?login=${login}`)
     .then((data) => data.json())
     .then((user) => user?.[0]);
+export const getUserById = (id) => fetch(`http://localhost:3005/users/${id}`).then((res) => res.json());
 
 export const addUser = (login, password) =>
   fetch("http://localhost:3005/users", {

@@ -1,6 +1,6 @@
 import { POST_ACTION_TYPES, ROLES_ACTION_TYPES, USER_ACTION_TYPES, USERS_ACTION_TYPES } from "./constants";
 import { server } from "../../../bff/server";
-import { fetchCommentInPost, fetchCommentsPost, getPostById, getUsersFromDb } from "../../../api";
+import { fetchAddCommentInPost, fetchCommentsPost, getPostById, getUsersFromDb } from "../../../api";
 import { getRolesFromDb } from "../../../api/roles-requests";
 import { sessions } from "../../../bff/sessions";
 import { ROLES } from "../../constants";
@@ -44,9 +44,12 @@ export const getRoles = async (userSession) => {
     .catch((error) => ({ error: error, errorMsg: "Ошибка сервера", payload: null }));
 };
 
-export const addNewComment = (userId, postId, content) => (dispatch) => {
-  fetchCommentInPost(userId, postId, content).then((newComment) =>
-    dispatch({ type: POST_ACTION_TYPES.ADD_COMMENT, payload: newComment })
+export const addNewComment = (user, postId, content) => (dispatch) => {
+  return fetchAddCommentInPost(user.id, postId, content).then((newComment) =>
+    dispatch({
+      type: POST_ACTION_TYPES.ADD_COMMENT,
+      payload: { ...newComment, author_login: user.login },
+    })
   );
 };
 

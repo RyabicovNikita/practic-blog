@@ -66,7 +66,7 @@ export const AuthForm = () => {
       return;
     }
     dispatch(setUser(res));
-    navigate("/");
+    navigate(-1);
   };
   const onSignInClick = () => {
     setIsRegister(false);
