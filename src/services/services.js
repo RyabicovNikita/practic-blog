@@ -1,8 +1,9 @@
 import { DateTime } from "luxon";
+import { DATE_FORMATS } from "./constants";
 
 export const generateDate = () => DateTime.now().toLocaleString();
 
-export const generateDateTime = () => DateTime.now().toFormat("dd.MM.yyyy TT");
+export const generateDateTime = () => DateTime.now().toFormat(DATE_FORMATS.DATETIME);
 
 export function uuidv4() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {

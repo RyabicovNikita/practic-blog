@@ -3,7 +3,8 @@ import { server } from "../../../bff/server";
 import { fetchAddCommentInPost, fetchCommentsPost, getPostById, getUsersFromDb } from "../../../api";
 import { getRolesFromDb } from "../../../api/roles-requests";
 import { sessions } from "../../../bff/sessions";
-import { ROLES } from "../../constants";
+import { DATE_FORMATS, ROLES } from "../../constants";
+import { DateTime } from "luxon";
 
 export const setUser = (user) => ({
   type: USER_ACTION_TYPES.SET_USER,
@@ -68,5 +69,21 @@ export const getPost = async (postId) => {
 
   const commentsPost = await getCommentsPost(postId);
 
-  return { ...post, comments: commentsPost };
+  const sortByDateComments = commentsPost.sort((a, b) => {
+    if (
+      DateTime.fromFormat(a.published_at, DATE_FORMATS.DATETIME) >
+      DateTime.fromFormat(b.published_at, DATE_FORMATS.DATETIME)
+    )
+      return -1;
+
+    if (
+      DateTime.fromFormat(a.published_at, DATE_FORMATS.DATETIME) <
+      DateTime.fromFormat(b.published_at, DATE_FORMATS.DATETIME)
+    )
+      return 1;
+
+    return 0;
+  });
+
+  return { ...post, comments: sortByDateComments };
 };

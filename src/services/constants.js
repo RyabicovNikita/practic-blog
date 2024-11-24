@@ -4,3 +4,7 @@ export const ROLES = {
   READER: 2,
   GHOST: 3,
 };
+
+export const DATE_FORMATS = {
+  DATETIME: "dd.MM.yyyy TT",
+};

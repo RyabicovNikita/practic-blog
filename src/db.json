@@ -79,32 +79,39 @@
   ],
   "comments": [
     {
-      "id": "4c85",
+      "id": "d8a1",
+      "author_id": "001",
+      "post_id": "002",
+      "content": "Привет?",
+      "published_at": "24.11.2024 17:41:21"
+    },
+    {
+      "id": "0332",
+      "author_id": "001",
+      "post_id": "002",
+      "content": "asd123",
+      "published_at": "24.11.2024 17:41:16"
+    },
+    {
+      "id": "242b",
+      "author_id": "001",
+      "post_id": "002",
+      "content": "Кар",
+      "published_at": "24.11.2024 17:41:24"
+    },
+    {
+      "id": "835b",
       "author_id": "001",
       "post_id": "002",
       "content": "asd",
-      "published_at": "24.11.2024 17:24:46"
+      "published_at": "24.11.2024 17:54:32"
     },
     {
-      "id": "0b8e",
+      "id": "6d6f",
       "author_id": "001",
       "post_id": "002",
-      "content": "Привет всем!",
-      "published_at": "24.11.2024 17:25:11"
-    },
-    {
-      "id": "a007",
-      "author_id": "001",
-      "post_id": "002",
-      "content": "Как ваши дела?",
-      "published_at": "24.11.2024 17:25:15"
-    },
-    {
-      "id": "6267",
-      "author_id": "001",
-      "post_id": "002",
-      "content": "123",
-      "published_at": "24.11.2024 17:25:16"
+      "content": "Приветствую всех",
+      "published_at": "24.11.2024 18:09:01"
     }
   ]
 }
