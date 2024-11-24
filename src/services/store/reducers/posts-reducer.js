@@ -1,6 +1,6 @@
 import { POSTS_ACTION_TYPES } from "../actions/constants";
 
-const initialPostsState = {};
+const initialPostsState = [];
 
 export const postsReducer = (state = initialPostsState, { type, payload }) => {
   switch (type) {

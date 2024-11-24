@@ -1,11 +1,15 @@
 import { POST_ACTION_TYPES } from "../actions";
 
-const initialPostState = {};
+const initialPostState = { comments: [] };
 
 export const postReducer = (state = initialPostState, { type, payload }) => {
   switch (type) {
     case POST_ACTION_TYPES.GET_POST:
-      return payload;
+      return { ...state, ...payload };
+    case POST_ACTION_TYPES.ADD_COMMENT:
+      return { ...state, comments: [...state.comments, payload] };
+    case POST_ACTION_TYPES.GET_COMMENTS:
+      return { ...state, comments: [...payload] };
     default:
       return state;
   }

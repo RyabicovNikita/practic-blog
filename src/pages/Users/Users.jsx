@@ -64,7 +64,7 @@ export const Users = () => {
           <Table
             styles={tableStyleProps}
             data={
-              users &&
+              users.length > 0 &&
               users.map((user) => ({
                 columns: [user.login, user.registed_at, <RoleWithSaveIcon user={user} />],
               }))

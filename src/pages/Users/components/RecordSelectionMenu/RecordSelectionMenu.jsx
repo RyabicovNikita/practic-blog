@@ -1,7 +1,8 @@
 import "./RecordSelectionMenu.scss";
 import { Table } from "../../../../components/Table/Table";
-import { selectRolesWithoutGhost } from "../../../../services/store/selectors/selectors";
+import { selectRoles } from "../../../../services/store/selectors/selectors";
 import { useSelector } from "react-redux";
+import { ROLES } from "../../../../services";
 
 const tableStyleProps = {
   table: {
@@ -18,7 +19,7 @@ const tableStyleProps = {
   },
 };
 export const RecordSelectionMenu = ({ setSelectedRole, setIsMenuSelectOpen }) => {
-  const roles = useSelector(selectRolesWithoutGhost);
+  const roles = useSelector(selectRoles);
 
   const handleCellClick = (role) => {
     setIsMenuSelectOpen(false);
@@ -34,10 +35,12 @@ export const RecordSelectionMenu = ({ setSelectedRole, setIsMenuSelectOpen }) =>
             styles={tableStyleProps}
             data={
               roles &&
-              roles.map((role) => ({
-                columns: [role.name],
-                onCellClick: () => handleCellClick(role),
-              }))
+              roles
+                .filter((role) => role.id !== ROLES.GHOST)
+                .map((role) => ({
+                  columns: [role.name],
+                  onCellClick: () => handleCellClick(role),
+                }))
             }
           />
         )}

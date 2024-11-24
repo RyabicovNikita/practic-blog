@@ -1,6 +1,13 @@
+import { useSelector } from "react-redux";
 import "./PostContent.scss";
+import { selectPost } from "../../../../services/store/selectors/selectors";
 
-export const PostContent = ({ content, image_url, published_at, title }) => {
+export const PostContent = () => {
+  const post = useSelector(selectPost);
+
+  const { content, image_url, published_at, title } = post;
+
+  console.log(post);
   return (
     <>
       <section className="blog__top-content">
@@ -17,7 +24,7 @@ export const PostContent = ({ content, image_url, published_at, title }) => {
         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
       </div>
       <section className="blog__main-content">
-        <span>{content}</span>
+        <span className="blog__content">{content}</span>
       </section>
     </>
   );
