@@ -1,4 +1,4 @@
-import { fetchDeleteComment, generateDateTime } from "../services";
+import { generateDateTime } from "../services";
 
 export const getPosts = () =>
   fetch("http://localhost:3005/posts")
@@ -28,3 +28,14 @@ export const fetchDeletePost = (id) =>
   fetch(`http://localhost:3005/posts/${id}`, {
     method: "DELETE",
   });
+
+export const fetchSavePost = (id, newContent) =>
+  fetch(`http://localhost:3005/posts/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify({
+      content: newContent,
+    }),
+  }).then((updatedPostData) => updatedPostData.json());

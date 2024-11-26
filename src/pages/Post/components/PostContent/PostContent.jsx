@@ -1,17 +1,47 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./PostContent.scss";
 import { selectPost } from "../../../../services/store/selectors/selectors";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { fetchSavePost } from "../../../../api";
+import { POST_ACTION_TYPES } from "../../../../services/store/actions";
+
+const MIN_HEIGTH_POST = 810;
 
 export const PostContent = ({ setIsModalOpen }) => {
+  const contentRef = useRef(null);
+  const dispatch = useDispatch();
   const post = useSelector(selectPost);
 
   const { content, image_url, published_at, title } = post;
+
+  const [currentContent, setCurrentContent] = useState(null);
+  const [isEditPost, setIsEditPost] = useState(false);
+
+  useLayoutEffect(() => {
+    if (currentContent) {
+      contentRef.current.style.height = "inherit";
+      contentRef.current.style.height = `${Math.max(contentRef.current.scrollHeight, MIN_HEIGTH_POST)}px`;
+    }
+  }, [currentContent]);
+
+  useEffect(() => {
+    setCurrentContent(content);
+    console.log(contentRef);
+  }, [content]);
 
   const handleDelete = () => {
     setIsModalOpen(true);
   };
 
-  const handleEdit = () => {};
+  const handleEdit = () => {
+    if (isEditPost === false) setIsEditPost(true);
+    else {
+      fetchSavePost(post.id, currentContent).then((newPost) => {
+        dispatch({ type: POST_ACTION_TYPES.UPDATE_POST, payload: newPost.content });
+        setIsEditPost(false);
+      });
+    }
+  };
   return (
     <>
       <section className="blog__top-content">
@@ -24,11 +54,22 @@ export const PostContent = ({ setIsModalOpen }) => {
         </div>
       </section>
       <div className="blog__actions">
-        <i class="fa fa-trash blog__delete" onClick={handleDelete} aria-hidden="true"></i>
-        <i class="fa fa-pencil-square-o blog__edit" onClick={handleEdit} aria-hidden="true"></i>
+        <div className="blog__actions-container">
+          <i class="fa fa-trash blog__delete" onClick={handleDelete} aria-hidden="true"></i>
+          <i class="fa fa-pencil-square-o blog__edit" onClick={handleEdit} aria-hidden="true"></i>
+        </div>
       </div>
       <section className="blog__main-content">
-        <span className="blog__content">{content}</span>
+        {isEditPost ? (
+          <textarea
+            className="blog__edit-content"
+            ref={contentRef}
+            value={currentContent}
+            onChange={({ target }) => setCurrentContent(target.value)}
+          />
+        ) : (
+          <textarea ref={contentRef} disabled={true} className="blog__content" value={currentContent} />
+        )}
       </section>
     </>
   );

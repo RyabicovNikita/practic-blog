@@ -14,6 +14,7 @@ export const Post = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     getPost(postId).then((post) => dispatch({ type: POST_ACTION_TYPES.GET_POST, payload: post }));
+    return () => dispatch({ type: POST_ACTION_TYPES.DELETE_POST });
   }, []);
 
   const confirmDeletePost = () => {

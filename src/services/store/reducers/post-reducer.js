@@ -13,6 +13,8 @@ export const postReducer = (state = initialPostState, { type, payload }) => {
       return { ...state, comments: [...payload] };
     case POST_ACTION_TYPES.DELETE_POST:
       return initialPostState;
+    case POST_ACTION_TYPES.UPDATE_POST:
+      return { ...state, content: payload };
     default:
       return state;
   }
