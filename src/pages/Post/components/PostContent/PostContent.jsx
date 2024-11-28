@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import "./PostContent.scss";
-import { selectPost } from "../../../../services/store/selectors/selectors";
+import { selectPost, selectUser } from "../../../../services/store/selectors/selectors";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { fetchSavePost } from "../../../../api";
 import { POST_ACTION_TYPES } from "../../../../services/store/actions";
@@ -12,9 +12,11 @@ export const PostContent = ({ setIsModalOpen }) => {
   const dispatch = useDispatch();
   const post = useSelector(selectPost);
 
+  const { role_id } = useSelector(selectUser);
+
   const { content, image_url, published_at, title } = post;
 
-  const [currentContent, setCurrentContent] = useState(null);
+  const [currentContent, setCurrentContent] = useState("");
   const [isEditPost, setIsEditPost] = useState(false);
 
   useLayoutEffect(() => {
@@ -26,7 +28,6 @@ export const PostContent = ({ setIsModalOpen }) => {
 
   useEffect(() => {
     setCurrentContent(content);
-    console.log(contentRef);
   }, [content]);
 
   const handleDelete = () => {
@@ -42,6 +43,7 @@ export const PostContent = ({ setIsModalOpen }) => {
       });
     }
   };
+
   return (
     <>
       <section className="blog__top-content">
@@ -53,12 +55,14 @@ export const PostContent = ({ setIsModalOpen }) => {
           </div>
         </div>
       </section>
-      <div className="blog__actions">
-        <div className="blog__actions-container">
-          <i class="fa fa-trash blog__delete" onClick={handleDelete} aria-hidden="true"></i>
-          <i class="fa fa-pencil-square-o blog__edit" onClick={handleEdit} aria-hidden="true"></i>
+      {role_id !== 3 && (
+        <div className="blog__actions">
+          <div className="blog__actions-container">
+            <i className="fa fa-trash blog__delete" onClick={handleDelete} aria-hidden="true"></i>
+            <i className="fa fa-pencil-square-o blog__edit" onClick={handleEdit} aria-hidden="true"></i>
+          </div>
         </div>
-      </div>
+      )}
       <section className="blog__main-content">
         {isEditPost ? (
           <textarea

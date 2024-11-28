@@ -54,7 +54,7 @@ export const Main = () => {
         <MainPageContainer>
           <TopHeader>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</TopHeader>
           <div className="main-content__arrow-container">
-            <i class="fa fa-chevron-down drop-down-icon" aria-hidden="true"></i>
+            <i className="fa fa-chevron-down drop-down-icon" aria-hidden="true"></i>
           </div>
         </MainPageContainer>
       </Section>

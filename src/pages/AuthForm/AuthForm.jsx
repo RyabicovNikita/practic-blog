@@ -8,6 +8,7 @@ import { setUser } from "../../services/store/actions/actions";
 import "./AuthForm.scss";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
+import { uuidv4 } from "../../services";
 
 const shapeObject = {
   login: yup
@@ -66,6 +67,7 @@ export const AuthForm = () => {
       return;
     }
     dispatch(setUser(res));
+    localStorage.setItem("token", uuidv4());
     navigate(-1);
   };
   const onSignInClick = () => {

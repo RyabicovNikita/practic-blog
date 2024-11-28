@@ -72,27 +72,31 @@ export const getCommentsPost = (postId) =>
   );
 
 export const getPost = async (postId) => {
-  const post = await getPostById(postId);
+  try {
+    const post = await getPostById(postId);
 
-  const commentsPost = await getCommentsPost(postId);
+    const commentsPost = await getCommentsPost(postId);
 
-  const sortByDateComments = commentsPost.sort((a, b) => {
-    if (
-      DateTime.fromFormat(a.published_at, DATE_FORMATS.DATETIME) >
-      DateTime.fromFormat(b.published_at, DATE_FORMATS.DATETIME)
-    )
-      return -1;
+    const sortByDateComments = commentsPost.sort((a, b) => {
+      if (
+        DateTime.fromFormat(a.published_at, DATE_FORMATS.DATETIME) >
+        DateTime.fromFormat(b.published_at, DATE_FORMATS.DATETIME)
+      )
+        return -1;
 
-    if (
-      DateTime.fromFormat(a.published_at, DATE_FORMATS.DATETIME) <
-      DateTime.fromFormat(b.published_at, DATE_FORMATS.DATETIME)
-    )
-      return 1;
+      if (
+        DateTime.fromFormat(a.published_at, DATE_FORMATS.DATETIME) <
+        DateTime.fromFormat(b.published_at, DATE_FORMATS.DATETIME)
+      )
+        return 1;
 
-    return 0;
-  });
+      return 0;
+    });
 
-  return { ...post, comments: sortByDateComments };
+    return { ...post, comments: sortByDateComments };
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const deletePost = async (postId) => {

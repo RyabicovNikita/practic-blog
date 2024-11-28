@@ -57,7 +57,7 @@ export const RoleWithSaveIcon = ({ user }) => {
           disabled={currentUser.login === user.login}
           onClick={() => dispatch(deleteUser(user.id))}
         >
-          <i class="fa fa-trash role-container__delete" aria-hidden="true"></i>
+          <i className="fa fa-trash role-container__delete" aria-hidden="true"></i>
         </button>
       </div>
     </>
