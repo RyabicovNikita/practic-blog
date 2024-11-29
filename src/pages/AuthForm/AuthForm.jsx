@@ -4,11 +4,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { server } from "../../bff/server";
 import { useState } from "react";
 import { Input } from "./components/Input/Input";
-import { setUser } from "../../services/store/actions/actions";
+
 import "./AuthForm.scss";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { uuidv4 } from "../../services";
+import { setUser } from "../../services/store/slice/authSlice";
 
 const shapeObject = {
   login: yup
@@ -66,7 +67,9 @@ export const AuthForm = () => {
       setServerError(error);
       return;
     }
+    console.log(res);
     dispatch(setUser(res));
+    // dispatch(setUser(res));
     localStorage.setItem("token", uuidv4());
     navigate(-1);
   };

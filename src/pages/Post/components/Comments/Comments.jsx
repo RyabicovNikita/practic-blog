@@ -1,3 +1,4 @@
+import * as yup from "yup";
 import { useState } from "react";
 import { Comment } from "./components/Comment/Comment";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,45 +8,64 @@ import { addNewComment } from "../../../../services/store/actions";
 import { Error } from "../../../../components";
 
 import "./Comments.scss";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+const shapeObject = {
+  comment: yup.string().max(1000, "Длина символов в комментарии не может превышать 1000 символов."),
+};
 
 export const Comments = () => {
-  const [error, setError] = useState(null);
+  const authFormSchema = yup.object().shape(shapeObject);
+  const formParams = {
+    defaultValues: {
+      comment: "",
+    },
+    resolver: yupResolver(authFormSchema),
+  };
+
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm(formParams);
+
+  const [accessError, setAccessError] = useState(null);
   const { id: postId } = useSelector(selectPost);
   const user = useSelector(selectUser);
   const comments = useSelector(selectComments);
   const dispatch = useDispatch();
 
-  const handleSubmit = (formData) => {
-    const comment = formData.get("input-comment");
-    if (!comment) return;
-    if (comment.length > 1000) {
-      setError("Длина символов в комментарии не может превышать 1000 символов.");
-      return;
-    } else setError(null);
+  const onSubmit = ({ comment }) => {
     if (!user.id) {
-      setError("Только авторизированные пользователи могут оставлять комментарии.");
-      setTimeout(() => setError(null), 3000);
+      setAccessError("Только авторизированные пользователи могут оставлять комментарии.");
+      setTimeout(() => setAccessError(null), 3000);
       return;
-    } else setError(null);
+    }
     dispatch(addNewComment(user, postId, comment));
+    reset();
   };
+
   return (
     <div className="comments">
-      <form action={handleSubmit} className="comments__new-comment">
+      <form onSubmit={handleSubmit(onSubmit)} className="comments__new-comment">
         <div className="comments__input-container">
           <textarea
             className="comments__comment"
             type="text"
             name="input-comment"
             placeholder="Комментарий..."
+            {...register("comment", {
+              onChange: () => setAccessError(null),
+            })}
           ></textarea>
           <button className="comments__add-comment">
             <i className="fa fa-paper-plane comments__add-comment-icon" aria-hidden="true"></i>
           </button>
         </div>
-        {error && (
+        {(errors?.comment?.message || accessError) && (
           <div className="comments__error-window">
-            <Error>{error}</Error>
+            <Error>{errors?.comment?.message || accessError}</Error>
           </div>
         )}
       </form>

@@ -12,6 +12,7 @@ import { getRolesFromDb } from "../../../api/roles-requests";
 import { sessions } from "../../../bff/sessions";
 import { DATE_FORMATS, ROLES } from "../../constants";
 import { DateTime } from "luxon";
+import { logout } from "../slice/authSlice";
 
 export const setUser = (user) => ({
   type: USER_ACTION_TYPES.SET_USER,
@@ -20,9 +21,7 @@ export const setUser = (user) => ({
 
 export const logoutUser = (session) => {
   server.logout(session);
-  return {
-    type: USER_ACTION_TYPES.LOGOUT,
-  };
+  // dispatch(logout());
 };
 
 export const getUsers = async (userSession) => {
@@ -53,12 +52,12 @@ export const getRoles = async (userSession) => {
 };
 
 export const addNewComment = (user, postId, content) => (dispatch) => {
-  return fetchAddCommentInPost(user.id, postId, content).then((newComment) =>
+  return fetchAddCommentInPost(user.id, postId, content).then((newComment) => {
     dispatch({
       type: POST_ACTION_TYPES.ADD_COMMENT,
       payload: { ...newComment, author_login: user.login },
-    })
-  );
+    });
+  });
 };
 
 export const getCommentsPost = (postId) =>

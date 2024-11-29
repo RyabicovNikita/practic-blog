@@ -9,6 +9,27 @@ import { Link } from "react-router-dom";
 import { Button } from "../../../../components";
 import { ContextMenu } from "../../../../components/ContextMenu/ContextMenu";
 import { selectUserLogin, selectUserSession } from "../../../../services/store/selectors/selectors";
+import { logout } from "../../../../services/store/slice/authSlice";
+
+const defaultStyle = {
+  padding: "10px",
+  "border-radius": "15px",
+  display: "flex",
+};
+
+const Navigate = styled.nav`
+  ${defaultStyle}
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  background-color: #474545c2;
+`;
+
+const Settings = styled.div`
+  display: flex;
+  gap: 35px;
+  align-items: center;
+`;
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -20,26 +41,6 @@ export const Header = () => {
   const dispatch = useDispatch();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [contextMenuAnimation, setContextMenuAnimation] = useState({});
-
-  const defaultStyle = {
-    padding: "10px",
-    "border-radius": "15px",
-    display: "flex",
-  };
-
-  const Navigate = styled.nav`
-    ${defaultStyle}
-    align-items: center;
-    justify-content: center;
-    gap: 30px;
-    background-color: #474545c2;
-  `;
-
-  const Settings = styled.div`
-    display: flex;
-    gap: 35px;
-    align-items: center;
-  `;
 
   const onMenuClick = () => {
     const animationOptions = {
@@ -63,7 +64,7 @@ export const Header = () => {
   };
 
   const onLogoutClick = () => {
-    dispatch(logoutUser(userSession));
+    dispatch(logout());
     navigate(-1);
   };
 
