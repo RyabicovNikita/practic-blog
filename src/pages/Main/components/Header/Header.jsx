@@ -1,14 +1,12 @@
 import styled from "styled-components";
 
 import "./Header.scss";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import { logoutUser } from "../../../../services/store/actions";
-import { Link } from "react-router-dom";
-import { Button } from "../../../../components";
+import { Link, NavLink } from "react-router-dom";
 import { ContextMenu } from "../../../../components/ContextMenu/ContextMenu";
-import { selectUserLogin, selectUserSession } from "../../../../services/store/selectors/selectors";
+import { selectUserLogin } from "../../../../services/store/selectors/selectors";
 import { logout } from "../../../../services/store/slice/authSlice";
 
 const defaultStyle = {
@@ -33,8 +31,7 @@ const Settings = styled.div`
 
 export const Header = () => {
   const navigate = useNavigate();
-
-  const userSession = useSelector(selectUserSession);
+  const location = useLocation();
 
   const userLogin = useSelector(selectUserLogin);
 
@@ -75,8 +72,12 @@ export const Header = () => {
           Blog
         </Link>
         <Navigate>
-          <Button>Main</Button>
-          <Button>Contacts</Button>
+          <Link to="/" className={"header__menuItem " + (location.pathname === "/" ? "active" : "")}>
+            Main
+          </Link>
+          <Link to="/post" className={"header__menuItem " + (location.pathname === "/post" ? "active" : "")}>
+            New Blog
+          </Link>
         </Navigate>
         <Settings>
           <div className="logo icon">

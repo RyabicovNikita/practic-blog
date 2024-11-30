@@ -4,9 +4,6 @@
 .flex {
   gap: 20px;
 }
-.active {
-  color: white;
-}
 
 .header {
   display: flex;
@@ -62,5 +59,10 @@
     color: gray;
     transition: 0.6s;
     cursor: pointer;
+  }
+  &__menuItem {
+    color: black;
+    font-family: "Elite";
+    text-decoration: none;
   }
 }

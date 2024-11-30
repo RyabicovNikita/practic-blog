@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import "./Footer.scss";
+import { getWeatherUserCountry } from "../../../../services/weathers";
+import { getWeatherWithIcon } from "../../../../services";
 
 export const Footer = () => {
-  const [userCountry, setUserCountry] = useState("Moscow");
-  const [temp, setTemp] = useState("-2");
-  const [weather, setWeather] = useState("Переменная облачность");
+  const [userCountry, setUserCountry] = useState("");
+  const [temp, setTemp] = useState("");
+  const [weather, setWeather] = useState("");
   useEffect(() => {
     // getWeatherUserCountry().then((data) => {
     //   setUserCountry(data?.country ?? null);
@@ -19,11 +21,11 @@ export const Footer = () => {
           <span className="footer__blog-name">Design-blog</span>
           <span className="footer__current-year">{new Date().getFullYear()}</span>
         </div>
-        <ul className="footer__weather">
-          <li> {userCountry}</li>
-          <li> {temp}</li>
-          <li>⛅️ {weather}</li>
-        </ul>
+        <div className="footer__weather">
+          <span> {userCountry}</span>
+          <span> {temp}</span>
+          <span>{getWeatherWithIcon(weather)}</span>
+        </div>
       </div>
     </footer>
   );

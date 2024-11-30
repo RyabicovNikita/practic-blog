@@ -12,7 +12,6 @@ import { getRolesFromDb } from "../../../api/roles-requests";
 import { sessions } from "../../../bff/sessions";
 import { DATE_FORMATS, ROLES } from "../../constants";
 import { DateTime } from "luxon";
-import { logout } from "../slice/authSlice";
 
 export const setUser = (user) => ({
   type: USER_ACTION_TYPES.SET_USER,

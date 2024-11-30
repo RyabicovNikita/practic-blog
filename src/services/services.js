@@ -17,3 +17,46 @@ export const mergeClasses = (classes, separator) =>
   Array.isArray(classes)
     ? classes.reduce((acc, className) => (acc.length > 0 ? (acc += separator + className) : (acc = className)), "")
     : "";
+
+export const getWeatherWithIcon = (weather) => {
+  switch (weather.toLowerCase()) {
+    case "солнечно":
+    case "ясно":
+      return (
+        <i>
+          ☀️ <span>{weather}</span>
+        </i>
+      );
+    case "пасмурно":
+      return (
+        <i>
+          ☁️ <span>{weather}</span>
+        </i>
+      );
+    case "облачно":
+      return (
+        <i>
+          ⛅ <span>{weather}</span>
+        </i>
+      );
+    case "дождь":
+      return (
+        <i>
+          🌧️ <span>{weather}</span>
+        </i>
+      );
+    case "снег":
+    case "снегопад":
+      return (
+        <i>
+          🌨️ <span>{weather}</span>
+        </i>
+      );
+    default:
+      return (
+        <i>
+          💨 <span>{weather}</span>
+        </i>
+      );
+  }
+};

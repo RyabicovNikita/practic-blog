@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { BlogCard } from "../../components/BlogCard/BlogCard";
 import { Footer } from "./components/Footer/Footer";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { getPosts } from "../../api";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -12,7 +12,8 @@ import { POSTS_ACTION_TYPES } from "../../services/store/actions";
 export const Main = () => {
   const dispatch = useDispatch();
   const posts = useSelector(selectPosts);
-  console.log(posts);
+  const ref = useRef();
+
   const flexToCenter = {
     display: "flex",
     "align-items": "center",
@@ -44,6 +45,10 @@ export const Main = () => {
     gap: 350px;
   `;
 
+  const handleScrollDownClick = () => {
+    ref.current.scrollIntoView();
+  };
+
   useEffect(() => {
     getPosts().then((posts) => dispatch({ type: POSTS_ACTION_TYPES.GET_POSTS, payload: posts }));
   }, []);
@@ -54,12 +59,17 @@ export const Main = () => {
         <MainPageContainer>
           <TopHeader>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</TopHeader>
           <div className="main-content__arrow-container">
-            <i className="fa fa-chevron-down drop-down-icon" aria-hidden="true"></i>
+            <i
+              className="fa fa-chevron-down drop-down-icon"
+              aria-hidden="true"
+              style={{ cursor: "pointer" }}
+              onClick={handleScrollDownClick}
+            ></i>
           </div>
         </MainPageContainer>
       </Section>
       <Section className="main-content__section cards-section">
-        <div className="cards-section__scrollable-cards">
+        <div className="cards-section__scrollable-cards" ref={ref}>
           <div className="cards-section__container">
             {posts?.length > 0 && posts.map((post) => <BlogCard post={post} key={post.id} />)}
           </div>

@@ -1,9 +1,15 @@
 import { Link } from "react-router-dom";
 import "./BlogCard.scss";
+import { getCommentsPost } from "../../services/store/actions";
+import { useEffect, useState } from "react";
 
 export const BlogCard = ({ post }) => {
-  const { id, title, content, image_url, published_at } = post;
+  const [countComments, setCountComments] = useState(null);
+  const { id, title, content, image_url, published_at, likes } = post;
 
+  useEffect(() => {
+    getCommentsPost(id).then((comments) => setCountComments(comments?.length));
+  }, [id]);
   return (
     <>
       <div className="blog-card spring-fever">
@@ -32,9 +38,9 @@ export const BlogCard = ({ post }) => {
             <ul className="utility-list">
               <li>
                 <span className="licon icon-like"></span>
-                <a href="#">2</a>
+                <a href="#">{likes}</a>
                 <span className="licon icon-com"></span>
-                <a href="#">12</a>
+                <a href="#">{countComments}</a>
               </li>
 
               <li>
