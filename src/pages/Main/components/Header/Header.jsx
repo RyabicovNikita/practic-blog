@@ -4,10 +4,11 @@ import "./Header.scss";
 import { useLocation, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ContextMenu } from "../../../../components/ContextMenu/ContextMenu";
-import { selectUserLogin } from "../../../../services/store/selectors/selectors";
+import { selectUserLogin, selectUserRole } from "../../../../services/store/selectors/selectors";
 import { logout } from "../../../../services/store/slice/authSlice";
+import { ROLES } from "../../../../services";
 
 const defaultStyle = {
   padding: "10px",
@@ -30,6 +31,7 @@ const Settings = styled.div`
 `;
 
 export const Header = () => {
+  const roleId = useSelector(selectUserRole);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -75,9 +77,11 @@ export const Header = () => {
           <Link to="/" className={"header__menuItem " + (location.pathname === "/" ? "active" : "")}>
             Main
           </Link>
-          <Link to="/post" className={"header__menuItem " + (location.pathname === "/post" ? "active" : "")}>
-            New Blog
-          </Link>
+          {roleId === ROLES.ADMIN && (
+            <Link to="/post" className={"header__menuItem " + (location.pathname === "/post" ? "active" : "")}>
+              New Blog
+            </Link>
+          )}
         </Navigate>
         <Settings>
           <div className="logo icon">

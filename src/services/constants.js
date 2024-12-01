@@ -7,4 +7,7 @@ export const ROLES = {
 
 export const DATE_FORMATS = {
   DATETIME: "dd.MM.yyyy TT",
+  DATE: "dd.MM.yyyy",
 };
+
+export const MIN_HEIGTH_POST = 810;

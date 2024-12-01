@@ -4,8 +4,7 @@ import { selectPost, selectUser } from "../../../../services/store/selectors/sel
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { fetchSavePost } from "../../../../api";
 import { POST_ACTION_TYPES } from "../../../../services/store/actions";
-
-const MIN_HEIGTH_POST = 810;
+import { MIN_HEIGTH_POST } from "../../../../services";
 
 export const PostContent = ({ setIsModalOpen }) => {
   const contentRef = useRef(null);

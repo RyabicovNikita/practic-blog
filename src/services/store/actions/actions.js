@@ -7,6 +7,7 @@ import {
   fetchDeleteComment,
   getPostById,
   getUsersFromDb,
+  fetchCreatePost,
 } from "../../../api";
 import { getRolesFromDb } from "../../../api/roles-requests";
 import { sessions } from "../../../bff/sessions";
@@ -109,3 +110,6 @@ export const deletePost = async (postId) => {
     console.error(error);
   }
 };
+
+export const createNewPost = (data) => (dispatch) =>
+  fetchCreatePost(data).then((newPostData) => dispatch({ type: POST_ACTION_TYPES.CREATE_POST, payload: newPostData }));

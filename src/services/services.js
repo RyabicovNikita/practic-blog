@@ -5,6 +5,9 @@ export const generateDate = () => DateTime.now().toLocaleString();
 
 export const generateDateTime = () => DateTime.now().toFormat(DATE_FORMATS.DATETIME);
 
+export const dateTimeToDate = (dateTime) =>
+  DateTime.fromFormat(dateTime, DATE_FORMATS.DATETIME).toFormat(DATE_FORMATS.DATE);
+
 export function uuidv4() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
     const r = (Math.random() * 16) | 0,

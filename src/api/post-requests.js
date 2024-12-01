@@ -39,3 +39,16 @@ export const fetchSavePost = (id, newContent) =>
       content: newContent,
     }),
   }).then((updatedPostData) => updatedPostData.json());
+
+export const fetchCreatePost = (data) =>
+  fetch(`http://localhost:3005/posts`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify({
+      ...data,
+      published_at: generateDateTime(),
+      likes: 0,
+    }),
+  }).then((data) => data.json());
