@@ -16,6 +16,8 @@ export const postReducer = (state = initialPostState, { type, payload }) => {
       return { ...state, content: payload };
     case POST_ACTION_TYPES.CREATE_POST:
       return payload;
+    case POST_ACTION_TYPES.DELETE_COMMENT:
+      return { ...state, comments: state.comments.filter((comment) => comment.id !== payload) };
     default:
       return state;
   }

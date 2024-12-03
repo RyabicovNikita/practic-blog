@@ -4,6 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { server } from "../../bff/server";
 import { useState } from "react";
 import { Input } from "./components/Input/Input";
+import { Error } from "../../../src/components/Error/Error";
 
 import "./AuthForm.scss";
 import { useDispatch } from "react-redux";
@@ -36,6 +37,9 @@ export const AuthForm = () => {
   const authFormSchema = yup.object().shape(shapeObject);
   const [serverError, setServerError] = useState(null);
   const dispatch = useDispatch();
+  const resetServerError = () => {
+    setServerError(null);
+  };
   const formParams = isRegister
     ? {
         defaultValues: {
@@ -75,12 +79,12 @@ export const AuthForm = () => {
   };
   const onSignInClick = () => {
     setIsRegister(false);
-    setServerError(null);
+    resetServerError();
     reset();
   };
   const onSignOutClick = () => {
     setIsRegister(true);
-    setServerError(null);
+    resetServerError();
     reset();
   };
 
@@ -105,7 +109,7 @@ export const AuthForm = () => {
               placeholder="Username"
               name="login"
               {...register("login", {
-                onChange: () => setServerError(null),
+                onChange: resetServerError,
               })}
             />
             <Input
@@ -114,7 +118,7 @@ export const AuthForm = () => {
               name="password"
               placeholder="Password"
               {...register("password", {
-                onChange: () => setServerError(null),
+                onChange: resetServerError,
               })}
             />
             {isRegister && (
@@ -124,7 +128,7 @@ export const AuthForm = () => {
                 type="password"
                 placeholder="Repeat password"
                 {...register("repeat_password", {
-                  onChange: () => setServerError(null),
+                  onChange: resetServerError,
                 })}
               />
             )}
@@ -133,7 +137,7 @@ export const AuthForm = () => {
             <button disabled={!!formError} className="auth__submit" type="submit">
               {isRegister ? "Register" : "Login"}
             </button>
-            {errorMessage && <div className="auth__error">{errorMessage}</div>}
+            {errorMessage && <Error className={"submit-error"}>{errorMessage}</Error>}
           </div>
         </form>
       </div>

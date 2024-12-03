@@ -1,7 +1,8 @@
+import "./Error.scss";
 export const Error = ({ className, children }) => (
   <div
-    style={{ color: "red", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}
-    className={className}
+    style={{ color: "red", display: "flex", alignItems: "center", justifyContent: "center" }}
+    className={"error " + className}
   >
     {children}
   </div>

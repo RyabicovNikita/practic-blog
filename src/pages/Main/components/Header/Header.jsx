@@ -5,10 +5,11 @@ import { useLocation, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ContextMenu } from "../../../../components/ContextMenu/ContextMenu";
+
 import { selectUserLogin, selectUserRole } from "../../../../services/store/selectors/selectors";
 import { logout } from "../../../../services/store/slice/authSlice";
 import { ROLES } from "../../../../services";
+import { DropDownMenu } from "../../../../components/DropDownMenu/DropDownMenu";
 
 const defaultStyle = {
   padding: "10px",
@@ -99,7 +100,7 @@ export const Header = () => {
           <i onClick={onMenuClick} className="fa fa-bars more" aria-hidden="true"></i>
         </Settings>
       </div>
-      {isMenuOpen && <ContextMenu setIsMenuOpen={setIsMenuOpen} animation={contextMenuAnimation} />}
+      {isMenuOpen && <DropDownMenu setIsMenuOpen={setIsMenuOpen} animation={contextMenuAnimation} />}
     </>
   );
 };

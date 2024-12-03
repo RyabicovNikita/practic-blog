@@ -113,3 +113,6 @@ export const deletePost = async (postId) => {
 
 export const createNewPost = (data) => (dispatch) =>
   fetchCreatePost(data).then((newPostData) => dispatch({ type: POST_ACTION_TYPES.CREATE_POST, payload: newPostData }));
+
+export const deleteComment = (commentId) => (dispatch) =>
+  fetchDeleteComment(commentId).then(() => dispatch({ type: POST_ACTION_TYPES.DELETE_COMMENT, payload: commentId }));
