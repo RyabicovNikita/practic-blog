@@ -1,4 +1,3 @@
-import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import "./PostContent.scss";
 import { selectPost, selectUser } from "../../../../services/store/selectors/selectors";
@@ -6,22 +5,9 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { fetchSavePost } from "../../../../api";
 import { POST_ACTION_TYPES } from "../../../../services/store/actions";
 import { MIN_HEIGTH_POST } from "../../../../services";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { Error } from "../../../../components/Error/Error";
-
-const shapeObject = {
-  title: yup
-    .string()
-    .required("Заголовок является обязательным для заполнения")
-    .min(10, "Минимальная длина заголовока - 10 символов")
-    .max(23, "Максимальная длина заголовока - 23 символа"),
-  content: yup
-    .string()
-    .required("Заполните содержание статьи")
-    .min(100, "Минимальная длина статьи - 100 символов")
-    .max(2000, "Максимальная длина статьи - 2000 символов"),
-};
+import { getPostFormParams } from "../../validates";
 
 export const PostContent = ({ setIsModalOpen }) => {
   const [serverError, setServerError] = useState(null);
@@ -31,16 +17,6 @@ export const PostContent = ({ setIsModalOpen }) => {
   const contentRef = useRef(null);
   const dispatch = useDispatch();
   const post = useSelector(selectPost);
-  // const [postState, setPostState] = useState({});
-  const formSchema = yup.object().shape(shapeObject);
-
-  const formParams = {
-    defaultValues: {
-      title: "",
-      content: "",
-    },
-    resolver: yupResolver(formSchema),
-  };
 
   const {
     register,
@@ -49,7 +25,7 @@ export const PostContent = ({ setIsModalOpen }) => {
     getValues,
     setValue,
     formState: { errors },
-  } = useForm(formParams);
+  } = useForm(getPostFormParams());
 
   const { role_id } = useSelector(selectUser);
 
@@ -70,7 +46,9 @@ export const PostContent = ({ setIsModalOpen }) => {
   const postValue = getValues();
 
   useEffect(() => {
-    if (post.content && post.title) {
+    console.log(post);
+    if (post?.content?.length > 0 && post?.title?.length > 0) {
+      console.log("Зарегистрировали Inputs");
       registerInputs(true);
     }
     return () => registerInputs(false);
@@ -82,6 +60,10 @@ export const PostContent = ({ setIsModalOpen }) => {
       contentRef.current.style.height = `${Math.max(contentRef.current.scrollHeight, MIN_HEIGTH_POST)}px`;
     }
   }, [postValue.content]);
+
+  useEffect(() => {
+    console.log(postValue);
+  }, [postValue]);
 
   const handleDelete = () => {
     setIsModalOpen(true);
@@ -108,6 +90,7 @@ export const PostContent = ({ setIsModalOpen }) => {
   const errorMessage = formError || serverError;
 
   const onValidateChange = ({ target }) => {
+    console.log("Change?");
     deleteServerErrorIfNeed();
     setValue(target.name, target.value, { shouldDirty: false, shouldValidate: true });
   };

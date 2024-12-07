@@ -1,11 +1,10 @@
 import { useNavigate, useParams } from "react-router";
-import { Comments } from "./components/Comments/Comments";
-import { PostContent } from "./components/PostContent/PostContent";
-import "./Post.scss";
 import { useDispatch } from "react-redux";
 import { deletePost, getPost, POST_ACTION_TYPES } from "../../services/store/actions";
 import { useEffect, useState } from "react";
 import { Modal } from "../../components/Modal/Modal";
+import { Comments, PostContent } from "./components";
+import "./Post.scss";
 
 export const Post = () => {
   const navigate = useNavigate();

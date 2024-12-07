@@ -5,12 +5,12 @@ import { AuthForm } from "./pages/AuthForm/AuthForm";
 import { Users } from "./pages/Users/Users";
 import { Footer, Header } from "./pages/Main/components";
 import { Main } from "./pages/Main/Main";
-import { Post } from "./pages/Post/Post";
-import { NewPost } from "./pages/Post/NewPost/NewPost";
+
 import { useSelector } from "react-redux";
 import { selectUserRole } from "./services/store/selectors/selectors";
 import { ROLES } from "./services";
 import { Error } from "./components";
+import { NewPost, Post } from "./pages/Post";
 
 function Blog() {
   const location = useLocation();
