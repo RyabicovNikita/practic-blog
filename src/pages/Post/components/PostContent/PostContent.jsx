@@ -69,7 +69,7 @@ export const PostContent = ({ setIsModalOpen }) => {
     else {
       try {
         fetchSavePost(post.id, postValue).then((newPost) => {
-          dispatch({ type: POST_ACTION_TYPES.UPDATE_POST, payload: newPost.content });
+          dispatch({ type: POST_ACTION_TYPES.UPDATE_POST, payload: newPost });
           setIsEditPost(false);
           deleteServerErrorIfNeed();
         });
