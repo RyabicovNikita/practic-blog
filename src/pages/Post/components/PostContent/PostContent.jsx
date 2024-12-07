@@ -25,7 +25,7 @@ export const PostContent = ({ setIsModalOpen }) => {
     getValues,
     setValue,
     formState: { errors },
-  } = useForm(getPostFormParams());
+  } = useForm(getPostFormParams({ image_url: "" }));
 
   const { role_id } = useSelector(selectUser);
 
@@ -37,9 +37,11 @@ export const PostContent = ({ setIsModalOpen }) => {
     if (isInit) {
       register("title", { value: title });
       register("content", { value: content });
+      register("image_url", { value: image_url });
     } else {
       unregister("title");
       unregister("content");
+      unregister("image_url");
     }
   };
 
@@ -90,7 +92,16 @@ export const PostContent = ({ setIsModalOpen }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <section className="blog__top-content">
-        {image_url && <img alt="" className="blog__main-image" src={image_url}></img>}
+        <img alt="" className="blog__main-image" src={postValue.image_url}></img>
+        {isEditPost && (
+          <input
+            name="image_url"
+            className="blog__input-url"
+            placeholder="Введите URL картинки"
+            value={postValue.image_url}
+            onChange={onValidateChange}
+          />
+        )}
         <div
           className={isEditPost ? "blog__title edit" : "blog__title"}
           style={{ borderColor: titleError ? "red" : "white" }}
