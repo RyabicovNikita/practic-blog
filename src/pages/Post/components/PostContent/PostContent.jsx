@@ -132,6 +132,7 @@ export const PostContent = ({ setIsModalOpen }) => {
         </div>
       )}
       <section className="blog__main-content">
+        {contentError && <Error>{contentError}</Error>}
         <textarea
           name="content"
           className={isEditPost ? "blog__edit-content edit" : "blog__content"}
@@ -141,7 +142,6 @@ export const PostContent = ({ setIsModalOpen }) => {
           value={postValue.content}
           onChange={onValidateChange}
         />
-        {contentError && <Error>{contentError}</Error>}
       </section>
     </form>
   );
