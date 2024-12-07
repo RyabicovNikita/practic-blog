@@ -31,3 +31,8 @@ code {
 .edit {
   border: 1px solid white;
 }
+
+*::selection {
+  background: white;
+  color: black;
+}
