@@ -5,7 +5,7 @@ import { getRoles, getUsers, ROLES_ACTION_TYPES, USERS_ACTION_TYPES } from "../.
 import { Error } from "../../components";
 import { Table } from "../../components/Table/Table";
 import { RoleWithSaveIcon } from "./components/RoleWithSaveIcon/RoleWithSaveIcon";
-import { selectUser, selectUserSession } from "../../services/store/selectors/selectors";
+import { selectUsers, selectUserSession } from "../../services/store/selectors/selectors";
 
 const tableStyleProps = {
   table: {
@@ -25,7 +25,7 @@ const tableStyleProps = {
 
 export const Users = () => {
   const dispatch = useDispatch();
-  const users = useSelector(selectUser);
+  const users = useSelector(selectUsers);
   const userSession = useSelector(selectUserSession);
   const [usersError, setUsersError] = useState(null);
   const [rolesError, setRolesError] = useState(null);
@@ -55,6 +55,7 @@ export const Users = () => {
       dispatch({ type: ROLES_ACTION_TYPES.CLEAR_ROLES });
     };
   }, []);
+
   return (
     <div className="users">
       <div className="users__scrollable">
@@ -64,10 +65,11 @@ export const Users = () => {
           <Table
             styles={tableStyleProps}
             data={
-              users.length > 0 &&
-              users.map((user) => ({
-                columns: [user.login, user.registed_at, <RoleWithSaveIcon user={user} />],
-              }))
+              users.length
+                ? users.map((user) => ({
+                    columns: [user.login, user.registed_at, <RoleWithSaveIcon user={user} />],
+                  }))
+                : []
             }
           />
         )}
