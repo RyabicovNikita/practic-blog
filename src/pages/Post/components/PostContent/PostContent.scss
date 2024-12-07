@@ -77,13 +77,9 @@
     padding: 10px;
     overflow-x: scroll;
   }
-  &__content::selection,
-  &__edit-content::selection {
-    background: white;
-    color: black;
-  }
 
-  &__delete {
+  &__delete,
+  &__like {
     cursor: pointer;
   }
   &__edit {

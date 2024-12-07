@@ -127,6 +127,8 @@ export const PostContent = ({ setIsModalOpen }) => {
               <button className="blog__post-submit" type="submit">
                 <i className="fa fa-pencil-square-o" aria-hidden="true"></i>
               </button>
+              <i className="fa fa-thumbs-o-up blog__like" aria-hidden="true"></i>
+              <i class="fa fa-thumbs-up blog__like" aria-hidden="true"></i>
             </div>
           </div>
         </div>
