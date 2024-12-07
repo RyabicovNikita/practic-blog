@@ -15,7 +15,7 @@ const shapeObject = {
     .string()
     .required("Заголовок является обязательным для заполнения")
     .min(10, "Минимальная длина заголовока - 10 символов")
-    .max(50, "Максимальная длина заголовока - 50 символов"),
+    .max(23, "Максимальная длина заголовока - 23 символа"),
   content: yup
     .string()
     .required("Заполните содержание статьи")
@@ -25,11 +25,15 @@ const shapeObject = {
 
 export const PostContent = ({ setIsModalOpen }) => {
   const [serverError, setServerError] = useState(null);
+  const deleteServerErrorIfNeed = () => {
+    if (serverError !== null) setServerError(null);
+  };
   const contentRef = useRef(null);
   const dispatch = useDispatch();
   const post = useSelector(selectPost);
-  const [postState, setPostState] = useState(post);
+  // const [postState, setPostState] = useState({});
   const formSchema = yup.object().shape(shapeObject);
+
   const formParams = {
     defaultValues: {
       title: "",
@@ -37,44 +41,61 @@ export const PostContent = ({ setIsModalOpen }) => {
     },
     resolver: yupResolver(formSchema),
   };
+
   const {
     register,
-    reset,
+    unregister,
     handleSubmit,
+    getValues,
+    setValue,
     formState: { errors },
   } = useForm(formParams);
 
   const { role_id } = useSelector(selectUser);
 
-  const { content, image_url, published_at, title } = post;
+  const { image_url, published_at, content, title } = post;
 
-  const [currentContent, setCurrentContent] = useState("");
   const [isEditPost, setIsEditPost] = useState(false);
 
+  const registerInputs = (isInit = true) => {
+    if (isInit) {
+      register("title", { value: title });
+      register("content", { value: content });
+    } else {
+      unregister("title");
+      unregister("content");
+    }
+  };
+
+  const postValue = getValues();
+
+  useEffect(() => {
+    if (post.content && post.title) {
+      registerInputs(true);
+    }
+    return () => registerInputs(false);
+  }, [post.content, post.title]);
+
   useLayoutEffect(() => {
-    if (currentContent) {
+    if (postValue.content) {
       contentRef.current.style.height = "inherit";
       contentRef.current.style.height = `${Math.max(contentRef.current.scrollHeight, MIN_HEIGTH_POST)}px`;
     }
-  }, [currentContent]);
-
-  useEffect(() => {
-    setCurrentContent(content);
-  }, [content]);
+  }, [postValue.content]);
 
   const handleDelete = () => {
     setIsModalOpen(true);
-    setServerError(null);
+    deleteServerErrorIfNeed();
   };
 
   const onSubmit = () => {
     if (isEditPost === false) setIsEditPost(true);
     else {
       try {
-        fetchSavePost(post.id, currentContent).then((newPost) => {
+        fetchSavePost(post.id, postValue).then((newPost) => {
           dispatch({ type: POST_ACTION_TYPES.UPDATE_POST, payload: newPost.content });
           setIsEditPost(false);
-          setServerError(null);
+          deleteServerErrorIfNeed();
         });
       } catch (error) {
         setServerError(error);
@@ -86,31 +107,22 @@ export const PostContent = ({ setIsModalOpen }) => {
 
   const errorMessage = formError || serverError;
 
-  const getRegisterProps = (name, value, onChange) => {
-    if (!isEditPost) return {};
-    return {
-      ...register(name, {
-        value: value,
-        onChange: onChange,
-      }),
-    };
-  };
-
-  const handleTitleChange = ({ target }) => {
-    setServerError(null);
-    setPostState((prevState) => ({ ...prevState, title: target.value }));
+  const onValidateChange = ({ target }) => {
+    deleteServerErrorIfNeed();
+    setValue(target.name, target.value, { shouldDirty: false, shouldValidate: true });
   };
 
   return (
-    <>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <section className="blog__top-content">
         {image_url && <img alt="" className="blog__main-image" src={image_url}></img>}
         <div className="blog__title">
           <input
             name="title"
             className="blog__text-title"
+            value={postValue.title}
             disabled={!isEditPost}
-            {...getRegisterProps("title", postState, handleTitleChange)}
+            onChange={onValidateChange}
           />
           <div className="blog__date-container">
             <span className="blog__date">{published_at}</span>
@@ -118,7 +130,7 @@ export const PostContent = ({ setIsModalOpen }) => {
         </div>
       </section>
       {role_id !== 3 && (
-        <form onSubmit={handleSubmit(onSubmit)} className="blog__blog-content">
+        <div className="blog__blog-content">
           <div className="blog__actions">
             <div className="blog__actions-container">
               <i className="fa fa-trash blog__delete" onClick={handleDelete} aria-hidden="true"></i>
@@ -127,18 +139,19 @@ export const PostContent = ({ setIsModalOpen }) => {
               </button>
             </div>
           </div>
-        </form>
+        </div>
       )}
       {errorMessage && <Error className={"blog__edit-error"}>{errorMessage}</Error>}
       <section className="blog__main-content">
         <textarea
+          name="content"
           className={isEditPost ? "blog__edit-content" : "blog__content"}
           ref={contentRef}
-          value={currentContent}
-          onChange={({ target }) => setCurrentContent(target.value)}
           disabled={!isEditPost}
+          value={postValue.content}
+          onChange={onValidateChange}
         />
       </section>
-    </>
+    </form>
   );
 };

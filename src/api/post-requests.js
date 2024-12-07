@@ -29,14 +29,14 @@ export const fetchDeletePost = (id) =>
     method: "DELETE",
   });
 
-export const fetchSavePost = (id, newContent) =>
+export const fetchSavePost = (id, userValues) =>
   fetch(`http://localhost:3005/posts/${id}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
     },
     body: JSON.stringify({
-      content: newContent,
+      ...userValues,
     }),
   }).then((updatedPostData) => updatedPostData.json());
 

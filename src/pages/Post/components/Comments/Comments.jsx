@@ -10,6 +10,7 @@ import { ContextMenu, Error } from "../../../../components";
 import "./Comments.scss";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { ROLES } from "../../../../services";
 const shapeObject = {
   comment: yup
     .string()
@@ -64,6 +65,7 @@ export const Comments = () => {
   }, []);
 
   const handleContextMenu = (e, commentID) => {
+    if (user.role_id !== ROLES.ADMIN) return;
     setDeletedCommentID(commentID);
     e.preventDefault();
     setIsContextMenuOpen(true);

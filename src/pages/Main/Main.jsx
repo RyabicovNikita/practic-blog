@@ -45,6 +45,16 @@ export const Main = () => {
     gap: 350px;
   `;
 
+  const CardContainer = styled.div`
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, calc(33.3333333% - 20px)));
+    grid-gap: 20px;
+    padding-left: 25px;
+    padding-right: 25px;
+    box-sizing: border-box;
+    justify-content: center;
+  `;
+
   const handleScrollDownClick = () => {
     ref.current.scrollIntoView();
   };
@@ -70,9 +80,9 @@ export const Main = () => {
       </Section>
       <Section className="main-content__section cards-section">
         <div className="cards-section__scrollable-cards" ref={ref}>
-          <div className="cards-section__container">
+          <CardContainer>
             {posts?.length > 0 && posts.map((post) => <BlogCard post={post} key={post.id} />)}
-          </div>
+          </CardContainer>
           <Footer />
         </div>
       </Section>
