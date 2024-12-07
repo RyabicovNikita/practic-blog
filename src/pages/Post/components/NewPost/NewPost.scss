@@ -75,23 +75,23 @@
     box-sizing: border-box;
   }
   &__edit-content {
+    display: inline-block;
+    border: 1px solid white;
+    border-radius: 25px;
+    padding: 10px;
+    box-sizing: border-box;
     transition: 0.5s;
     max-height: 510px;
     all: unset;
     width: 100%;
     text-align: left;
     caret-color: white;
-    overflow: clip;
-  }
-  &__edit-content {
-    display: inline-block;
-    border: 1px solid white;
-    border-radius: 25px;
-    padding: 10px;
-    box-sizing: border-box;
+    overflow-y: clip;
+    overflow-x: scroll;
   }
 
   &__content {
+    overflow-x: scroll;
     white-space: pre-wrap;
     padding: 10px;
   }

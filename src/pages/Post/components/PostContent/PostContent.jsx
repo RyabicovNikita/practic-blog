@@ -46,9 +46,7 @@ export const PostContent = ({ setIsModalOpen }) => {
   const postValue = getValues();
 
   useEffect(() => {
-    console.log(post);
     if (post?.content?.length > 0 && post?.title?.length > 0) {
-      console.log("Зарегистрировали Inputs");
       registerInputs(true);
     }
     return () => registerInputs(false);
@@ -60,10 +58,6 @@ export const PostContent = ({ setIsModalOpen }) => {
       contentRef.current.style.height = `${Math.max(contentRef.current.scrollHeight, MIN_HEIGTH_POST)}px`;
     }
   }, [postValue.content]);
-
-  useEffect(() => {
-    console.log(postValue);
-  }, [postValue]);
 
   const handleDelete = () => {
     setIsModalOpen(true);
@@ -85,12 +79,10 @@ export const PostContent = ({ setIsModalOpen }) => {
     }
   };
 
-  const formError = errors?.title?.message || errors?.content?.message;
-
-  const errorMessage = formError || serverError;
+  const titleError = errors?.title?.message;
+  const contentError = errors?.content?.message;
 
   const onValidateChange = ({ target }) => {
-    console.log("Change?");
     deleteServerErrorIfNeed();
     setValue(target.name, target.value, { shouldDirty: false, shouldValidate: true });
   };
@@ -99,7 +91,10 @@ export const PostContent = ({ setIsModalOpen }) => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <section className="blog__top-content">
         {image_url && <img alt="" className="blog__main-image" src={image_url}></img>}
-        <div className="blog__title">
+        <div
+          className={isEditPost ? "blog__title edit" : "blog__title"}
+          style={{ borderColor: titleError ? "red" : "white" }}
+        >
           <input
             name="title"
             className="blog__text-title"
@@ -111,6 +106,7 @@ export const PostContent = ({ setIsModalOpen }) => {
             <span className="blog__date">{published_at}</span>
           </div>
         </div>
+        {titleError && <Error>{titleError}</Error>}
       </section>
       {role_id !== 3 && (
         <div className="blog__blog-content">
@@ -124,16 +120,17 @@ export const PostContent = ({ setIsModalOpen }) => {
           </div>
         </div>
       )}
-      {errorMessage && <Error className={"blog__edit-error"}>{errorMessage}</Error>}
       <section className="blog__main-content">
         <textarea
           name="content"
-          className={isEditPost ? "blog__edit-content" : "blog__content"}
+          className={isEditPost ? "blog__edit-content edit" : "blog__content"}
+          style={{ borderColor: contentError ? "red" : "white" }}
           ref={contentRef}
           disabled={!isEditPost}
           value={postValue.content}
           onChange={onValidateChange}
         />
+        {contentError && <Error>{contentError}</Error>}
       </section>
     </form>
   );

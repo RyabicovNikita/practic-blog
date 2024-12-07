@@ -76,9 +76,6 @@ export const getPost = async (postId) => {
 
     const commentsPost = await getCommentsPost(postId);
 
-    console.log("PostInfo");
-    console.log(post);
-
     const sortByDateComments = commentsPost.sort((a, b) => {
       if (
         DateTime.fromFormat(a.published_at, DATE_FORMATS.DATETIME) >
@@ -114,8 +111,7 @@ export const deletePost = async (postId) => {
   }
 };
 
-export const createNewPost = (data) => (dispatch) =>
-  fetchCreatePost(data).then((newPostData) => dispatch({ type: POST_ACTION_TYPES.CREATE_POST, payload: newPostData }));
+export const createNewPost = (data) => fetchCreatePost(data).then((newPostData) => newPostData);
 
 export const deleteComment = (commentId) => (dispatch) =>
   fetchDeleteComment(commentId).then(() => dispatch({ type: POST_ACTION_TYPES.DELETE_COMMENT, payload: commentId }));

@@ -2,7 +2,6 @@ import * as yup from "yup";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import "./NewPost.scss";
 import { MIN_HEIGTH_POST } from "../../../../services";
-import { useDispatch } from "react-redux";
 import { createNewPost } from "../../../../services/store/actions";
 import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
@@ -11,7 +10,6 @@ import { getPostFormParams } from "../../validates";
 
 export const NewPost = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const contentRef = useRef(null);
   const [serverError, setServerError] = useState(null);
   const deleteServerErrorIfNeed = () => {
@@ -24,12 +22,12 @@ export const NewPost = () => {
     getValues,
     setValue,
     formState: { errors },
-  } = useForm(getPostFormParams({ url: yup.string() }));
+  } = useForm(getPostFormParams({ image_url: "" }));
 
   const registerInputs = (isInit = true) => {
     if (isInit) {
-      register("title");
-      register("content");
+      register("title", { value: "" });
+      register("content", { value: "" });
     } else {
       unregister("title");
       unregister("content");
@@ -52,7 +50,7 @@ export const NewPost = () => {
 
   const handleSave = () => {
     try {
-      dispatch(createNewPost(postValue)).then(({ payload }) => navigate(`/post/${payload.id}`));
+      createNewPost(postValue).then(({ id }) => navigate(`/post/${id}`));
     } catch (error) {
       setServerError(error);
     }
@@ -69,18 +67,18 @@ export const NewPost = () => {
   return (
     <form onSubmit={handleSubmit(handleSave)} className="blog">
       <section className="blog__top-content">
-        <img alt="" className="blog__main-image" src={postValue.url}></img>
+        <img alt="" className="blog__main-image" src={postValue.image_url}></img>
         <input
-          name="url"
+          name="image_url"
           className="blog__input-url"
           placeholder="Введите URL картинки"
-          value={postValue.url}
+          value={postValue.image_url}
           onChange={onValidateChange}
         ></input>
         <input
           name="title"
           placeholder="Введите  заголовок статьи"
-          className="blog__title-input"
+          className="blog__title-input edit"
           style={{ borderColor: titleError ? "red" : "white" }}
           value={postValue.title}
           onChange={onValidateChange}
@@ -99,7 +97,7 @@ export const NewPost = () => {
         <textarea
           name="content"
           placeholder="Введите содержание статьи"
-          className="blog__edit-content"
+          className="blog__edit-content edit"
           ref={contentRef}
           style={{ borderColor: contentError ? "red" : "white" }}
           value={postValue.content}

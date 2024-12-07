@@ -6,7 +6,7 @@ export const postsReducer = (state = initialPostsState, { type, payload }) => {
   switch (type) {
     case POSTS_ACTION_TYPES.GET_POSTS:
       return [...payload];
-    case POST_ACTION_TYPES.CREATE_POST:
+    case POST_ACTION_TYPES.NEW_POST:
       return [...state, payload];
     default:
       return state;

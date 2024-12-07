@@ -80,12 +80,22 @@ export const Comments = () => {
       onClick: () => dispatch(deleteComment(deletedCommentID)),
     },
   ];
+
+  const commentError = errors?.comment?.message;
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      reset();
+    }, 5000);
+    return () => clearTimeout(timerId);
+  }, [commentError]);
+
   return (
     <div className="comments">
       <form onSubmit={handleSubmit(onSubmit)} className="comments__new-comment">
         <div className="comments__input-container">
           <textarea
-            className="comments__comment"
+            className="comments__comment edit"
+            style={{ borderColor: commentError ? "red" : "white" }}
             type="text"
             name="input-comment"
             placeholder="Комментарий..."
@@ -97,9 +107,9 @@ export const Comments = () => {
             <i className="fa fa-paper-plane comments__add-comment-icon" aria-hidden="true"></i>
           </button>
         </div>
-        {(errors?.comment?.message || accessError) && (
+        {(commentError || accessError) && (
           <div className="comments__error-window">
-            <Error>{errors?.comment?.message || accessError}</Error>
+            <Error>{commentError || accessError}</Error>
           </div>
         )}
       </form>

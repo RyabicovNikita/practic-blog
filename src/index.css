@@ -27,3 +27,7 @@ code {
 .active {
   color: white;
 }
+
+.edit {
+  border: 1px solid white;
+}

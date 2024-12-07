@@ -67,7 +67,6 @@
   }
   &__edit-content {
     display: inline-block;
-    border: 1px solid white;
     border-radius: 25px;
     padding: 10px;
     box-sizing: border-box;
@@ -76,6 +75,7 @@
   &__content {
     white-space: pre-wrap;
     padding: 10px;
+    overflow-x: scroll;
   }
   &__content::selection,
   &__edit-content::selection {

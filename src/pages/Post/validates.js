@@ -13,13 +13,13 @@ const shapePost = {
     .max(2000, "Максимальная длина статьи - 2000 символов"),
 };
 
-export const getPostFormParams = (shape = {}) => {
+export const getPostFormParams = (defaultValues = {}, shape = {}) => {
   const formSchema = yup.object().shape({ ...shapePost, ...shape });
   return {
     defaultValues: {
       title: "",
       content: "",
-      ...Object.keys(shape),
+      ...defaultValues,
     },
     resolver: yupResolver(formSchema),
   };

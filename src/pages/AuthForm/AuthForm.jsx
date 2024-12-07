@@ -71,7 +71,7 @@ export const AuthForm = () => {
       setServerError(error);
       return;
     }
-    console.log(res);
+
     dispatch(setUser(res));
     // dispatch(setUser(res));
     localStorage.setItem("token", uuidv4());
