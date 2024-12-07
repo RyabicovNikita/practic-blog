@@ -1,4 +1,4 @@
-import { POST_ACTION_TYPES, POSTS_ACTION_TYPES } from "../actions/constants";
+import { POSTS_ACTION_TYPES } from "../actions/constants";
 
 const initialPostsState = [];
 
@@ -6,8 +6,6 @@ export const postsReducer = (state = initialPostsState, { type, payload }) => {
   switch (type) {
     case POSTS_ACTION_TYPES.GET_POSTS:
       return [...payload];
-    case POST_ACTION_TYPES.NEW_POST:
-      return [...state, payload];
     default:
       return state;
   }
