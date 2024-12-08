@@ -3,7 +3,7 @@ import "./RoleWithSaveIcon.scss";
 import { RecordSelectionMenu } from "../RecordSelectionMenu/RecordSelectionMenu";
 import { useDispatch, useSelector } from "react-redux";
 
-import { deleteUser, postUserRole } from "../../../../api";
+import { fetchDeleteUser, fetchPostUserRole } from "../../../../api";
 import { selectRoles, selectUser } from "../../../../services/store/selectors/selectors";
 export const RoleWithSaveIcon = ({ user }) => {
   const dispatch = useDispatch();
@@ -48,14 +48,14 @@ export const RoleWithSaveIcon = ({ user }) => {
         <button
           className="role-container__save-user"
           disabled={selectedRole?.id === user?.role_id}
-          onClick={() => dispatch(postUserRole(user.id, selectedRole?.id))}
+          onClick={() => dispatch(fetchPostUserRole(user.id, selectedRole?.id))}
         >
           <i className="role-container__save fa fa-floppy-o" aria-hidden="true"></i>
         </button>
         <button
           className="role-container__delete-user"
           disabled={currentUser.login === user.login}
-          onClick={() => dispatch(deleteUser(user.id))}
+          onClick={() => dispatch(fetchDeleteUser(user.id))}
         >
           <i className="fa fa-trash role-container__delete" aria-hidden="true"></i>
         </button>

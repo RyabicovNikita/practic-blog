@@ -2,12 +2,12 @@ import styled from "styled-components";
 import { BlogCard } from "../../components/BlogCard/BlogCard";
 import { Footer } from "./components/Footer/Footer";
 import { useEffect, useRef } from "react";
-import { getPosts } from "../../api";
+import { fetchGetPosts } from "../../api";
 import { useDispatch, useSelector } from "react-redux";
 
 import "./Main.scss";
 import { selectPosts } from "../../services/store/selectors/selectors";
-import { POSTS_ACTION_TYPES } from "../../services/store/actions";
+import { getPosts, POSTS_ACTION_TYPES } from "../../services/store/actions";
 
 export const Main = () => {
   const dispatch = useDispatch();

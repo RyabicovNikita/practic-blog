@@ -1,14 +1,14 @@
 import { ROLES } from "../services/constants";
 import { generateDate } from "../services/services";
 
-export const getUsersFromDb = () => fetch("http://localhost:3005/users").then((res) => res.json());
-export const getUser = (login) =>
+export const fetchGetUsers = () => fetch("http://localhost:3005/users").then((res) => res.json());
+export const fetchGetUser = (login) =>
   fetch(`http://localhost:3005/users?login=${login}`)
     .then((data) => data.json())
     .then((user) => user?.[0]);
-export const getUserById = (id) => fetch(`http://localhost:3005/users/${id}`).then((res) => res.json());
+export const fetchGetUserById = (id) => fetch(`http://localhost:3005/users/${id}`).then((res) => res.json());
 
-export const addUser = (login, password) =>
+export const fetchAddUser = (login, password) =>
   fetch("http://localhost:3005/users", {
     method: "POST",
     headers: {
@@ -22,7 +22,7 @@ export const addUser = (login, password) =>
     }),
   }).then((newUserData) => newUserData.json());
 
-export const postUserRole = (id, newRoleID) => (dispatch) => {
+export const fetchPostUserRole = (id, newRoleID) => (dispatch) => {
   fetch(`http://localhost:3005/users/${id}`, {
     method: "PATCH",
     headers: {
@@ -41,7 +41,7 @@ export const postUserRole = (id, newRoleID) => (dispatch) => {
     );
 };
 
-export const deleteUser = (id) => (dispatch) => {
+export const fetchDeleteUser = (id) => (dispatch) => {
   fetch(`http://localhost:3005/users/${id}`, {
     method: "DELETE",
   }).then((res) => {

@@ -1,4 +1,4 @@
-import { addUser, getUser } from "../services";
+import { fetchAddUser, fetchGetUser } from "../services";
 import { sessions } from "./sessions";
 
 export const server = {
@@ -6,7 +6,7 @@ export const server = {
     let user;
     let serverError;
     try {
-      user = await getUser(inputLogin);
+      user = await fetchGetUser(inputLogin);
     } catch (error) {
       console.error(error);
       serverError = "Ошибка сервера";
@@ -36,13 +36,13 @@ export const server = {
   async register(inputLogin, inputPassword) {
     let user;
     try {
-      user = await getUser(inputLogin);
+      user = await fetchGetUser(inputLogin);
       if (user)
         return {
           error: "Такой логин уже занят",
           res: null,
         };
-      user = await addUser(inputLogin, inputPassword);
+      user = await fetchAddUser(inputLogin, inputPassword);
     } catch (error) {
       console.error(error);
       return {

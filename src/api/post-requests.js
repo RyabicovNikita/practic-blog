@@ -1,11 +1,11 @@
 import { generateDateTime } from "../services";
 
-export const getPosts = () =>
+export const fetchGetPosts = () =>
   fetch("http://localhost:3005/posts")
     .then((res) => res.json())
     .then((posts) => posts);
 
-export const getPostById = (id) =>
+export const fetchGetPostById = (id) =>
   fetch(`http://localhost:3005/posts/${id}`)
     .then((res) => res.json())
     .then((post) => post);
@@ -49,6 +49,5 @@ export const fetchCreatePost = (data) =>
     body: JSON.stringify({
       ...data,
       published_at: generateDateTime(),
-      likes: 0,
     }),
   }).then((data) => data.json());

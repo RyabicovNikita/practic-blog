@@ -3,7 +3,7 @@ import "./PostContent.scss";
 import { selectPost, selectUser } from "../../../../services/store/selectors/selectors";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { fetchSavePost } from "../../../../api";
-import { POST_ACTION_TYPES } from "../../../../services/store/actions";
+import { addLike, deleteLike, POST_ACTION_TYPES } from "../../../../services/store/actions";
 import { MIN_HEIGTH_POST } from "../../../../services";
 import { useForm } from "react-hook-form";
 import { Error } from "../../../../components/Error/Error";
@@ -27,10 +27,12 @@ export const PostContent = ({ setIsModalOpen }) => {
     formState: { errors },
   } = useForm(getPostFormParams({ image_url: "" }));
 
-  const { role_id } = useSelector(selectUser);
+  const { id: userId, role_id: user_role_id } = useSelector(selectUser);
 
-  const { image_url, published_at, content, title } = post;
+  const { id: postId, image_url, published_at, content, title, likedUsers } = post;
 
+  const isUserPutLike = !!likedUsers.find((likeData) => likeData.user_id === userId);
+  console.log(isUserPutLike);
   const [isEditPost, setIsEditPost] = useState(false);
 
   const registerInputs = (isInit = true) => {
@@ -89,6 +91,14 @@ export const PostContent = ({ setIsModalOpen }) => {
     setValue(target.name, target.value, { shouldDirty: false, shouldValidate: true });
   };
 
+  const onLikeClick = () => {
+    dispatch(addLike(userId, postId));
+  };
+
+  const onDislikeClick = () => {
+    dispatch(deleteLike(userId, postId));
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <section className="blog__top-content">
@@ -119,7 +129,7 @@ export const PostContent = ({ setIsModalOpen }) => {
         </div>
         {titleError && <Error>{titleError}</Error>}
       </section>
-      {role_id !== 3 && (
+      {user_role_id !== 3 && (
         <div className="blog__blog-content">
           <div className="blog__actions">
             <div className="blog__actions-container">
@@ -127,8 +137,11 @@ export const PostContent = ({ setIsModalOpen }) => {
               <button className="blog__post-submit" type="submit">
                 <i className="fa fa-pencil-square-o" aria-hidden="true"></i>
               </button>
-              <i className="fa fa-thumbs-o-up blog__like" aria-hidden="true"></i>
-              <i class="fa fa-thumbs-up blog__like" aria-hidden="true"></i>
+              {isUserPutLike ? (
+                <i class="fa fa-thumbs-up blog__dislike" aria-hidden="true" onClick={onDislikeClick}></i>
+              ) : (
+                <i className="fa fa-thumbs-o-up blog__like" aria-hidden="true" onClick={onLikeClick}></i>
+              )}
             </div>
           </div>
         </div>

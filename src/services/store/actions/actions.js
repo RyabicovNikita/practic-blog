@@ -5,14 +5,21 @@ import {
   fetchCommentsPost,
   fetchDeletePost,
   fetchDeleteComment,
-  getPostById,
-  getUsersFromDb,
+  fetchGetPostById,
+  fetchGetUsers,
   fetchCreatePost,
+  fetchGetPosts,
 } from "../../../api";
-import { getRolesFromDb } from "../../../api/roles-requests";
+import { fetchGetRoles } from "../../../api/roles-requests";
 import { sessions } from "../../../bff/sessions";
 import { DATE_FORMATS, ROLES } from "../../constants";
 import { DateTime } from "luxon";
+import {
+  fetchAddUserLike,
+  fetchDeleteUserLike,
+  fetchGetLikes,
+  fetchGetPostLikedUsers,
+} from "../../../api/likes-requests";
 
 export const setUser = (user) => ({
   type: USER_ACTION_TYPES.SET_USER,
@@ -33,7 +40,7 @@ export const getUsers = async (userSession) => {
     };
   }
 
-  return getUsersFromDb()
+  return fetchGetUsers()
     .then((users) => ({ type: USERS_ACTION_TYPES.GET_USERS, payload: users }))
     .catch((error) => ({ error: error, errorMsg: "Ошибка сервера", payload: null }));
 };
@@ -46,7 +53,7 @@ export const getRoles = async (userSession) => {
       res: null,
     };
   }
-  return getRolesFromDb()
+  return fetchGetRoles()
     .then((roles) => ({ type: ROLES_ACTION_TYPES.GET_ROLES, payload: roles }))
     .catch((error) => ({ error: error, errorMsg: "Ошибка сервера", payload: null }));
 };
@@ -62,7 +69,7 @@ export const addNewComment = (user, postId, content) => (dispatch) => {
 
 export const getCommentsPost = (postId) =>
   fetchCommentsPost(postId).then((comments) =>
-    getUsersFromDb().then((users) =>
+    fetchGetUsers().then((users) =>
       comments.map((comment) => ({
         ...comment,
         author_login: users.find((user) => user.id === comment.author_id)?.login,
@@ -72,9 +79,11 @@ export const getCommentsPost = (postId) =>
 
 export const getPost = async (postId) => {
   try {
-    const post = await getPostById(postId);
+    const post = await fetchGetPostById(postId);
 
     const commentsPost = await getCommentsPost(postId);
+
+    const likedUsers = await fetchGetPostLikedUsers(postId);
 
     const sortByDateComments = commentsPost.sort((a, b) => {
       if (
@@ -92,7 +101,7 @@ export const getPost = async (postId) => {
       return 0;
     });
 
-    return { ...post, comments: sortByDateComments };
+    return { ...post, comments: sortByDateComments, likedUsers };
   } catch (error) {
     console.error(error);
   }
@@ -115,3 +124,15 @@ export const createNewPost = (data) => fetchCreatePost(data).then((newPostData) 
 
 export const deleteComment = (commentId) => (dispatch) =>
   fetchDeleteComment(commentId).then(() => dispatch({ type: POST_ACTION_TYPES.DELETE_COMMENT, payload: commentId }));
+
+export const getPosts = async () => {
+  const posts = await fetchGetPosts();
+  const likes = await fetchGetLikes();
+  return posts.map((post) => ({ ...post, likes: likes.filter((l) => l.post_id === post.id).length }));
+};
+
+export const addLike = (user_id, post_id) => (dispatch) =>
+  fetchAddUserLike(user_id, post_id).then((likeData) => dispatch({ type: POST_ACTION_TYPES.LIKE, payload: likeData }));
+
+export const deleteLike = (user_id, post_id) => (dispatch) =>
+  fetchDeleteUserLike(user_id, post_id).then(() => dispatch({ type: POST_ACTION_TYPES.DISLIKE, payload: user_id }));
