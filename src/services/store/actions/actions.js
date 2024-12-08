@@ -67,7 +67,9 @@ export const addNewComment = (user, postId, content) => (dispatch) => {
   });
 };
 
-export const getCommentsPost = (postId) =>
+export const getCommentsCount = (postId) => fetchCommentsPost(postId).then((comments) => comments.length);
+
+export const getCommentsWithAuthor = (postId) =>
   fetchCommentsPost(postId).then((comments) =>
     fetchGetUsers().then((users) =>
       comments.map((comment) => ({
@@ -81,7 +83,7 @@ export const getPost = async (postId) => {
   try {
     const post = await fetchGetPostById(postId);
 
-    const commentsPost = await getCommentsPost(postId);
+    const commentsPost = await getCommentsWithAuthor(postId);
 
     const likedUsers = await fetchGetPostLikedUsers(postId);
 

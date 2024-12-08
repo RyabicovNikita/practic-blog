@@ -134,6 +134,12 @@ h3:after {
   margin-left: 10px;
   margin-right: 10px;
   list-style: none;
+  li {
+    background-color: #3f3e3e4a;
+    padding: 5px;
+    box-sizing: border-box;
+    border-radius: 10px;
+  }
 }
 
 .icon-container {

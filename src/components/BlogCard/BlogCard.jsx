@@ -1,15 +1,15 @@
 import { Link } from "react-router-dom";
 import "./BlogCard.scss";
-import { getCommentsPost } from "../../services/store/actions";
 import { useEffect, useState } from "react";
 import { dateTimeToDate } from "../../services";
+import { getCommentsCount } from "../../services/store/actions";
 
 export const BlogCard = ({ post }) => {
   const [countComments, setCountComments] = useState(null);
   const { id, title, content, image_url, published_at, likes } = post;
 
   useEffect(() => {
-    getCommentsPost(id).then((comments) => setCountComments(comments?.length));
+    getCommentsCount(id).then((count) => setCountComments(count));
   }, [id]);
 
   return (

@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { BlogCard } from "../../components/BlogCard/BlogCard";
 import { Footer } from "./components/Footer/Footer";
 import { useEffect, useRef } from "react";
-import { fetchGetPosts } from "../../api";
 import { useDispatch, useSelector } from "react-redux";
 
 import "./Main.scss";
