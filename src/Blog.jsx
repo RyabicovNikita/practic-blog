@@ -11,6 +11,7 @@ import { selectUserRole } from "./services/store/selectors/selectors";
 import { ROLES } from "./services";
 import { Error } from "./components";
 import { NewPost, Post } from "./pages/Post";
+import { NotFound } from "./pages/NotFound/NotFound";
 
 function Blog() {
   const location = useLocation();
@@ -24,7 +25,7 @@ function Blog() {
         <Route path="/users" element={<Users />} />
         <Route path="/post" element={userRoleID === ROLES.ADMIN ? <NewPost /> : <Error>Ошибка доступа</Error>} />
         <Route path="/post/:postId" element={<Post />} />
-        <Route path="*" element={<div>Ошибка</div>} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       {location.pathname !== "/" && <Footer />}
     </div>
