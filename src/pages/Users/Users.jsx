@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./Users.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { getRoles, getUsers, ROLES_ACTION_TYPES, USERS_ACTION_TYPES } from "../../services/store/actions";
@@ -27,28 +27,18 @@ export const Users = () => {
   const dispatch = useDispatch();
   const users = useSelector(selectUsers);
   const userSession = useSelector(selectUserSession);
-  const [usersError, setUsersError] = useState(null);
-  const [rolesError, setRolesError] = useState(null);
+  const [accessError, setAccessError] = useState(null);
   useEffect(() => {
-    getRoles(userSession).then((action) => {
-      if (action.error) {
-        setRolesError(action.error);
-        console.error(action.error);
+    Promise.all([getRoles(userSession), getUsers(userSession)]).then((responsibles) => {
+      const errResponse = responsibles.find((response) => response.res === null);
+      if (errResponse) {
+        setTimeout(() => setAccessError(errResponse.error), [500]);
         return;
-      } else {
-        dispatch(action);
-        setRolesError(null);
       }
-    });
-    getUsers(userSession).then((action) => {
-      if (action.error) {
-        setUsersError(action.error);
-        console.error(action.error);
-        return;
-      } else {
-        dispatch(action);
-        setUsersError(null);
-      }
+      setAccessError(null);
+      setTimeout(() => {
+        responsibles.forEach((res) => dispatch(res));
+      }, [500]);
     });
     return () => {
       dispatch({ type: USERS_ACTION_TYPES.CLEAR_USERS });
@@ -59,8 +49,8 @@ export const Users = () => {
   return (
     <div className="users">
       <div className="users__scrollable">
-        {usersError || rolesError ? (
-          <Error>{usersError || rolesError}</Error>
+        {accessError ? (
+          <Error className="users__error">{accessError}</Error>
         ) : (
           <Table
             styles={tableStyleProps}

@@ -12,18 +12,25 @@
   animation: blur-test reverse;
   animation-duration: 1s;
   &__scrollable {
+    transition: 1s;
+    max-width: 70vw;
     background-color: black;
     height: 75vh;
     overflow-y: scroll;
     box-shadow: 0px 15px 30px 30px black;
+    animation: table-open forwards 0.5s;
+  }
+  &__error {
+    width: 100%;
+    height: 100%;
   }
 }
 
-@keyframes blur-test {
+@keyframes table-open {
   0% {
-    opacity: 1;
+    width: 7px;
   }
   100% {
-    opacity: 0;
+    width: 75vw;
   }
 }
