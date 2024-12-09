@@ -9,6 +9,12 @@ import { useForm } from "react-hook-form";
 import { Error } from "../../../../components/Error/Error";
 import { getPostFormParams } from "../../validates";
 
+const FIELD_NAME = {
+  title: "title",
+  content: "content",
+  image_url: "image_url",
+};
+
 export const PostContent = ({ setIsModalOpen }) => {
   const [serverError, setServerError] = useState(null);
   const deleteServerErrorIfNeed = () => {
@@ -32,19 +38,16 @@ export const PostContent = ({ setIsModalOpen }) => {
   const { id: postId, image_url, published_at, content, title, likedUsers } = post;
 
   const isUserPutLike = !!likedUsers.find((likeData) => likeData.user_id === userId);
-  console.log(isUserPutLike);
+
   const [isEditPost, setIsEditPost] = useState(false);
 
   const registerInputs = (isInit = true) => {
     if (isInit) {
-      register("title", { value: title });
-      register("content", { value: content });
-      register("image_url", { value: image_url });
-    } else {
-      unregister("title");
-      unregister("content");
-      unregister("image_url");
-    }
+      Object.values(FIELD_NAME).forEach((fieldName) => register(fieldName));
+      setValue(FIELD_NAME.title, title, { shouldValidate: true });
+      setValue(FIELD_NAME.content, content, { shouldValidate: true });
+      setValue(FIELD_NAME.image_url, image_url, { shouldValidate: true });
+    } else Object.values(FIELD_NAME).forEach((fieldName) => unregister(fieldName));
   };
 
   const postValue = getValues();
@@ -105,7 +108,7 @@ export const PostContent = ({ setIsModalOpen }) => {
         <img alt="" className="blog__main-image" src={postValue.image_url}></img>
         {isEditPost && (
           <input
-            name="image_url"
+            name={FIELD_NAME.image_url}
             className="blog__input-url"
             placeholder="Введите URL картинки"
             value={postValue.image_url}
@@ -117,7 +120,7 @@ export const PostContent = ({ setIsModalOpen }) => {
           style={{ borderColor: titleError ? "red" : "white" }}
         >
           <input
-            name="title"
+            name={FIELD_NAME.title}
             className="blog__text-title"
             value={postValue.title}
             disabled={!isEditPost}
@@ -149,7 +152,7 @@ export const PostContent = ({ setIsModalOpen }) => {
       <section className="blog__main-content">
         {contentError && <Error>{contentError}</Error>}
         <textarea
-          name="content"
+          name={FIELD_NAME.content}
           className={isEditPost ? "blog__edit-content edit" : "blog__content"}
           style={{ borderColor: contentError ? "red" : "white" }}
           ref={contentRef}
