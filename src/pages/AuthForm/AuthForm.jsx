@@ -9,7 +9,6 @@ import { Error } from "../../../src/components/Error/Error";
 import "./AuthForm.scss";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
-import { uuidv4 } from "../../services";
 import { setUser } from "../../services/store/slice/authSlice";
 
 const shapeObject = {
@@ -75,7 +74,7 @@ export const AuthForm = () => {
     navigate(-1);
   };
   const handleClick = () => {
-    setIsRegister(true);
+    setIsRegister((prevState) => !prevState);
     resetServerError();
     reset();
   };
