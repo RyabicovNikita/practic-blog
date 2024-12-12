@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { fetchDeleteUser, fetchPostUserRole } from "../../../../api";
 import { selectRoles, selectUser } from "../../../../services/store/selectors/selectors";
+import { Icon } from "../../../../components";
 export const RoleWithSaveIcon = ({ user }) => {
   const dispatch = useDispatch();
   const currentUser = useSelector(selectUser);
@@ -50,14 +51,14 @@ export const RoleWithSaveIcon = ({ user }) => {
           disabled={selectedRole?.id === user?.role_id}
           onClick={() => dispatch(fetchPostUserRole(user.id, selectedRole?.id))}
         >
-          <i className="role-container__save fa fa-floppy-o" aria-hidden="true"></i>
+          <Icon className="fa fa-floppy-o" />
         </button>
         <button
           className="role-container__delete-user"
           disabled={currentUser.login === user.login}
           onClick={() => dispatch(fetchDeleteUser(user.id))}
         >
-          <i className="fa fa-trash role-container__delete" aria-hidden="true"></i>
+          <Icon className="fa fa-trash" />
         </button>
       </div>
     </>

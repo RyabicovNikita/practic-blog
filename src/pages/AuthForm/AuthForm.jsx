@@ -71,18 +71,10 @@ export const AuthForm = () => {
       setServerError(error);
       return;
     }
-
     dispatch(setUser(res));
-    // dispatch(setUser(res));
-    localStorage.setItem("token", uuidv4());
     navigate(-1);
   };
-  const onSignInClick = () => {
-    setIsRegister(false);
-    resetServerError();
-    reset();
-  };
-  const onSignOutClick = () => {
+  const handleClick = () => {
     setIsRegister(true);
     resetServerError();
     reset();
@@ -95,16 +87,15 @@ export const AuthForm = () => {
       <div className="auth__auth-blur">
         <form onSubmit={handleSubmit(onSubmit)} className="auth__auth-form">
           <div className="auth__header-container">
-            <a onClick={onSignInClick} className={`auth__header ${!isRegister ? "active" : ""}`}>
+            <div onClick={handleClick} className={`auth__header ${!isRegister ? "active" : ""}`}>
               SIGN IN
-            </a>
-            <a onClick={onSignOutClick} className={`auth__header ${isRegister ? "active" : ""}`}>
+            </div>
+            <div onClick={handleClick} className={`auth__header ${isRegister ? "active" : ""}`}>
               SIGN UP
-            </a>
+            </div>
           </div>
           <div className="auth__input-fields">
             <Input
-              className="auth__input"
               type="text"
               placeholder="Username"
               name="login"
@@ -113,7 +104,6 @@ export const AuthForm = () => {
               })}
             />
             <Input
-              className="auth__input"
               type="password"
               name="password"
               placeholder="Password"
@@ -123,7 +113,6 @@ export const AuthForm = () => {
             />
             {isRegister && (
               <Input
-                className="auth__input"
                 name="repeat_password"
                 type="password"
                 placeholder="Repeat password"

@@ -4,7 +4,6 @@ import styled from "styled-components";
 const InputContainer = forwardRef(({ className, ...props }, ref) => (
   <input className={className} {...props} ref={ref} />
 ));
-//auth__input
 
 export const Input = styled(InputContainer)`
   font-family: "Renju";
@@ -15,4 +14,10 @@ export const Input = styled(InputContainer)`
   background-color: #00000000;
   font-size: 1em;
   padding-top: 1em;
+  &::placeholder {
+    color: white;
+    font-family: "Elite";
+    font-size: 1em;
+    text-shadow: 0px 3px black;
+  }
 `;

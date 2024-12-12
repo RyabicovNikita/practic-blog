@@ -3,8 +3,7 @@ import "./Blog.css";
 
 import { AuthForm } from "./pages/AuthForm/AuthForm";
 import { Users } from "./pages/Users/Users";
-import { Footer, Header } from "./pages/Main/components";
-import { Main } from "./pages/Main/Main";
+import { Footer, HeaderContainer } from "./pages/Main/components";
 
 import { useSelector } from "react-redux";
 import { selectUserRole } from "./services/store/selectors/selectors";
@@ -12,15 +11,16 @@ import { ROLES } from "./services";
 import { Error } from "./components";
 import { NewPost, Post } from "./pages/Post";
 import { NotFound } from "./pages/NotFound/NotFound";
+import { MainContainer } from "./pages/Main";
 
 function Blog() {
   const location = useLocation();
   const userRoleID = useSelector(selectUserRole);
   return (
     <div className="app">
-      <Header />
+      <HeaderContainer />
       <Routes>
-        <Route path="/" element={<Main />} />
+        <Route path="/" element={<MainContainer />} />
         <Route path="/auth" element={<AuthForm>SIGN IN</AuthForm>} />
         <Route path="/users" element={<Users />} />
         <Route path="/post" element={userRoleID === ROLES.ADMIN ? <NewPost /> : <Error>Ошибка доступа</Error>} />

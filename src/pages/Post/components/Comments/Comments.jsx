@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectComments, selectPost, selectUser } from "../../../../services/store/selectors/selectors";
 
 import { addNewComment, deleteComment } from "../../../../services/store/actions";
-import { ContextMenu, Error } from "../../../../components";
+import { ContextMenu, Error, Icon } from "../../../../components";
 
 import "./Comments.scss";
 import { useForm } from "react-hook-form";
@@ -104,7 +104,7 @@ export const Comments = () => {
             })}
           ></textarea>
           <button className="comments__add-comment">
-            <i className="fa fa-paper-plane comments__add-comment-icon" aria-hidden="true"></i>
+            <Icon className="a fa-paper-plane" />
           </button>
         </div>
         {(commentError || accessError) && (

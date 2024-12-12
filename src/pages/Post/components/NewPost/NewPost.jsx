@@ -1,4 +1,3 @@
-import * as yup from "yup";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import "./NewPost.scss";
 import { MIN_HEIGTH_POST } from "../../../../services";
@@ -7,6 +6,7 @@ import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { Error } from "../../../../components/Error/Error";
 import { getPostFormParams } from "../../validates";
+import { Icon } from "../../../../components";
 
 export const NewPost = () => {
   const navigate = useNavigate();
@@ -88,7 +88,7 @@ export const NewPost = () => {
 
       <div className="blog__actions">
         <button className="blog__action-container" type="submit">
-          <i className="fa fa-floppy-o blog__save" aria-hidden="true"></i>
+          <Icon className="fa fa-floppy-o" />
         </button>
         {/* {errorMessage && <Error className={"blog__create-error"}>{errorMessage}</Error>} */}
       </div>

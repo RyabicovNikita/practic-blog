@@ -1,105 +1,68 @@
 import styled from "styled-components";
-
-import "./Header.scss";
-import { useLocation, useNavigate } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-
-import { selectUserLogin, selectUserRole } from "../../../../services/store/selectors/selectors";
-import { logout } from "../../../../services/store/slice/authSlice";
-import { ROLES } from "../../../../services";
 import { DropDownMenu } from "../../../../components/DropDownMenu/DropDownMenu";
+import { headerBack_img, logoBack_img } from "../../../../images";
+import { Navigation } from "./components";
+import { NavBarContainer } from "./components/NavBar/NavBar";
+import "./Header.scss";
 
-const defaultStyle = {
-  padding: "10px",
-  "border-radius": "15px",
-  display: "flex",
-};
-
-const Navigate = styled.nav`
-  ${defaultStyle}
-  align-items: center;
-  justify-content: center;
-  gap: 30px;
-  background-color: #474545c2;
-`;
-
-const Settings = styled.div`
+const Header = styled.div`
   display: flex;
-  gap: 35px;
+  gap: 15px;
+  height: 100%;
+  max-height: 120px;
+  background-image: url(${({ href }) => href});
+  background-size: cover;
+  background-origin: border-box;
+  background-position: bottom;
+  background-repeat: no-repeat;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  padding: 10px;
   align-items: center;
+  justify-content: space-between;
+  font-size: 35px;
+  padding-left: 25px;
+  padding-right: 25px;
+  box-sizing: border-box;
+  box-shadow: 0px 20px 25px 2px rgba(0, 0, 0, 1);
 `;
 
-export const Header = () => {
-  const roleId = useSelector(selectUserRole);
-  const navigate = useNavigate();
-  const location = useLocation();
+const LogoLink = styled(Link)`
+  text-decoration: none;
+  color: white;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 15px;
+  display: flex;
+  font-size: 65px;
+  width: 270px;
+  background-image: url(${({ href }) => href});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+`;
 
-  const userLogin = useSelector(selectUserLogin);
-
-  const dispatch = useDispatch();
+export const HeaderContainer = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [contextMenuAnimation, setContextMenuAnimation] = useState({});
 
-  const onMenuClick = () => {
-    const animationOptions = {
-      animation: isMenuOpen ? "close-menu 1s" : "open-menu 1s",
-      "animation-fill-mode": "forwards",
-    };
-    if (isMenuOpen) {
-      setTimeout(() => setIsMenuOpen(false), 1000);
-    } else {
-      setIsMenuOpen(true);
-      setTimeout(() => {
-        setContextMenuAnimation({ ...animationOptions, animation: "close-menu 1s" });
-        setTimeout(() => setIsMenuOpen(false), 1000);
-      }, 15000);
-    }
-    setContextMenuAnimation(animationOptions);
-  };
-
-  const onReplyIconClick = () => {
-    navigate(-1);
-  };
-
-  const onLogoutClick = () => {
-    dispatch(logout());
-    navigate("/");
-  };
-
   return (
     <>
-      <div className="header">
-        <Link to="/" className="header__logo">
+      <Header href={headerBack_img}>
+        <LogoLink href={logoBack_img} to="/">
           Blog
-        </Link>
-        <Navigate>
-          <Link to="/" className={"header__menuItem " + (location.pathname === "/" ? "active" : "")}>
-            Main
-          </Link>
-          {roleId === ROLES.ADMIN && (
-            <Link to="/post" className={"header__menuItem " + (location.pathname === "/post" ? "active" : "")}>
-              New Blog
-            </Link>
-          )}
-        </Navigate>
-        <Settings>
-          <div className="logo icon">
-            <i className="fa fa-reply backIcon" aria-hidden="true" onClick={onReplyIconClick}></i>
-          </div>
-          {userLogin ? (
-            <a onClick={onLogoutClick} className="header__auth-button">
-              Logout
-            </a>
-          ) : (
-            <Link to="/auth" className="header__auth-button">
-              Login
-            </Link>
-          )}
-          <i onClick={onMenuClick} className="fa fa-bars more" aria-hidden="true"></i>
-        </Settings>
-      </div>
+        </LogoLink>
+        <Navigation />
+        <NavBarContainer
+          isMenuOpen={isMenuOpen}
+          setIsMenuOpen={setIsMenuOpen}
+          setContextMenuAnimation={setContextMenuAnimation}
+        />
+      </Header>
       {isMenuOpen && <DropDownMenu setIsMenuOpen={setIsMenuOpen} animation={contextMenuAnimation} />}
     </>
   );

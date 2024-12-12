@@ -8,6 +8,7 @@ import { MIN_HEIGTH_POST } from "../../../../services";
 import { useForm } from "react-hook-form";
 import { Error } from "../../../../components/Error/Error";
 import { getPostFormParams } from "../../validates";
+import { Icon } from "../../../../components";
 
 const FIELD_NAME = {
   title: "title",
@@ -134,17 +135,16 @@ export const PostContent = ({ setIsModalOpen }) => {
       </section>
       {user_role_id !== 3 && (
         <div className="blog__blog-content">
-          <div className="blog__actions">
+          <div className="blog__actions" style={{ position: "relative" }}>
             <div className="blog__actions-container">
-              <i className="fa fa-trash blog__delete" onClick={handleDelete} aria-hidden="true"></i>
+              <Icon className="fa fa-trash" onClick={handleDelete} />
               <button className="blog__post-submit" type="submit">
-                <i className="fa fa-pencil-square-o" aria-hidden="true"></i>
+                <Icon className="fa fa-pencil-square-o" />
               </button>
-              {isUserPutLike ? (
-                <i class="fa fa-thumbs-up blog__dislike" aria-hidden="true" onClick={onDislikeClick}></i>
-              ) : (
-                <i className="fa fa-thumbs-o-up blog__like" aria-hidden="true" onClick={onLikeClick}></i>
-              )}
+              <Icon
+                className={isUserPutLike ? "fa fa-thumbs-up" : "fa fa-thumbs-o-up"}
+                onClick={isUserPutLike ? onDislikeClick : onLikeClick}
+              />
             </div>
           </div>
         </div>
