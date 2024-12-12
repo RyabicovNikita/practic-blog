@@ -7,43 +7,38 @@ import { Navigation } from "./components";
 import { NavBarContainer } from "./components/NavBar/NavBar";
 import "./Header.scss";
 
-const Header = styled.div`
+const getStyles = ({ href, backGroundPosition, jContent, fontSize }) => `
   display: flex;
-  gap: 15px;
+  justify-content: ${jContent};
+  background-size: cover;
+  background-repeat: no-repeat;
+  align-items: center;
+  background-image: url(${href});
+  background-position: ${backGroundPosition};
+  font-size: ${fontSize}px;
+  `;
+
+const Header = styled.div`
+  position: relative;
   height: 100%;
   max-height: 120px;
-  background-image: url(${({ href }) => href});
-  background-size: cover;
+  gap: 15px;
   background-origin: border-box;
-  background-position: bottom;
-  background-repeat: no-repeat;
-  position: relative;
   z-index: 2;
-  display: flex;
-  padding: 10px;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 35px;
   padding-left: 25px;
   padding-right: 25px;
   box-sizing: border-box;
   box-shadow: 0px 20px 25px 2px rgba(0, 0, 0, 1);
+  ${({ href, backGroundPosition, jContent, fontSize }) => getStyles({ href, backGroundPosition, jContent, fontSize })}
 `;
 
 const LogoLink = styled(Link)`
+  width: 270px;
   text-decoration: none;
   color: white;
-  display: flex;
-  justify-content: center;
   padding: 10px;
   border-radius: 15px;
-  display: flex;
-  font-size: 65px;
-  width: 270px;
-  background-image: url(${({ href }) => href});
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  ${({ href, backGroundPosition, jContent, fontSize }) => getStyles({ href, backGroundPosition, jContent, fontSize })}
 `;
 
 export const HeaderContainer = () => {
@@ -52,8 +47,8 @@ export const HeaderContainer = () => {
 
   return (
     <>
-      <Header href={headerBack_img}>
-        <LogoLink href={logoBack_img} to="/">
+      <Header href={headerBack_img} backGroundPosition="bottom" jContent="space-between" fontSize="35">
+        <LogoLink href={logoBack_img} to="/" backGroundPosition="center" jContent="center" fontSize="65">
           Blog
         </LogoLink>
         <Navigation />
