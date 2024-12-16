@@ -21,6 +21,7 @@ const shapeObject = {
 export const Comments = () => {
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
   const [deletedCommentID, setDeletedCommentID] = useState(null);
+  const [sendOnHoverClass, setSendOnHoverClass] = useState("-o");
   const [points, setPoints] = useState({
     x: 0,
     y: 0,
@@ -105,8 +106,13 @@ export const Comments = () => {
               onChange: () => setAccessError(null),
             })}
           ></textarea>
-          <button className="comments__add-comment" onClick={onClick}>
-            <Icon className="fa fa-paper-plane-o" />
+          <button
+            className="comments__add-comment"
+            onClick={onClick}
+            onMouseOver={() => setSendOnHoverClass("")}
+            onMouseOut={() => setSendOnHoverClass("-o")}
+          >
+            <Icon className={`fa fa-paper-plane${sendOnHoverClass}`} />
           </button>
         </div>
         {(accessError || commentError) && (

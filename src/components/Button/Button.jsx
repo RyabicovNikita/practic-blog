@@ -8,6 +8,9 @@ const ButtonContainer = ({ className, disabled, onClick, children }) => (
 
 export const Button = styled(ButtonContainer)`
   ${({ styles }) => styles};
+  :hover {
+    ${({ setSendIconClassName }) => setSendIconClassName("")}
+  }
   :first-child {
     color: ${({ disabled }) => (disabled ? "gray" : "inherit")};
   }
