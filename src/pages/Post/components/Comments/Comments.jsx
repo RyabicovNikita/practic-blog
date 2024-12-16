@@ -47,13 +47,15 @@ export const Comments = () => {
   const dispatch = useDispatch();
 
   const onSubmit = ({ comment }) => {
-    if (!user.id) {
-      setAccessError("Только авторизированные пользователи могут оставлять комментарии.");
-      setTimeout(() => setAccessError(null), 3000);
-      return;
-    }
     dispatch(addNewComment(user, postId, comment));
     reset();
+  };
+
+  const onClick = () => {
+    if (!user.id) {
+      setAccessError("Только авторизированные пользователи могут оставлять комментарии.");
+      setTimeout(() => setAccessError(null), 5000);
+    }
   };
 
   useEffect(() => {
@@ -95,7 +97,7 @@ export const Comments = () => {
         <div className="comments__input-container">
           <textarea
             className="comments__comment edit"
-            style={{ borderColor: commentError ? "red" : "white" }}
+            style={{ borderColor: commentError || accessError ? "red" : "white" }}
             type="text"
             name="input-comment"
             placeholder="Комментарий..."
@@ -103,13 +105,13 @@ export const Comments = () => {
               onChange: () => setAccessError(null),
             })}
           ></textarea>
-          <button className="comments__add-comment">
-            <Icon className="a fa-paper-plane" />
+          <button className="comments__add-comment" onClick={onClick}>
+            <Icon className="fa fa-paper-plane-o" />
           </button>
         </div>
-        {(commentError || accessError) && (
+        {(accessError || commentError) && (
           <div className="comments__error-window">
-            <Error>{commentError || accessError}</Error>
+            <Error>{accessError || commentError}</Error>
           </div>
         )}
       </form>

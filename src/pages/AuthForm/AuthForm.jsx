@@ -125,7 +125,7 @@ export const AuthForm = () => {
             <button disabled={!!formError} className="auth__submit" type="submit">
               {isRegister ? "Register" : "Login"}
             </button>
-            {errorMessage && <Error className={"submit-error"}>{errorMessage}</Error>}
+            {errorMessage && <Error>{errorMessage}</Error>}
           </div>
         </form>
       </div>

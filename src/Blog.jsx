@@ -2,7 +2,7 @@ import { Route, Routes, useLocation } from "react-router";
 import "./Blog.css";
 
 import { AuthForm } from "./pages/AuthForm/AuthForm";
-import { Users } from "./pages/Users/Users";
+
 import { Footer, HeaderContainer } from "./pages/Main/components";
 
 import { useSelector } from "react-redux";
@@ -11,7 +11,7 @@ import { ROLES } from "./services";
 import { Error } from "./components";
 import { NewPost, Post } from "./pages/Post";
 import { MainContainer } from "./pages/Main";
-import { Error404 } from "./pages";
+import { Error404, Users } from "./pages";
 
 function Blog() {
   const location = useLocation();

@@ -1,21 +1,31 @@
 import { useEffect, useState } from "react";
-import "./RoleWithSaveIcon.scss";
 import { RecordSelectionMenu } from "../RecordSelectionMenu/RecordSelectionMenu";
 import { useDispatch, useSelector } from "react-redux";
 
 import { fetchDeleteUser, fetchPostUserRole } from "../../../../api";
 import { selectRoles, selectUser } from "../../../../services/store/selectors/selectors";
-import { Icon } from "../../../../components";
+import { Button, Icon } from "../../../../components";
+import { Field } from "./components";
+import styled from "styled-components";
+
+const Container = ({ className, children }) => <div className={className}>{children}</div>;
+
+const StyledContainer = styled(Container)`
+  display: flex;
+  gap: 25px;
+  align-items: center;
+  justify-content: center;
+  button {
+    all: unset;
+  }
+`;
+
 export const RoleWithSaveIcon = ({ user }) => {
   const dispatch = useDispatch();
   const currentUser = useSelector(selectUser);
   const [isMenuSelectOpen, setIsMenuSelectOpen] = useState(false);
   const roles = useSelector(selectRoles);
   const [selectedRole, setSelectedRole] = useState(roles?.find((role) => role.id === user.role_id));
-
-  const onSelectClick = () => {
-    setIsMenuSelectOpen(true);
-  };
 
   useEffect(() => {
     const close = (e) => {
@@ -32,35 +42,23 @@ export const RoleWithSaveIcon = ({ user }) => {
       {isMenuSelectOpen && (
         <RecordSelectionMenu setIsMenuSelectOpen={setIsMenuSelectOpen} setSelectedRole={setSelectedRole} user={user} />
       )}
-      <div className="role-container">
-        <div className="role-container__role">
-          <span className="role-container__role-name">{selectedRole?.name}</span>{" "}
-          {currentUser.login !== user.login && (
-            <div>
-              <img
-                alt=""
-                className="role-container__select"
-                onClick={onSelectClick}
-                src={require("../../../../icons/tree-dots.png")}
-              />
-            </div>
-          )}
-        </div>
-        <button
-          className="role-container__save-user"
+      <StyledContainer>
+        <Field
+          visitorLogin={currentUser?.login}
+          userLogin={user?.login}
+          roleName={selectedRole?.name}
+          setIsMenuSelectOpen={setIsMenuSelectOpen}
+        />
+        <Button
           disabled={selectedRole?.id === user?.role_id}
           onClick={() => dispatch(fetchPostUserRole(user.id, selectedRole?.id))}
         >
           <Icon className="fa fa-floppy-o" />
-        </button>
-        <button
-          className="role-container__delete-user"
-          disabled={currentUser.login === user.login}
-          onClick={() => dispatch(fetchDeleteUser(user.id))}
-        >
+        </Button>
+        <Button disabled={currentUser.login === user.login} onClick={() => dispatch(fetchDeleteUser(user.id))}>
           <Icon className="fa fa-trash" />
-        </button>
-      </div>
+        </Button>
+      </StyledContainer>
     </>
   );
 };

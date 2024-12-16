@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from "react";
-import "./Users.scss";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getRoles, getUsers, ROLES_ACTION_TYPES, USERS_ACTION_TYPES } from "../../services/store/actions";
 import { Error } from "../../components";
 import { Table } from "../../components/Table/Table";
 import { RoleWithSaveIcon } from "./components/RoleWithSaveIcon/RoleWithSaveIcon";
 import { selectUsers, selectUserSession } from "../../services/store/selectors/selectors";
+import { ScrollableContainer } from "./components";
 
 const tableStyleProps = {
   table: {
@@ -47,23 +47,21 @@ export const Users = () => {
   }, []);
 
   return (
-    <div className="users">
-      <div className="users__scrollable">
-        {accessError ? (
-          <Error className="users__error">{accessError}</Error>
-        ) : (
-          <Table
-            styles={tableStyleProps}
-            data={
-              users.length
-                ? users.map((user) => ({
-                    columns: [user.login, user.registed_at, <RoleWithSaveIcon user={user} />],
-                  }))
-                : []
-            }
-          />
-        )}
-      </div>
-    </div>
+    <ScrollableContainer>
+      {accessError ? (
+        <Error>{accessError}</Error>
+      ) : (
+        <Table
+          styles={tableStyleProps}
+          data={
+            users.length
+              ? users.map((user) => ({
+                  columns: [user.login, user.registed_at, <RoleWithSaveIcon user={user} />],
+                }))
+              : []
+          }
+        />
+      )}
+    </ScrollableContainer>
   );
 };
