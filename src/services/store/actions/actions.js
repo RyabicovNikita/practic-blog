@@ -21,10 +21,11 @@ import {
   fetchGetPostLikedUsers,
 } from "../../../api/likes-requests";
 
-export const setUser = (user) => ({
-  type: USER_ACTION_TYPES.SET_USER,
-  payload: user,
-});
+//Переделал на redux-toolkit
+// export const setUser = (user) => ({
+//   type: USER_ACTION_TYPES.SET_USER,
+//   payload: user,
+// });
 
 export const logoutUser = (session) => {
   server.logout(session);
