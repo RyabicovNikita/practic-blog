@@ -11,3 +11,5 @@ export const DATE_FORMATS = {
 };
 
 export const MIN_HEIGTH_POST = 810;
+
+export const SESSION_STORAGE_USER = "userData";

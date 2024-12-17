@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUserLogin } from "../../../../../../services/store/selectors/selectors";
 import { logout } from "../../../../../../services/store/slice/authSlice";
+import { SESSION_STORAGE_USER } from "../../../../../../services";
 
 const NavBar = styled.div`
   display: flex;
@@ -48,6 +49,13 @@ export const NavBarContainer = ({ isMenuOpen, setIsMenuOpen, setContextMenuAnima
     }
     setContextMenuAnimation(animationOptions);
   };
+  const handleLogout = () => {
+    if (!userLogin) return;
+    dispatch(logout());
+    const currentUserDataJSON = sessionStorage.getItem(SESSION_STORAGE_USER);
+    if (!currentUserDataJSON) return;
+    sessionStorage.removeItem(SESSION_STORAGE_USER);
+  };
   return (
     <NavBar>
       <Icon
@@ -55,7 +63,7 @@ export const NavBarContainer = ({ isMenuOpen, setIsMenuOpen, setContextMenuAnima
         styles={"&:hover {color: gray;transition: 0.6s;cursor: pointer;}"}
         onClick={() => navigate(-1)}
       />
-      <AuthLink to={userLogin ? "/" : "/auth"} onClick={userLogin ? () => dispatch(logout()) : null}>
+      <AuthLink to={userLogin ? "/" : "/auth"} onClick={handleLogout}>
         {userLogin ? "Logout" : "Login"}
       </AuthLink>
       <Icon className="fa fa-bars" onClick={onMenuClick} />

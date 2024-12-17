@@ -10,6 +10,7 @@ import "./AuthForm.scss";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { setUser } from "../../services/store/slice/authSlice";
+import { SESSION_STORAGE_USER } from "../../services";
 
 const shapeObject = {
   login: yup
@@ -70,6 +71,7 @@ export const AuthForm = () => {
       setServerError(error);
       return;
     }
+    sessionStorage.setItem(SESSION_STORAGE_USER, JSON.stringify(res));
     dispatch(setUser(res));
     navigate(-1);
   };
