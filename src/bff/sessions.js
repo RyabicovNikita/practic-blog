@@ -1,20 +1,23 @@
 import { uuidv4 } from "../services";
+import { addSession, deleteSession, getSession } from "../api/session-requests";
 
 export const sessions = {
   list: {},
   create(user) {
     const hash = uuidv4();
 
-    this.list[hash] = user;
+    addSession(hash, user);
 
     return hash;
   },
 
-  remove(hash) {
-    delete this.list[hash];
+  async remove(hash) {
+    const session = await getSession(hash);
+    if (!session) return;
+    deleteSession(session.id);
   },
-  access(hash, accessRoles) {
-    const user = this.list[hash];
-    return !!user && accessRoles.includes(user.role_id);
+  async access(hash, accessRoles) {
+    const session = await getSession(hash);
+    return !!session?.user && accessRoles.includes(session?.user?.role_id);
   },
 };

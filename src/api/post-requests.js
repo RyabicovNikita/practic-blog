@@ -1,7 +1,7 @@
 import { generateDateTime } from "../services";
 
-export const fetchGetPosts = () =>
-  fetch("http://localhost:3005/posts")
+export const fetchGetPosts = (page, limit) =>
+  fetch(`http://localhost:3005/posts?_page=${page}&_per_page=${limit}`)
     .then((res) => res.json())
     .then((posts) => posts);
 

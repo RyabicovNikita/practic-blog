@@ -1,20 +1,12 @@
 import { Link } from "react-router-dom";
 import "./BlogCard.scss";
-import { useEffect, useState } from "react";
 import { dateTimeToDate } from "../../services";
-import { getCommentsCount } from "../../services/store/actions";
 
-export const BlogCard = ({ post }) => {
-  const [countComments, setCountComments] = useState(null);
-  const { id, title, content, image_url, published_at, likes } = post;
-
-  useEffect(() => {
-    getCommentsCount(id).then((count) => setCountComments(count));
-  }, [id]);
-
+export const BlogCard = ({ post, lastPostRef }) => {
+  const { id, title, content, image_url, published_at, likesCount, commentsCount } = post;
   return (
     <>
-      <div className="blog-card spring-fever">
+      <div className="blog-card spring-fever" ref={lastPostRef}>
         <img className="img2" alt="" src={require("./images/black-pin.png")} />
         <div className="img-container">
           <img className="img" alt="" src={image_url} />
@@ -36,9 +28,9 @@ export const BlogCard = ({ post }) => {
             <ul className="utility-list">
               <li>
                 <span className="licon icon-like" />
-                <span>{likes}</span>
+                <span>{likesCount}</span>
                 <span className="licon icon-com" />
-                <span>{countComments}</span>
+                {<span>{commentsCount}</span>}
               </li>
               <li>
                 <span className="licon icon-dat" />
