@@ -7,8 +7,11 @@ import { useForm } from "react-hook-form";
 import { Error } from "../../../../components/Error/Error";
 import { getPostFormParams } from "../../validates";
 import { Icon } from "../../../../components";
+import { useSelector } from "react-redux";
+import { selectUserSession } from "../../../../services/store/selectors/selectors";
 
 export const NewPost = () => {
+  const userSession = useSelector(selectUserSession);
   const navigate = useNavigate();
   const contentRef = useRef(null);
   const [serverError, setServerError] = useState(null);
@@ -50,7 +53,14 @@ export const NewPost = () => {
 
   const handleSave = () => {
     try {
-      createNewPost(postValue).then(({ id }) => navigate(`/post/${id}`));
+      createNewPost(userSession, postValue).then((response) => {
+        if (response.error) {
+          setServerError(response.error);
+          return;
+        }
+        const { id } = response.res;
+        navigate(`/post/${id}`);
+      });
     } catch (error) {
       setServerError(error);
     }
@@ -83,7 +93,7 @@ export const NewPost = () => {
           value={postValue.title}
           onChange={onValidateChange}
         ></input>
-        {titleError && <Error>{titleError}</Error>}
+        {(titleError || serverError) && <Error>{titleError || serverError}</Error>}
       </section>
 
       <div className="blog__actions">

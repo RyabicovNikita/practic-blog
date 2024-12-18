@@ -4,7 +4,7 @@ import { Comment } from "./components/Comment/Comment";
 import { useDispatch, useSelector } from "react-redux";
 import { selectComments, selectPost, selectUser } from "../../../../services/store/selectors/selectors";
 
-import { addNewComment, deleteComment } from "../../../../services/store/actions";
+import { addNewComment, deleteComment, POST_ACTION_TYPES } from "../../../../services/store/actions";
 import { ContextMenu, Error, Icon } from "../../../../components";
 
 import "./Comments.scss";
@@ -41,22 +41,24 @@ export const Comments = () => {
     formState: { errors },
   } = useForm(formParams);
 
-  const [accessError, setAccessError] = useState(null);
+  const [serverError, setServerError] = useState(null);
   const { id: postId } = useSelector(selectPost);
   const user = useSelector(selectUser);
   const comments = useSelector(selectComments);
   const dispatch = useDispatch();
 
   const onSubmit = ({ comment }) => {
-    dispatch(addNewComment(user, postId, comment));
+    addNewComment(user, postId, comment).then((response) => {
+      if (response.error) {
+        setServerError(response.error);
+        return;
+      }
+      dispatch({
+        type: POST_ACTION_TYPES.ADD_COMMENT,
+        payload: { ...response.res, author_login: user.login },
+      });
+    });
     reset();
-  };
-
-  const onClick = () => {
-    if (!user.id) {
-      setAccessError("Только авторизированные пользователи могут оставлять комментарии.");
-      setTimeout(() => setAccessError(null), 5000);
-    }
   };
 
   useEffect(() => {
@@ -98,26 +100,25 @@ export const Comments = () => {
         <div className="comments__input-container">
           <textarea
             className="comments__comment edit"
-            style={{ borderColor: commentError || accessError ? "red" : "white" }}
+            style={{ borderColor: commentError || serverError ? "red" : "white" }}
             type="text"
             name="input-comment"
             placeholder="Комментарий..."
             {...register("comment", {
-              onChange: () => setAccessError(null),
+              onChange: () => setServerError(null),
             })}
           ></textarea>
           <button
             className="comments__add-comment"
-            onClick={onClick}
             onMouseOver={() => setSendOnHoverClass("")}
             onMouseOut={() => setSendOnHoverClass("-o")}
           >
             <Icon className={`fa fa-paper-plane${sendOnHoverClass}`} />
           </button>
         </div>
-        {(accessError || commentError) && (
+        {(serverError || commentError) && (
           <div className="comments__error-window">
-            <Error>{accessError || commentError}</Error>
+            <Error>{serverError || commentError}</Error>
           </div>
         )}
       </form>

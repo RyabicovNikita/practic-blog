@@ -1,5 +1,4 @@
-import { POST_ACTION_TYPES, ROLES_ACTION_TYPES, USER_ACTION_TYPES, USERS_ACTION_TYPES } from "./constants";
-import { server } from "../../../bff/server";
+import { POST_ACTION_TYPES, ROLES_ACTION_TYPES, USERS_ACTION_TYPES } from "./constants";
 import {
   fetchAddCommentInPost,
   fetchCommentsPost,
@@ -17,6 +16,7 @@ import { DateTime } from "luxon";
 import {
   fetchAddUserLike,
   fetchDeleteUserLike,
+  fetchGetComments,
   fetchGetLikes,
   fetchGetPostLikedUsers,
 } from "../../../api/likes-requests";
@@ -27,14 +27,10 @@ import {
 //   payload: user,
 // });
 
-export const logoutUser = (session) => {
-  server.logout(session);
-  // dispatch(logout());
-};
-
 export const getUsers = async (userSession) => {
   const accessRoles = [ROLES.ADMIN];
-  if (!sessions.access(userSession, accessRoles)) {
+  const access = await sessions.access(userSession, accessRoles);
+  if (!access) {
     return {
       error: "Доступ к данным пользователей недоступен для текущей роли",
       res: null,
@@ -48,7 +44,8 @@ export const getUsers = async (userSession) => {
 
 export const getRoles = async (userSession) => {
   const accessRoles = [ROLES.ADMIN];
-  if (!sessions.access(userSession, accessRoles)) {
+  const access = await sessions.access(userSession, accessRoles);
+  if (!access) {
     return {
       error: "Доступ к данным ролей недоступен для текущей роли пользователя",
       res: null,
@@ -59,16 +56,17 @@ export const getRoles = async (userSession) => {
     .catch((error) => ({ error: error, errorMsg: "Ошибка сервера", payload: null }));
 };
 
-export const addNewComment = (user, postId, content) => (dispatch) => {
-  return fetchAddCommentInPost(user.id, postId, content).then((newComment) => {
-    dispatch({
-      type: POST_ACTION_TYPES.ADD_COMMENT,
-      payload: { ...newComment, author_login: user.login },
-    });
-  });
+export const addNewComment = async (user, postId, content) => {
+  const accessRoles = [ROLES.ADMIN];
+  const access = await sessions.access(user.session, accessRoles);
+  if (!access) {
+    return {
+      error: "Оставлять комментарии могут только авторизованные пользователи",
+      res: null,
+    };
+  }
+  return fetchAddCommentInPost(user.id, postId, content).then((newComment) => ({ res: newComment }));
 };
-
-export const getCommentsCount = (postId) => fetchCommentsPost(postId).then((comments) => comments.length);
 
 export const getCommentsWithAuthor = (postId) =>
   fetchCommentsPost(postId).then((comments) =>
@@ -82,11 +80,11 @@ export const getCommentsWithAuthor = (postId) =>
 
 export const getPost = async (postId) => {
   try {
-    const post = await fetchGetPostById(postId);
-
-    const commentsPost = await getCommentsWithAuthor(postId);
-
-    const likedUsers = await fetchGetPostLikedUsers(postId);
+    const [post, commentsPost, likedUsers] = await Promise.all([
+      fetchGetPostById(postId),
+      getCommentsWithAuthor(postId),
+      fetchGetPostLikedUsers(postId),
+    ]);
 
     const sortByDateComments = commentsPost.sort((a, b) => {
       if (
@@ -110,7 +108,13 @@ export const getPost = async (postId) => {
   }
 };
 
-export const deletePost = async (postId) => {
+export const deletePost = async (hash, postId) => {
+  const accessRoles = [ROLES.ADMIN];
+  const access = await sessions.access(hash, accessRoles);
+  if (!access)
+    return {
+      error: "Удалять посты могут только авторизованные пользователи",
+    };
   try {
     const comments = await fetchCommentsPost(postId);
     comments.forEach(async ({ id }) => {
@@ -123,15 +127,36 @@ export const deletePost = async (postId) => {
   }
 };
 
-export const createNewPost = (data) => fetchCreatePost(data).then((newPostData) => newPostData);
+export const createNewPost = async (hash, data) => {
+  const accessRoles = [ROLES.ADMIN];
+  const access = await sessions.access(hash, accessRoles);
+  if (!access) {
+    return {
+      error: "Создание поста доступно только авторизованным пользователям",
+      res: null,
+    };
+  }
+  return fetchCreatePost(data).then((newPostData) => ({ res: newPostData }));
+};
 
 export const deleteComment = (commentId) => (dispatch) =>
   fetchDeleteComment(commentId).then(() => dispatch({ type: POST_ACTION_TYPES.DELETE_COMMENT, payload: commentId }));
 
-export const getPosts = async () => {
-  const posts = await fetchGetPosts();
-  const likes = await fetchGetLikes();
-  return posts.map((post) => ({ ...post, likes: likes.filter((l) => l.post_id === post.id).length }));
+export const getPosts = async (page, limit) => {
+  const [postsWithPaginationData, likes, comments] = await Promise.all([
+    fetchGetPosts(page, limit),
+    fetchGetLikes(),
+    fetchGetComments(),
+  ]);
+  const { data: posts = [], ...paginationData } = postsWithPaginationData;
+  return {
+    paginationData,
+    data: posts.map((post) => ({
+      ...post,
+      commentsCount: comments.filter((c) => c.post_id === post.id).length,
+      likesCount: likes.filter((l) => l.post_id === post.id).length,
+    })),
+  };
 };
 
 export const addLike = (user_id, post_id) => (dispatch) =>

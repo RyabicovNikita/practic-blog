@@ -23,6 +23,7 @@ export const Post = () => {
 
   const confirmDeletePost = () => {
     deletePost(postId).then((result) => {
+      if (result.error) return;
       dispatch(result);
       setIsModalOpen(false);
       navigate("/");

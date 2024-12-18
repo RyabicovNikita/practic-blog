@@ -5,10 +5,8 @@ import { AuthForm } from "./pages/AuthForm/AuthForm";
 
 import { Footer, HeaderContainer } from "./pages/Main/components";
 
-import { useDispatch, useSelector } from "react-redux";
-import { selectUserRole } from "./services/store/selectors/selectors";
-import { ROLES, SESSION_STORAGE_USER } from "./services";
-import { Error } from "./components";
+import { useDispatch } from "react-redux";
+import { SESSION_STORAGE_USER } from "./services";
 import { NewPost, Post } from "./pages/Post";
 import { MainContainer } from "./pages/Main";
 import { Error404, Users } from "./pages";
@@ -18,7 +16,6 @@ import { setUser } from "./services/store/slice/authSlice";
 function Blog() {
   const dispatch = useDispatch();
   const location = useLocation();
-  const userRoleID = useSelector(selectUserRole);
   useLayoutEffect(() => {
     const currentUserDataJSON = sessionStorage.getItem(SESSION_STORAGE_USER);
     if (!currentUserDataJSON) return;
@@ -32,7 +29,7 @@ function Blog() {
         <Route path="/" element={<MainContainer />} />
         <Route path="/auth" element={<AuthForm>SIGN IN</AuthForm>} />
         <Route path="/users" element={<Users />} />
-        <Route path="/post" element={userRoleID === ROLES.ADMIN ? <NewPost /> : <Error>Ошибка доступа</Error>} />
+        <Route path="/post" element={<NewPost />} />
         <Route path="/post/:postId" element={<Post />} />
         <Route path="*" element={<Error404 />} />
       </Routes>

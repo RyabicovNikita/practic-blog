@@ -32,7 +32,7 @@ export const Users = () => {
     Promise.all([getRoles(userSession), getUsers(userSession)]).then((responsibles) => {
       const errResponse = responsibles.find((response) => response.res === null);
       if (errResponse) {
-        setTimeout(() => setAccessError(errResponse.error), [500]);
+        setTimeout(() => setAccessError(errResponse.error), 500);
         return;
       }
       setAccessError(null);
@@ -44,7 +44,7 @@ export const Users = () => {
       dispatch({ type: USERS_ACTION_TYPES.CLEAR_USERS });
       dispatch({ type: ROLES_ACTION_TYPES.CLEAR_ROLES });
     };
-  }, []);
+  }, [userSession]);
 
   return (
     <ScrollableContainer>
