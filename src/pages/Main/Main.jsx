@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { CardSection, MainSection } from "./components";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
+import { POSTS_ACTION_TYPES } from "../../services/store/actions";
 const Main = styled.main`
   height: 100vh;
   overflow-y: auto;
@@ -17,10 +19,14 @@ const Main = styled.main`
 `;
 
 export const MainContainer = () => {
+  const dispatch = useDispatch();
   const cardSectionRef = useRef();
   const handleScrollDownClick = () => {
     cardSectionRef.current.scrollIntoView();
   };
+  useEffect(() => {
+    return () => dispatch({ type: POSTS_ACTION_TYPES.CLEAR_POSTS });
+  }, []);
   return (
     <Main>
       <MainSection scrollDownClick={handleScrollDownClick} />
