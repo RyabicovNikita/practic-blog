@@ -6,23 +6,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectPosts } from "../../../../services/store/selectors/selectors";
 import { BlogCard } from "../../../../components";
 import { Footer } from "../Footer/Footer";
-import { PAGINATION_LIMIT } from "../../../../services";
+import { getLastPageFromLinks, PAGINATION_LIMIT } from "../../../../services";
 import { SearchContext } from "../../../../services/context/context";
 
 export const CardSection = ({ cardSectionRef }) => {
   const lastPostRef = useRef(null);
   const dispatch = useDispatch();
-  const posts = useSelector(selectPosts);
+  const { searchPhrase, isSearch } = useContext(SearchContext);
+  const posts = useSelector((props) => selectPosts(props, searchPhrase, isSearch));
   const [page, setPage] = useState(1);
   const [isScrollToLast, setIsScrollToLast] = useState(false);
-  const [pagesCount, setPagesCount] = useState(0);
-  const { searchPhrase, isSearch } = useContext(SearchContext);
+  const [lastPage, setLastPage] = useState(0);
+
   useEffect(() => {
-    getPosts(page, PAGINATION_LIMIT, searchPhrase).then((res) => {
-      dispatch({ type: POSTS_ACTION_TYPES.GET_POSTS, payload: res.data });
-      setPagesCount(res.paginationData.pages);
+    getPosts(page, PAGINATION_LIMIT).then(({ posts, links }) => {
+      dispatch({ type: POSTS_ACTION_TYPES.GET_POSTS, payload: posts });
+      setLastPage(getLastPageFromLinks(links));
     });
-  }, [page, isSearch]);
+  }, [page]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -48,7 +49,7 @@ export const CardSection = ({ cardSectionRef }) => {
   }, [isScrollToLast]);
 
   const actionInSight = (entries) => {
-    if (entries[0].isIntersecting && page < pagesCount) {
+    if (entries[0].isIntersecting && page !== lastPage) {
       setPage((prevState) => prevState + 1);
     }
   };

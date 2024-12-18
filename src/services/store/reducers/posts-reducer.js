@@ -8,6 +8,8 @@ export const postsReducer = (state = initialPostsState, { type, payload }) => {
       return [...state, ...payload];
     case POSTS_ACTION_TYPES.CLEAR_POSTS:
       return initialPostsState;
+    case POSTS_ACTION_TYPES.FILTER_POSTS:
+      return payload;
     default:
       return state;
   }

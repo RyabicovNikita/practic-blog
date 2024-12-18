@@ -142,16 +142,16 @@ export const createNewPost = async (hash, data) => {
 export const deleteComment = (commentId) => (dispatch) =>
   fetchDeleteComment(commentId).then(() => dispatch({ type: POST_ACTION_TYPES.DELETE_COMMENT, payload: commentId }));
 
-export const getPosts = async (page, limit, searchPhrase) => {
-  const [postsWithPaginationData, likes, comments] = await Promise.all([
-    fetchGetPosts(page, limit, searchPhrase),
+export const getPosts = async (page, limit) => {
+  const [postsWithLinks, likes, comments] = await Promise.all([
+    fetchGetPosts(page, limit),
     fetchGetLikes(),
     fetchGetComments(),
   ]);
-  const { data: posts = [], ...paginationData } = postsWithPaginationData;
+  const { posts, links } = postsWithLinks;
   return {
-    paginationData,
-    data: posts.map((post) => ({
+    links,
+    posts: posts.map((post) => ({
       ...post,
       commentsCount: comments.filter((c) => c.post_id === post.id).length,
       likesCount: likes.filter((l) => l.post_id === post.id).length,

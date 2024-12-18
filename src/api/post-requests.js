@@ -1,9 +1,9 @@
 import { generateDateTime } from "../services";
 
 export const fetchGetPosts = (page, limit, searchPhrase) =>
-  fetch(`http://localhost:3005/posts?title_like=${searchPhrase}&_page=${page}&_per_page=${limit}`)
-    .then((res) => res.json())
-    .then((posts) => posts);
+  fetch(`http://localhost:3005/posts?_page=${page}&_limit=${limit}`)
+    .then((res) => Promise.all([res.json(), res.headers.get("Link")]))
+    .then(([posts, links]) => ({ posts, links }));
 
 export const fetchGetPostById = (id) =>
   fetch(`http://localhost:3005/posts/${id}`)

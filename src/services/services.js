@@ -71,3 +71,10 @@ export const debounce = (fn, delay) => {
     timeoutId = setTimeout(fn, delay, ...args);
   };
 };
+
+export const getLastPageFromLinks = (links) => {
+  console.log(links);
+  const result = links.match(/^.+_page=(\d{1,15})&_limit=\d{1,9}>; rel="last"$/);
+  console.log(result);
+  return Number(result[1]);
+};
