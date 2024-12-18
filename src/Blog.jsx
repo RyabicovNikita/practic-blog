@@ -10,12 +10,15 @@ import { SESSION_STORAGE_USER } from "./services";
 import { NewPost, Post } from "./pages/Post";
 import { MainContainer } from "./pages/Main";
 import { Error404, Users } from "./pages";
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useState } from "react";
 import { setUser } from "./services/store/slice/authSlice";
+import { SearchContext } from "./services/context/context";
 
 function Blog() {
   const dispatch = useDispatch();
   const location = useLocation();
+  const [searchPhrase, setSearchPhrase] = useState("");
+  const [isSearch, setIsSearch] = useState(false);
   useLayoutEffect(() => {
     const currentUserDataJSON = sessionStorage.getItem(SESSION_STORAGE_USER);
     if (!currentUserDataJSON) return;
@@ -24,15 +27,17 @@ function Blog() {
   }, []);
   return (
     <div className="app">
-      <HeaderContainer />
-      <Routes>
-        <Route path="/" element={<MainContainer />} />
-        <Route path="/auth" element={<AuthForm>SIGN IN</AuthForm>} />
-        <Route path="/users" element={<Users />} />
-        <Route path="/post" element={<NewPost />} />
-        <Route path="/post/:postId" element={<Post />} />
-        <Route path="*" element={<Error404 />} />
-      </Routes>
+      <SearchContext.Provider value={{ searchPhrase, setSearchPhrase, isSearch, setIsSearch }}>
+        <HeaderContainer />
+        <Routes>
+          <Route path="/" element={<MainContainer />} />
+          <Route path="/auth" element={<AuthForm>SIGN IN</AuthForm>} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/post" element={<NewPost />} />
+          <Route path="/post/:postId" element={<Post />} />
+          <Route path="*" element={<Error404 />} />
+        </Routes>
+      </SearchContext.Provider>
       {location.pathname !== "/" && <Footer />}
     </div>
   );

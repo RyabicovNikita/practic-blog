@@ -142,9 +142,9 @@ export const createNewPost = async (hash, data) => {
 export const deleteComment = (commentId) => (dispatch) =>
   fetchDeleteComment(commentId).then(() => dispatch({ type: POST_ACTION_TYPES.DELETE_COMMENT, payload: commentId }));
 
-export const getPosts = async (page, limit) => {
+export const getPosts = async (page, limit, searchPhrase) => {
   const [postsWithPaginationData, likes, comments] = await Promise.all([
-    fetchGetPosts(page, limit),
+    fetchGetPosts(page, limit, searchPhrase),
     fetchGetLikes(),
     fetchGetComments(),
   ]);

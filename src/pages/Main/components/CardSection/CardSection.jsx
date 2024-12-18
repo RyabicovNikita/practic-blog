@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { contentBack_img } from "../../../../images";
 import { CardContainer, Scrollable, Section } from "../../styled-components";
 import { getPosts, POSTS_ACTION_TYPES } from "../../../../services/store/actions";
@@ -7,6 +7,7 @@ import { selectPosts } from "../../../../services/store/selectors/selectors";
 import { BlogCard } from "../../../../components";
 import { Footer } from "../Footer/Footer";
 import { PAGINATION_LIMIT } from "../../../../services";
+import { SearchContext } from "../../../../services/context/context";
 
 export const CardSection = ({ cardSectionRef }) => {
   const lastPostRef = useRef(null);
@@ -15,12 +16,13 @@ export const CardSection = ({ cardSectionRef }) => {
   const [page, setPage] = useState(1);
   const [isScrollToLast, setIsScrollToLast] = useState(false);
   const [pagesCount, setPagesCount] = useState(0);
+  const { searchPhrase, isSearch } = useContext(SearchContext);
   useEffect(() => {
-    getPosts(page, PAGINATION_LIMIT).then((res) => {
+    getPosts(page, PAGINATION_LIMIT, searchPhrase).then((res) => {
       dispatch({ type: POSTS_ACTION_TYPES.GET_POSTS, payload: res.data });
       setPagesCount(res.paginationData.pages);
     });
-  }, [page]);
+  }, [page, isSearch]);
 
   useEffect(() => {
     const handleScroll = () => {
