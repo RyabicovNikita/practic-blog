@@ -15,3 +15,7 @@ export const MIN_HEIGTH_POST = 810;
 export const SESSION_STORAGE_USER = "userData";
 
 export const PAGINATION_LIMIT = 9;
+
+export const ERRORS = {
+  ACCESS_DENIED: "Недоступно для текущего пользователя",
+};

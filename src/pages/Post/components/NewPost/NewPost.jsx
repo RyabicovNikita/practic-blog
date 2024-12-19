@@ -1,12 +1,12 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import "./NewPost.scss";
-import { MIN_HEIGTH_POST } from "../../../../services";
+import { MIN_HEIGTH_POST, ROLES } from "../../../../services";
 import { createNewPost } from "../../../../services/store/actions";
 import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { Error } from "../../../../components/Error/Error";
 import { getPostFormParams } from "../../validates";
-import { Icon } from "../../../../components";
+import { Icon, PrivateContainer } from "../../../../components";
 import { useSelector } from "react-redux";
 import { selectUserSession } from "../../../../services/store/selectors/selectors";
 
@@ -75,46 +75,48 @@ export const NewPost = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(handleSave)} className="blog">
-      <section className="blog__top-content">
-        <img alt="" className="blog__main-image" src={postValue.image_url}></img>
-        <input
-          name="image_url"
-          className="blog__input-url"
-          placeholder="Введите URL картинки"
-          value={postValue.image_url}
-          onChange={onValidateChange}
-        ></input>
-        <input
-          name="title"
-          placeholder="Введите  заголовок статьи"
-          className="blog__title-input edit"
-          style={{ borderColor: titleError ? "red" : "white" }}
-          value={postValue.title}
-          onChange={onValidateChange}
-        ></input>
-        {(titleError || serverError) && <Error>{titleError || serverError}</Error>}
-      </section>
+    <PrivateContainer error={serverError} access={[ROLES.ADMIN]}>
+      <form onSubmit={handleSubmit(handleSave)} className="blog">
+        <section className="blog__top-content">
+          <img alt="" className="blog__main-image" src={postValue.image_url}></img>
+          <input
+            name="image_url"
+            className="blog__input-url"
+            placeholder="Введите URL картинки"
+            value={postValue.image_url}
+            onChange={onValidateChange}
+          ></input>
+          <input
+            name="title"
+            placeholder="Введите  заголовок статьи"
+            className="blog__title-input edit"
+            style={{ borderColor: titleError ? "red" : "white" }}
+            value={postValue.title}
+            onChange={onValidateChange}
+          ></input>
+          {(titleError || serverError) && <Error>{titleError || serverError}</Error>}
+        </section>
 
-      <div className="blog__actions">
-        <button className="blog__action-container" type="submit">
-          <Icon className="fa fa-floppy-o" />
-        </button>
-        {/* {errorMessage && <Error className={"blog__create-error"}>{errorMessage}</Error>} */}
-      </div>
+        <div className="blog__actions">
+          <button className="blog__action-container" type="submit">
+            <Icon className="fa fa-floppy-o" />
+          </button>
+          {/* {errorMessage && <Error className={"blog__create-error"}>{errorMessage}</Error>} */}
+        </div>
 
-      <section className="blog__main-content">
-        <textarea
-          name="content"
-          placeholder="Введите содержание статьи"
-          className="blog__edit-content edit"
-          ref={contentRef}
-          style={{ borderColor: contentError ? "red" : "white" }}
-          value={postValue.content}
-          onChange={onValidateChange}
-        />
-        {contentError && <Error>{contentError}</Error>}
-      </section>
-    </form>
+        <section className="blog__main-content">
+          <textarea
+            name="content"
+            placeholder="Введите содержание статьи"
+            className="blog__edit-content edit"
+            ref={contentRef}
+            style={{ borderColor: contentError ? "red" : "white" }}
+            value={postValue.content}
+            onChange={onValidateChange}
+          />
+          {contentError && <Error>{contentError}</Error>}
+        </section>
+      </form>
+    </PrivateContainer>
   );
 };
