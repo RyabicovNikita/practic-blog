@@ -7,3 +7,4 @@ export * from "./Icon/index";
 export * from "./Button/index";
 export * from "./Footer/Footer";
 export * from "./Header/Header";
+export * from "./PrivateContainer/PrivateContainer";

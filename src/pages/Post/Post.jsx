@@ -5,17 +5,16 @@ import { useEffect, useState } from "react";
 
 import { Comments, PostContent } from "./components";
 import "./Post.scss";
-import { Modal, Loader, Error } from "../../components";
+import { Modal, Loader, PrivateContainer } from "../../components";
 
 export const Post = () => {
   const [serverError, setServerError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { postId } = useParams();
   const dispatch = useDispatch();
   useEffect(() => {
-    setIsLoading(true);
     getPost(postId)
       .then((postData) => {
         if (Object.keys(postData.post).length > 0)
@@ -35,33 +34,32 @@ export const Post = () => {
     });
   };
   const rejectDeletePost = () => setIsModalOpen(false);
-  console.log(serverError);
   return (
     <div className="blog">
       {isLoading ? (
         <Loader />
-      ) : serverError ? (
-        <Error>{serverError}</Error>
       ) : (
-        <>
-          <PostContent setIsModalOpen={setIsModalOpen} />
-          <Comments />
-          {isModalOpen && (
-            <Modal>
-              <div className="confirm-delete-modal">
-                <p className="confirm-delete-modal__question">{"Вы действительно хотите удалить текущий пост?"}</p>
-                <div className="confirm-delete-modal__answer">
-                  <button onClick={confirmDeletePost} className="confirm-delete-modal__accept">
-                    Да
-                  </button>
-                  <button onClick={rejectDeletePost} className="confirm-delete-modal__reject">
-                    Отмена
-                  </button>
+        <PrivateContainer error={serverError}>
+          <>
+            <PostContent setIsModalOpen={setIsModalOpen} />
+            <Comments />
+            {isModalOpen && (
+              <Modal>
+                <div className="confirm-delete-modal">
+                  <p className="confirm-delete-modal__question">{"Вы действительно хотите удалить текущий пост?"}</p>
+                  <div className="confirm-delete-modal__answer">
+                    <button onClick={confirmDeletePost} className="confirm-delete-modal__accept">
+                      Да
+                    </button>
+                    <button onClick={rejectDeletePost} className="confirm-delete-modal__reject">
+                      Отмена
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </Modal>
-          )}
-        </>
+              </Modal>
+            )}
+          </>
+        </PrivateContainer>
       )}
     </div>
   );
