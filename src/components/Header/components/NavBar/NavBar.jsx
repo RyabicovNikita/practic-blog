@@ -1,11 +1,11 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Icon } from "../../..";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUserLogin } from "../../../../services/store/selectors/selectors";
 import { logout } from "../../../../services/store/slice/authSlice";
 import { debounce, SESSION_STORAGE_USER } from "../../../../services";
-import { useContext, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { SearchContext } from "../../../../services/context/context";
 import { Search } from "../Search/Search";
 
@@ -33,10 +33,15 @@ const AuthLink = styled(Link)`
 `;
 
 export const NavBarContainer = ({ isMenuOpen, setIsMenuOpen, setContextMenuAnimation }) => {
+  const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userLogin = useSelector(selectUserLogin);
   const { searchPhrase, setSearchPhrase, isSearch, setIsSearch } = useContext(SearchContext);
+
+  useEffect(() => {
+    if (location.pathname !== "/" && searchPhrase !== "") setSearchPhrase("");
+  }, [location.pathname]);
 
   const onMenuClick = () => {
     const animationOptions = {

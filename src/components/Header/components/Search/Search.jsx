@@ -1,8 +1,18 @@
+import { useLocation } from "react-router";
 import styled from "styled-components";
 
-const SearchContainer = ({ className, value, onChange }) => (
-  <input className={className} value={value} onChange={onChange} placeholder="Search..."></input>
-);
+const SearchContainer = ({ className, value, onChange }) => {
+  const location = useLocation();
+  return (
+    <input
+      disabled={location.pathname !== "/"}
+      className={className}
+      value={value}
+      onChange={onChange}
+      placeholder="Search..."
+    ></input>
+  );
+};
 export const Search = styled(SearchContainer)`
   all: unset;
   border-radius: 25px;
