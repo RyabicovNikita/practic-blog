@@ -104,13 +104,7 @@ export const getPost = async (postId) => {
   return { post, comments: sortByDateComments, likedUsers };
 };
 
-export const deletePost = async (hash, postId) => {
-  const accessRoles = [ROLES.ADMIN];
-  const access = await sessions.access(hash, accessRoles);
-  if (!access)
-    return {
-      error: "Удалять посты могут только авторизованные пользователи",
-    };
+export const deletePost = async (postId) => {
   try {
     const comments = await fetchCommentsPost(postId);
     comments.forEach(async ({ id }) => {

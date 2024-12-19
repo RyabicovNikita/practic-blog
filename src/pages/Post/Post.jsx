@@ -27,7 +27,11 @@ export const Post = () => {
 
   const confirmDeletePost = () => {
     deletePost(postId).then((result) => {
-      if (result.error) return;
+      if (result.error) {
+        setServerError(result.error);
+        setIsModalOpen(false);
+        return;
+      }
       dispatch(result);
       setIsModalOpen(false);
       navigate("/");
