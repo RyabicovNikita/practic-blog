@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import "./Footer.scss";
-import { getWeatherUserCountry } from "../../../../services/weathers";
-import { getWeatherWithIcon } from "../../../../services";
+import { getWeatherWithIcon } from "../../services";
 
 export const Footer = () => {
   const [userCountry, setUserCountry] = useState("");

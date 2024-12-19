@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { ROLES } from "../../../../../../services";
+import { ROLES } from "../../../../services";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectUserRole } from "../../../../../../services/store/selectors/selectors";
+import { selectUserRole } from "../../../../services/store/selectors/selectors";
 
 const Navigate = styled.nav`
   padding: 10px;

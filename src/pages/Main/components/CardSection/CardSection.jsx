@@ -4,31 +4,33 @@ import { CardContainer, Scrollable, Section } from "../../styled-components";
 import { getPosts, POSTS_ACTION_TYPES } from "../../../../services/store/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { selectPosts } from "../../../../services/store/selectors/selectors";
-import { BlogCard } from "../../../../components";
-import { Footer } from "../Footer/Footer";
+import { BlogCard, Footer } from "../../../../components";
 import { getLastPageFromLinks, PAGINATION_LIMIT } from "../../../../services";
 import { SearchContext } from "../../../../services/context/context";
 
 export const CardSection = ({ cardSectionRef }) => {
   const lastPostRef = useRef(null);
   const dispatch = useDispatch();
-  const { searchPhrase, isSearch } = useContext(SearchContext);
-  const posts = useSelector((props) => selectPosts(props, searchPhrase, isSearch));
+  const { searchPhrase } = useContext(SearchContext);
+  const posts = useSelector(selectPosts);
   const [page, setPage] = useState(1);
   const [isScrollToLast, setIsScrollToLast] = useState(false);
   const [lastPage, setLastPage] = useState(0);
 
   useEffect(() => {
     getPosts(page, PAGINATION_LIMIT).then(({ posts, links }) => {
-      dispatch({ type: POSTS_ACTION_TYPES.GET_POSTS, payload: posts });
-      setLastPage(getLastPageFromLinks(links));
+      dispatch({
+        type: POSTS_ACTION_TYPES.GET_POSTS,
+        payload: posts,
+      });
+      if (links) setLastPage(getLastPageFromLinks(links));
     });
   }, [page]);
 
   useEffect(() => {
     const handleScroll = () => {
       if (lastPostRef.current) {
-        const posTop = lastPostRef.current.getBoundingClientRect().top - 126;
+        const posTop = lastPostRef.current.getBoundingClientRect().top - 200;
         setIsScrollToLast(posTop + lastPostRef.current.clientHeight <= window.innerHeight && posTop >= 0);
       }
     };
@@ -49,7 +51,7 @@ export const CardSection = ({ cardSectionRef }) => {
   }, [isScrollToLast]);
 
   const actionInSight = (entries) => {
-    if (entries[0].isIntersecting && page !== lastPage) {
+    if (entries[0].isIntersecting && page < lastPage) {
       setPage((prevState) => prevState + 1);
     }
   };
@@ -58,13 +60,15 @@ export const CardSection = ({ cardSectionRef }) => {
       <Scrollable ref={cardSectionRef}>
         <CardContainer>
           {posts?.length > 0 &&
-            posts.map((post, index) =>
-              index + 1 === posts.length ? (
-                <BlogCard post={post} key={post.id} lastPostRef={lastPostRef} />
-              ) : (
-                <BlogCard post={post} key={post.id} />
-              )
-            )}
+            posts
+              .filter((post) => (searchPhrase.length === 0 ? post : post.title.indexOf(searchPhrase) >= 0))
+              .map((post, index) =>
+                index + 1 === posts.length ? (
+                  <BlogCard post={post} key={post.id} lastPostRef={lastPostRef} />
+                ) : (
+                  <BlogCard post={post} key={post.id} />
+                )
+              )}
         </CardContainer>
         <Footer />
       </Scrollable>

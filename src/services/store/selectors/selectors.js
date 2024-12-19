@@ -7,8 +7,9 @@ export const selectUsers = ({ users }) => users;
 
 export const selectRoles = ({ roles }) => roles.roles;
 
-export const selectPosts = ({ posts }, searchPhrase, isSearch) =>
-  isSearch && searchPhrase?.length > 0 ? posts?.filter((post) => post.title.indexOf(searchPhrase) >= 0) : posts;
+export const selectPosts = ({ posts }) => posts;
+
+export const selectFilterPostsByTitle = ({ posts }, filter) => posts.filter((post) => post.title.indexOf(filter) >= 0);
 
 export const selectPost = ({ post }) => post;
 export const selectComments = ({ post }) => post.comments;

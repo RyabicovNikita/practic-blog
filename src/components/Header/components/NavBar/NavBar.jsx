@@ -1,12 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Icon } from "../../../../../../components";
+import { Icon } from "../../..";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { selectUserLogin } from "../../../../../../services/store/selectors/selectors";
-import { logout } from "../../../../../../services/store/slice/authSlice";
-import { debounce, SESSION_STORAGE_USER } from "../../../../../../services";
+import { selectUserLogin } from "../../../../services/store/selectors/selectors";
+import { logout } from "../../../../services/store/slice/authSlice";
+import { debounce, SESSION_STORAGE_USER } from "../../../../services";
 import { useContext, useMemo, useState } from "react";
-import { SearchContext } from "../../../../../../services/context/context";
+import { SearchContext } from "../../../../services/context/context";
+import { Search } from "../Search/Search";
 
 const NavBar = styled.div`
   display: flex;
@@ -30,12 +31,6 @@ const AuthLink = styled(Link)`
     transition: 0.6s;
   }
 `;
-
-const SearchContainer = ({ value, onChange }) => (
-  <div>
-    <input value={value} onChange={onChange} placeholder="Search..."></input>
-  </div>
-);
 
 export const NavBarContainer = ({ isMenuOpen, setIsMenuOpen, setContextMenuAnimation }) => {
   const dispatch = useDispatch();
@@ -71,12 +66,11 @@ export const NavBarContainer = ({ isMenuOpen, setIsMenuOpen, setContextMenuAnima
 
   const handleSearch = ({ target }) => {
     setSearchPhrase(target.value);
-
     startDelayedSearch(!isSearch);
   };
   return (
     <NavBar>
-      <SearchContainer value={searchPhrase} onChange={handleSearch} />
+      <Search value={searchPhrase} onChange={handleSearch} />
       <Icon
         className="fa fa-reply"
         styles={"&:hover {color: gray;transition: 0.6s;cursor: pointer;}"}

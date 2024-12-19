@@ -3,8 +3,6 @@ import "./Blog.css";
 
 import { AuthForm } from "./pages/AuthForm/AuthForm";
 
-import { Footer, HeaderContainer } from "./pages/Main/components";
-
 import { useDispatch } from "react-redux";
 import { SESSION_STORAGE_USER } from "./services";
 import { NewPost, Post } from "./pages/Post";
@@ -13,6 +11,7 @@ import { Error404, Users } from "./pages";
 import { useLayoutEffect, useState } from "react";
 import { setUser } from "./services/store/slice/authSlice";
 import { SearchContext } from "./services/context/context";
+import { Footer, HeaderContainer } from "./components";
 
 function Blog() {
   const dispatch = useDispatch();

@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { DropDownMenu } from "../../../../components/DropDownMenu/DropDownMenu";
-import { headerBack_img, logoBack_img } from "../../../../images";
+import { DropDownMenu } from "../DropDownMenu/DropDownMenu";
+import { headerBack_img, logoBack_img } from "../../images";
 import { Navigation } from "./components";
 import { NavBarContainer } from "./components/NavBar/NavBar";
 import "./Header.scss";
