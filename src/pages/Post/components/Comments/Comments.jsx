@@ -19,6 +19,7 @@ const shapeObject = {
 };
 
 export const Comments = () => {
+  const deleteAccessRoles = [ROLES.ADMIN, ROLES.MODERATOR];
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
   const [deletedCommentID, setDeletedCommentID] = useState(null);
   const [sendOnHoverClass, setSendOnHoverClass] = useState("-o");
@@ -70,7 +71,7 @@ export const Comments = () => {
   }, []);
 
   const handleContextMenu = (e, commentID) => {
-    if (user.role_id !== ROLES.ADMIN) return;
+    if (!deleteAccessRoles.includes(user.role_id)) return;
     setDeletedCommentID(commentID);
     e.preventDefault();
     setIsContextMenuOpen(true);
@@ -96,32 +97,34 @@ export const Comments = () => {
 
   return (
     <div className="comments">
-      <form onSubmit={handleSubmit(onSubmit)} className="comments__new-comment">
-        <div className="comments__input-container">
-          <textarea
-            className="comments__comment edit"
-            style={{ borderColor: commentError || serverError ? "red" : "white" }}
-            type="text"
-            name="input-comment"
-            placeholder="Комментарий..."
-            {...register("comment", {
-              onChange: () => setServerError(null),
-            })}
-          ></textarea>
-          <button
-            className="comments__add-comment"
-            onMouseOver={() => setSendOnHoverClass("")}
-            onMouseOut={() => setSendOnHoverClass("-o")}
-          >
-            <Icon className={`fa fa-paper-plane${sendOnHoverClass}`} />
-          </button>
-        </div>
-        {(serverError || commentError) && (
-          <div className="comments__error-window">
-            <Error>{serverError || commentError}</Error>
+      {user.role_id !== ROLES.GHOST && (
+        <form onSubmit={handleSubmit(onSubmit)} className="comments__new-comment">
+          <div className="comments__input-container">
+            <textarea
+              className="comments__comment edit"
+              style={{ borderColor: commentError || serverError ? "red" : "white" }}
+              type="text"
+              name="input-comment"
+              placeholder="Комментарий..."
+              {...register("comment", {
+                onChange: () => setServerError(null),
+              })}
+            ></textarea>
+            <button
+              className="comments__add-comment"
+              onMouseOver={() => setSendOnHoverClass("")}
+              onMouseOut={() => setSendOnHoverClass("-o")}
+            >
+              <Icon className={`fa fa-paper-plane${sendOnHoverClass}`} />
+            </button>
           </div>
-        )}
-      </form>
+          {(serverError || commentError) && (
+            <div className="comments__error-window">
+              <Error>{serverError || commentError}</Error>
+            </div>
+          )}
+        </form>
+      )}
       <div className="comments__container">
         {isContextMenuOpen && <ContextMenu top={points.y} left={points.x} actions={actions} />}
         {comments &&
