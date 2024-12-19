@@ -25,18 +25,19 @@ const tableStyleProps = {
 
 export const Users = () => {
   const dispatch = useDispatch();
-  const users = useSelector(selectUsers);
   const userSession = useSelector(selectUserSession);
+  const users = useSelector(selectUsers);
   const [accessError, setAccessError] = useState(null);
   useEffect(() => {
     Promise.all([getRoles(userSession), getUsers(userSession)]).then((responsibles) => {
       const errResponse = responsibles.find((response) => response.res === null);
       if (errResponse) {
+        //500мс для того чтобы анимация появления блока успела отработать перед появлением данных
         setTimeout(() => setAccessError(errResponse.error), 500);
         return;
       }
-      setAccessError(null);
       setTimeout(() => {
+        setAccessError(null);
         responsibles.forEach((res) => dispatch(res));
       }, [500]);
     });
