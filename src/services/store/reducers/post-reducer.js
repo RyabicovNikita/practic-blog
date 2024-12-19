@@ -10,7 +10,7 @@ export const postReducer = (state = initialPostState, { type, payload }) => {
       return { ...state, comments: [payload, ...state.comments] };
     case POST_ACTION_TYPES.GET_COMMENTS:
       return { ...state, comments: [...payload] };
-    case POST_ACTION_TYPES.DELETE_POST:
+    case POST_ACTION_TYPES.CLEAR_POST_STATE:
       return initialPostState;
     case POST_ACTION_TYPES.UPDATE_POST:
       return { ...state, ...payload };

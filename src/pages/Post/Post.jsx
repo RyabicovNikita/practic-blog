@@ -5,9 +5,10 @@ import { useEffect, useState } from "react";
 
 import { Comments, PostContent } from "./components";
 import "./Post.scss";
-import { Modal, Loader } from "../../components";
+import { Modal, Loader, Error } from "../../components";
 
 export const Post = () => {
+  const [serverError, setServerError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -16,9 +17,13 @@ export const Post = () => {
   useEffect(() => {
     setIsLoading(true);
     getPost(postId)
-      .then((post) => dispatch({ type: POST_ACTION_TYPES.GET_POST, payload: post }))
+      .then((postData) => {
+        if (Object.keys(postData.post).length > 0)
+          dispatch({ type: POST_ACTION_TYPES.GET_POST, payload: postData.post });
+      })
+      .catch((error) => setServerError(error))
       .finally(() => setIsLoading(false));
-    return () => dispatch({ type: POST_ACTION_TYPES.DELETE_POST });
+    return () => dispatch({ type: POST_ACTION_TYPES.CLEAR_POST_STATE });
   }, []);
 
   const confirmDeletePost = () => {
@@ -30,11 +35,13 @@ export const Post = () => {
     });
   };
   const rejectDeletePost = () => setIsModalOpen(false);
-
+  console.log(serverError);
   return (
     <div className="blog">
       {isLoading ? (
         <Loader />
+      ) : serverError ? (
+        <Error>{serverError}</Error>
       ) : (
         <>
           <PostContent setIsModalOpen={setIsModalOpen} />

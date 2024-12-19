@@ -32,7 +32,7 @@ export const getUsers = async (userSession) => {
   const access = await sessions.access(userSession, accessRoles);
   if (!access) {
     return {
-      error: "Доступ к данным пользователей недоступен для текущей роли",
+      error: "Доступ к данным недоступен для текущего пользователя",
       res: null,
     };
   }
@@ -48,7 +48,7 @@ export const getRoles = async (userSession) => {
   const access = await sessions.access(userSession, accessRoles);
   if (!access) {
     return {
-      error: "Доступ к данным ролей недоступен для текущей роли пользователя",
+      error: "Доступ к данным недоступен для текущего пользователя",
       res: null,
     };
   }
@@ -80,33 +80,28 @@ export const getCommentsWithAuthor = (postId) =>
   );
 
 export const getPost = async (postId) => {
-  try {
-    const [post, commentsPost, likedUsers] = await Promise.all([
-      fetchGetPostById(postId),
-      getCommentsWithAuthor(postId),
-      fetchGetPostLikedUsers(postId),
-    ]);
+  const [post, commentsPost, likedUsers] = await Promise.all([
+    fetchGetPostById(postId),
+    getCommentsWithAuthor(postId),
+    fetchGetPostLikedUsers(postId),
+  ]);
 
-    const sortByDateComments = commentsPost.sort((a, b) => {
-      if (
-        DateTime.fromFormat(a.published_at, DATE_FORMATS.DATETIME) >
-        DateTime.fromFormat(b.published_at, DATE_FORMATS.DATETIME)
-      )
-        return -1;
+  const sortByDateComments = commentsPost.sort((a, b) => {
+    if (
+      DateTime.fromFormat(a.published_at, DATE_FORMATS.DATETIME) >
+      DateTime.fromFormat(b.published_at, DATE_FORMATS.DATETIME)
+    )
+      return -1;
 
-      if (
-        DateTime.fromFormat(a.published_at, DATE_FORMATS.DATETIME) <
-        DateTime.fromFormat(b.published_at, DATE_FORMATS.DATETIME)
-      )
-        return 1;
+    if (
+      DateTime.fromFormat(a.published_at, DATE_FORMATS.DATETIME) <
+      DateTime.fromFormat(b.published_at, DATE_FORMATS.DATETIME)
+    )
+      return 1;
 
-      return 0;
-    });
-
-    return { ...post, comments: sortByDateComments, likedUsers };
-  } catch (error) {
-    console.error(error);
-  }
+    return 0;
+  });
+  return { post, comments: sortByDateComments, likedUsers };
 };
 
 export const deletePost = async (hash, postId) => {
@@ -122,7 +117,7 @@ export const deletePost = async (hash, postId) => {
       await fetchDeleteComment(id);
     });
     await fetchDeletePost(postId);
-    return { type: POST_ACTION_TYPES.DELETE_POST };
+    return { type: POST_ACTION_TYPES.CLEAR_POST_STATE };
   } catch (error) {
     console.error(error);
   }

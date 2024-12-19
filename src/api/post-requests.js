@@ -7,6 +7,18 @@ export const fetchGetPosts = (page, limit) =>
 
 export const fetchGetPostById = (id) =>
   fetch(`http://localhost:3005/posts/${id}`)
+    .then((res) => {
+      if (res.ok) return res;
+      let errorMsg = "";
+      switch (res.status) {
+        case 404:
+          errorMsg = "Такая страница не существует";
+          break;
+        default:
+          errorMsg = "Что-то пошло не так. Попробуйте ещё раз позднее";
+      }
+      return Promise.reject(errorMsg);
+    })
     .then((res) => res.json())
     .then((post) => post);
 
