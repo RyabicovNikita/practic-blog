@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectUserLogin } from "../../../../services/store/selectors/selectors";
 import { logout } from "../../../../services/store/slice/authSlice";
 import { debounce, SESSION_STORAGE_USER } from "../../../../services";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import { SearchContext } from "../../../../services/context/context";
 import { Search } from "../Search/Search";
 

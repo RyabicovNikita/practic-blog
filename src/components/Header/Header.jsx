@@ -5,7 +5,6 @@ import { DropDownMenu } from "../DropDownMenu/DropDownMenu";
 import { headerBack_img, logoBack_img } from "../../images";
 import { Navigation } from "./components";
 import { NavBarContainer } from "./components/NavBar/NavBar";
-import "./Header.scss";
 
 const getStyles = ({ href, backGroundPosition, jContent, fontSize }) => `
   display: flex;
