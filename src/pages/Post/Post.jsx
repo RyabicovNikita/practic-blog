@@ -17,8 +17,7 @@ export const Post = () => {
   useEffect(() => {
     getPost(postId)
       .then((postData) => {
-        if (Object.keys(postData.post).length > 0)
-          dispatch({ type: POST_ACTION_TYPES.GET_POST, payload: postData.post });
+        if (Object.keys(postData.post).length > 0) dispatch({ type: POST_ACTION_TYPES.GET_POST, payload: postData });
       })
       .catch((error) => setServerError(error))
       .finally(() => setIsLoading(false));
@@ -32,7 +31,6 @@ export const Post = () => {
         setIsModalOpen(false);
         return;
       }
-      dispatch(result);
       setIsModalOpen(false);
       navigate("/");
     });
