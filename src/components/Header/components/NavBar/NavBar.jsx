@@ -2,13 +2,14 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Icon } from "../../..";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { selectUserLogin } from "../../../../services/store/selectors/selectors";
+import { selectUserLogin, selectUserSession } from "../../../../services/store/selectors/selectors";
 import { logout } from "../../../../services/store/slice/authSlice";
 import { debounce, SESSION_STORAGE_USER } from "../../../../services";
 import { useContext, useEffect, useMemo } from "react";
 import { SearchContext } from "../../../../services/context/context";
 import { Search } from "../Search/Search";
 import PropTypes from "prop-types";
+import { server } from "../../../../bff/server";
 
 const NavBar = styled.div`
   display: flex;
@@ -38,6 +39,7 @@ export const NavBarContainer = ({ isMenuOpen, setIsMenuOpen, setContextMenuAnima
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userLogin = useSelector(selectUserLogin);
+  const userSession = useSelector(selectUserSession);
   const { searchPhrase, setSearchPhrase, isSearch, setIsSearch } = useContext(SearchContext);
 
   useEffect(() => {
@@ -62,10 +64,12 @@ export const NavBarContainer = ({ isMenuOpen, setIsMenuOpen, setContextMenuAnima
   };
   const handleLogout = () => {
     if (!userLogin) return;
-    dispatch(logout());
-    const currentUserDataJSON = sessionStorage.getItem(SESSION_STORAGE_USER);
-    if (!currentUserDataJSON) return;
-    sessionStorage.removeItem(SESSION_STORAGE_USER);
+    server.logout(userSession).then(() => {
+      dispatch(logout());
+      const currentUserDataJSON = sessionStorage.getItem(SESSION_STORAGE_USER);
+      if (!currentUserDataJSON) return;
+      sessionStorage.removeItem(SESSION_STORAGE_USER);
+    });
   };
 
   const startDelayedSearch = useMemo(() => debounce(setIsSearch, 2000), []);
