@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { PROP_TYPES } from "../../services";
 
 const ErrorContainer = ({ className, children, styles }) => <div className={className}>{children}</div>;
 
@@ -9,3 +10,7 @@ export const Error = styled(ErrorContainer)`
   justify-content: center;
   ${({ styles }) => styles};
 `;
+
+Error.propTypes = {
+  children: PROP_TYPES.CHILDREN,
+};

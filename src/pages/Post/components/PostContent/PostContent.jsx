@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import "./PostContent.scss";
-import { selectPost, selectUser } from "../../../../services/store/selectors/selectors";
+import { selectLikedUsers, selectPost, selectUser } from "../../../../services/store/selectors/selectors";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { fetchSavePost } from "../../../../api";
 import { addLike, deleteLike, POST_ACTION_TYPES } from "../../../../services/store/actions";
@@ -25,6 +25,8 @@ export const PostContent = ({ setIsModalOpen }) => {
   const dispatch = useDispatch();
   const post = useSelector(selectPost);
 
+  const likedUsers = useSelector(selectLikedUsers);
+
   const {
     register,
     unregister,
@@ -36,7 +38,7 @@ export const PostContent = ({ setIsModalOpen }) => {
 
   const { id: userId, role_id: user_role_id } = useSelector(selectUser);
 
-  const { id: postId, image_url, published_at, content, title, likedUsers } = post;
+  const { id: postId, image_url, published_at, content, title } = post;
 
   const isUserPutLike = !!likedUsers.find((likeData) => likeData.user_id === userId);
 

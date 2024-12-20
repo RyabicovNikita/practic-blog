@@ -4,9 +4,10 @@ import { CardContainer, Scrollable, Section } from "../../styled-components";
 import { getPosts, POSTS_ACTION_TYPES } from "../../../../services/store/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { selectPosts } from "../../../../services/store/selectors/selectors";
-import { BlogCard, Footer } from "../../../../components";
+import { BlogCard, Error, Footer } from "../../../../components";
 import { getLastPageFromLinks, PAGINATION_LIMIT } from "../../../../services";
 import { SearchContext } from "../../../../services/context/context";
+import { ERRORS } from "../../../../services/constants/constants";
 
 export const CardSection = ({ cardSectionRef }) => {
   const lastPostRef = useRef(null);
@@ -55,21 +56,29 @@ export const CardSection = ({ cardSectionRef }) => {
       setPage((prevState) => prevState + 1);
     }
   };
+
+  const getPostsBySearch = () => {
+    const filteredPosts = posts.filter((post) =>
+      searchPhrase.length === 0 ? post : post.title.indexOf(searchPhrase) >= 0
+    );
+    if (filteredPosts.length === 0)
+      return (
+        <Error styles={" position: absolute;bottom: 50%;left: 50%;  transform: translate(-50%, -50%);"}>
+          {ERRORS.POSTS_NOT_FOUND}
+        </Error>
+      );
+    return filteredPosts.map((post, index) =>
+      index + 1 === posts.length ? (
+        <BlogCard post={post} key={post.id} lastPostRef={lastPostRef} />
+      ) : (
+        <BlogCard post={post} key={post.id} />
+      )
+    );
+  };
   return (
     <Section href={contentBack_img}>
       <Scrollable ref={cardSectionRef}>
-        <CardContainer>
-          {posts?.length > 0 &&
-            posts
-              .filter((post) => (searchPhrase.length === 0 ? post : post.title.indexOf(searchPhrase) >= 0))
-              .map((post, index) =>
-                index + 1 === posts.length ? (
-                  <BlogCard post={post} key={post.id} lastPostRef={lastPostRef} />
-                ) : (
-                  <BlogCard post={post} key={post.id} />
-                )
-              )}
-        </CardContainer>
+        <CardContainer>{posts?.length > 0 && getPostsBySearch()}</CardContainer>
         <Footer />
       </Scrollable>
     </Section>

@@ -8,7 +8,7 @@ import { SESSION_STORAGE_USER } from "./services";
 import { NewPost, Post } from "./pages/Post";
 import { MainContainer } from "./pages/Main";
 import { Error404, Users } from "./pages";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { setUser } from "./services/store/slice/authSlice";
 import { SearchContext } from "./services/context/context";
 import { Footer, HeaderContainer } from "./components";

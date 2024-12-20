@@ -1,4 +1,4 @@
-import { ROLES } from "../services/constants";
+import { ROLES } from "../services/constants/constants";
 import { generateDate } from "../services/services";
 
 export const fetchGetUsers = () => fetch("http://localhost:3005/users").then((res) => res.json());

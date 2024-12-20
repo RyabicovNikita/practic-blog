@@ -6,14 +6,14 @@ import { headerBack_img, logoBack_img } from "../../images";
 import { Navigation } from "./components";
 import { NavBarContainer } from "./components/NavBar/NavBar";
 
-const getStyles = ({ href, backGroundPosition, jContent, fontSize }) => `
+const getStyles = ({ href, backgroundposition, jcontent, fontSize }) => `
   display: flex;
-  justify-content: ${jContent};
+  justify-content: ${jcontent};
   background-size: cover;
   background-repeat: no-repeat;
   align-items: center;
   background-image: url(${href});
-  background-position: ${backGroundPosition};
+  background-position: ${backgroundposition};
   font-size: ${fontSize}px;
   `;
 
@@ -28,7 +28,7 @@ const Header = styled.div`
   padding-right: 25px;
   box-sizing: border-box;
   box-shadow: 0px 20px 25px 2px rgba(0, 0, 0, 1);
-  ${({ href, backGroundPosition, jContent, fontSize }) => getStyles({ href, backGroundPosition, jContent, fontSize })}
+  ${({ href, backgroundposition, jcontent, fontSize }) => getStyles({ href, backgroundposition, jcontent, fontSize })}
 `;
 
 const LogoLink = styled(Link)`
@@ -37,7 +37,7 @@ const LogoLink = styled(Link)`
   color: white;
   padding: 10px;
   border-radius: 15px;
-  ${({ href, backGroundPosition, jContent, fontSize }) => getStyles({ href, backGroundPosition, jContent, fontSize })}
+  ${({ href, backgroundposition, jcontent, fontSize }) => getStyles({ href, backgroundposition, jcontent, fontSize })}
 `;
 
 export const HeaderContainer = () => {
@@ -46,8 +46,8 @@ export const HeaderContainer = () => {
 
   return (
     <>
-      <Header href={headerBack_img} backGroundPosition="bottom" jContent="space-between" fontSize="35">
-        <LogoLink href={logoBack_img} to="/" backGroundPosition="center" jContent="center" fontSize="65">
+      <Header href={headerBack_img} backgroundposition="bottom" jcontent="space-between" fontSize="35">
+        <LogoLink href={logoBack_img} to="/" backgroundposition="center" jcontent="center" fontSize="65">
           Blog
         </LogoLink>
         <Navigation />

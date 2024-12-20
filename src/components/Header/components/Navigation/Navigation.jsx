@@ -4,6 +4,7 @@ import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectUserRole } from "../../../../services/store/selectors/selectors";
+import PropTypes from "prop-types";
 
 const Navigate = styled.nav`
   padding: 10px;
@@ -36,4 +37,9 @@ export const Navigation = () => {
       )}
     </Navigate>
   );
+};
+
+NavLink.propTypes = {
+  location: PropTypes.string.isRequired,
+  to: PropTypes.string.isRequired,
 };

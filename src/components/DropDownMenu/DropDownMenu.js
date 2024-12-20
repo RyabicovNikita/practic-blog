@@ -2,8 +2,9 @@ import { Link } from "react-router-dom";
 
 import { useSelector } from "react-redux";
 import { selectUserLogin, selectUserRole } from "../../services/store/selectors/selectors";
-import { ROLES } from "../../services";
+import { PROP_TYPES, ROLES } from "../../services";
 import "./DropDownMenu.scss";
+import PropTypes from "prop-types";
 export const DropDownMenu = ({ setIsMenuOpen, animation }) => {
   const userLogin = useSelector(selectUserLogin);
   const userRoleID = useSelector(selectUserRole);
@@ -34,4 +35,9 @@ export const DropDownMenu = ({ setIsMenuOpen, animation }) => {
       </ul>
     </div>
   );
+};
+
+DropDownMenu.propTypes = {
+  setIsMenuOpen: PropTypes.func.isRequired,
+  animation: PROP_TYPES.OBJECT_OR_UNDEFINED,
 };

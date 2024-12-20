@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import "./BlogCard.scss";
-import { dateTimeToDate } from "../../services";
+import { dateTimeToDate, PROP_TYPES } from "../../services";
 
 export const BlogCard = ({ post, lastPostRef }) => {
   const { id, title, content, image_url, published_at, likesCount, commentsCount } = post;
@@ -42,4 +42,9 @@ export const BlogCard = ({ post, lastPostRef }) => {
       </div>
     </>
   );
+};
+
+BlogCard.propTypes = {
+  post: PROP_TYPES.POST,
+  lastPostRef: PROP_TYPES.OBJECT_OR_UNDEFINED,
 };

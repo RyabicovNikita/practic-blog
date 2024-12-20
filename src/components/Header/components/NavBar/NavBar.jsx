@@ -8,6 +8,7 @@ import { debounce, SESSION_STORAGE_USER } from "../../../../services";
 import { useContext, useEffect, useMemo } from "react";
 import { SearchContext } from "../../../../services/context/context";
 import { Search } from "../Search/Search";
+import PropTypes from "prop-types";
 
 const NavBar = styled.div`
   display: flex;
@@ -87,4 +88,10 @@ export const NavBarContainer = ({ isMenuOpen, setIsMenuOpen, setContextMenuAnima
       <Icon className="fa fa-bars" onClick={onMenuClick} />
     </NavBar>
   );
+};
+
+NavBarContainer.propTypes = {
+  isMenuOpen: PropTypes.bool.isRequired,
+  setIsMenuOpen: PropTypes.func.isRequired,
+  setContextMenuAnimation: PropTypes.func.isRequired,
 };

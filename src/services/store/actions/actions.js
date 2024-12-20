@@ -11,7 +11,7 @@ import {
 } from "../../../api";
 import { fetchGetRoles } from "../../../api/roles-requests";
 import { sessions } from "../../../bff/sessions";
-import { DATE_FORMATS, ROLES } from "../../constants";
+
 import { DateTime } from "luxon";
 import {
   fetchAddUserLike,
@@ -20,6 +20,7 @@ import {
   fetchGetLikes,
   fetchGetPostLikedUsers,
 } from "../../../api/likes-requests";
+import { DATE_FORMATS, ROLES } from "../../constants/constants";
 
 //Переделал на redux-toolkit
 // export const setUser = (user) => ({

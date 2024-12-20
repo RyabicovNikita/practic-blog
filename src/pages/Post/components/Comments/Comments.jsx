@@ -2,7 +2,7 @@ import * as yup from "yup";
 import { useEffect, useState } from "react";
 import { Comment } from "./components/Comment/Comment";
 import { useDispatch, useSelector } from "react-redux";
-import { selectComments, selectPost, selectUser } from "../../../../services/store/selectors/selectors";
+import { selectComments, selectPostID, selectUser } from "../../../../services/store/selectors/selectors";
 
 import { addNewComment, deleteComment, POST_ACTION_TYPES } from "../../../../services/store/actions";
 import { ContextMenu, Error, Icon } from "../../../../components";
@@ -43,7 +43,7 @@ export const Comments = () => {
   } = useForm(formParams);
 
   const [serverError, setServerError] = useState(null);
-  const { id: postId } = useSelector(selectPost);
+  const postId = useSelector(selectPostID);
   const user = useSelector(selectUser);
   const comments = useSelector(selectComments);
   const dispatch = useDispatch();

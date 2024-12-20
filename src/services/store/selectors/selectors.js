@@ -11,5 +11,7 @@ export const selectPosts = ({ posts }) => posts;
 
 export const selectFilterPostsByTitle = ({ posts }, filter) => posts.filter((post) => post.title.indexOf(filter) >= 0);
 
-export const selectPost = ({ post }) => post;
+export const selectPost = ({ post }) => post.post;
+export const selectPostID = ({ post }) => post.post?.id;
+export const selectLikedUsers = ({ post }) => post.likedUsers;
 export const selectComments = ({ post }) => post.comments;

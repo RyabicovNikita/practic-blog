@@ -1,4 +1,6 @@
+import PropTypes from "prop-types";
 import styled from "styled-components";
+import { PROP_TYPES } from "../../services";
 
 const ButtonContainer = ({ className, disabled, onClick, children }) => (
   <button className={className} disabled={disabled} onClick={onClick}>
@@ -12,3 +14,9 @@ export const Button = styled(ButtonContainer)`
     color: ${({ disabled }) => (disabled ? "gray" : "inherit")};
   }
 `;
+
+Button.propTypes = {
+  disabled: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired,
+  children: PROP_TYPES.CHILDREN,
+};

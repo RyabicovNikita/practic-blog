@@ -18,4 +18,5 @@ export const PAGINATION_LIMIT = 9;
 
 export const ERRORS = {
   ACCESS_DENIED: "Недоступно для текущего пользователя",
+  POSTS_NOT_FOUND: "Не найдено ни одной статьи по результатам поиска",
 };

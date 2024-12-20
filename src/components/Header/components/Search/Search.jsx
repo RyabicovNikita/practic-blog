@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useLocation } from "react-router";
 import styled from "styled-components";
 
@@ -23,3 +24,8 @@ export const Search = styled(SearchContainer)`
     color: #474545c2;
   }
 `;
+
+Search.propTypes = {
+  value: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+};

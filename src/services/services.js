@@ -1,5 +1,5 @@
 import { DateTime } from "luxon";
-import { DATE_FORMATS } from "./constants";
+import { DATE_FORMATS } from "./constants/constants";
 
 export const generateDate = () => DateTime.now().toLocaleString();
 

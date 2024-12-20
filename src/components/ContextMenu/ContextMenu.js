@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import "./ContextMenu.scss";
+import PropTypes from "prop-types";
 
-export const ContextMenu = ({ actions = [], top, left }) => {
+export const ContextMenu = ({ actions, top, left }) => {
   const ContextMenuStyled = styled.div`
     position: absolute;
     top: ${top}px;
@@ -23,4 +24,10 @@ export const ContextMenu = ({ actions = [], top, left }) => {
       </ul>
     </ContextMenuStyled>
   );
+};
+
+ContextMenu.propTypes = {
+  actions: PropTypes.array.isRequired,
+  top: PropTypes.number.isRequired,
+  left: PropTypes.number.isRequired,
 };
