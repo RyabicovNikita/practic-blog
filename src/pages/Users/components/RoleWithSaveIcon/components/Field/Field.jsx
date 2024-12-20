@@ -25,7 +25,7 @@ export const Field = styled(FieldContainer)`
 
 Field.propTypes = {
   roleName: PropTypes.string.isRequired,
-  visitorLogin: PropTypes.string.isRequired,
+  visitorLogin: PropTypes.string,
   userLogin: PropTypes.string.isRequired,
   setIsMenuSelectOpen: PropTypes.func.isRequired,
 };
