@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { Error } from "../../../../components/Error/Error";
 import { getPostFormParams } from "../../validates";
 import { Icon } from "../../../../components";
+import PropTypes from "prop-types";
 
 const FIELD_NAME = {
   title: "title",
@@ -165,4 +166,8 @@ export const PostContent = ({ setIsModalOpen }) => {
       </section>
     </form>
   );
+};
+
+PostContent.propTypes = {
+  setIsModalOpen: PropTypes.func.isRequired,
 };

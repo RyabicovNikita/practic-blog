@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { mainBack_img } from "../../../../images";
 import { flexToCenter, Section } from "../../styled-components";
 import { Icon } from "../../../../components";
+import PropTypes from "prop-types";
 
 const Container = styled.div`
   ${flexToCenter}
@@ -39,3 +40,7 @@ export const MainSection = ({ scrollDownClick }) => (
     </Container>
   </Section>
 );
+
+MainSection.propTypes = {
+  scrollDownClick: PropTypes.func.isRequired,
+};

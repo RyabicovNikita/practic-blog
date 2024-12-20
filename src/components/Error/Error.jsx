@@ -12,5 +12,5 @@ export const Error = styled(ErrorContainer)`
 `;
 
 Error.propTypes = {
-  children: PROP_TYPES.CHILDREN,
+  children: PROP_TYPES.CHILDREN.isRequired,
 };

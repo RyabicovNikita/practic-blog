@@ -12,4 +12,5 @@ export const PROP_TYPES = {
     commentsCount: PropTypes.number.isRequired,
   }),
   OBJECT_OR_UNDEFINED: PropTypes.oneOfType([PropTypes.object, PropTypes.exact(undefined)]),
+  STRING_OR_NULL: PropTypes.oneOfType([PropTypes.string, PropTypes.exact(null)]),
 };

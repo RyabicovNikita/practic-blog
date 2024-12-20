@@ -4,6 +4,7 @@ import { selectRoles } from "../../../../services/store/selectors/selectors";
 import { useSelector } from "react-redux";
 import { ROLES } from "../../../../services";
 import { Modal } from "../../../../components/Modal/Modal";
+import PropTypes from "prop-types";
 
 const tableStyleProps = {
   table: {
@@ -45,4 +46,9 @@ export const RecordSelectionMenu = ({ setSelectedRole, setIsMenuSelectOpen }) =>
       )}
     </Modal>
   );
+};
+
+RecordSelectionMenu.propTypes = {
+  setSelectedRole: PropTypes.func.isRequired,
+  setIsMenuSelectOpen: PropTypes.func.isRequired,
 };

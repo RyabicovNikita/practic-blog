@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { RowContainer } from "./Row";
 import { Cell } from "./Cell";
+import PropTypes from "prop-types";
 
 const TableLayout = ({ className, data, styles }) => (
   <div className={className}>
@@ -21,3 +22,7 @@ export const Table = styled(TableLayout)`
     border: 0;
   }
 `;
+
+Table.propTypes = {
+  data: PropTypes.array,
+};

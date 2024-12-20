@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { PROP_TYPES } from "../../../services";
 
 export const RowContainer = ({ rowData, styles, children: cellsContent }) => {
   const { row: rowStyles } = styles;
@@ -11,3 +12,7 @@ const Row = styled(RowLayout)`
   display: grid;
   ${({ styles }) => ({ ...styles })};
 `;
+
+RowContainer.propTypes = {
+  children: PROP_TYPES.CHILDREN,
+};

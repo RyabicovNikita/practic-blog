@@ -8,6 +8,7 @@ import { BlogCard, Error, Footer } from "../../../../components";
 import { getLastPageFromLinks, PAGINATION_LIMIT } from "../../../../services";
 import { SearchContext } from "../../../../services/context/context";
 import { ERRORS } from "../../../../services/constants/constants";
+import PropTypes from "prop-types";
 
 export const CardSection = ({ cardSectionRef }) => {
   const lastPostRef = useRef(null);
@@ -83,4 +84,8 @@ export const CardSection = ({ cardSectionRef }) => {
       </Scrollable>
     </Section>
   );
+};
+
+CardSection.propTypes = {
+  cardSectionRef: PropTypes.object.isRequired,
 };
