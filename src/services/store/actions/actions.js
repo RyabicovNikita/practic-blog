@@ -44,7 +44,6 @@ export const getUsers = async (userSession) => {
 };
 
 export const getRoles = async (userSession) => {
-  console.log(userSession);
   const accessRoles = [ROLES.ADMIN];
   const access = await sessions.access(userSession, accessRoles);
   if (!access) {
