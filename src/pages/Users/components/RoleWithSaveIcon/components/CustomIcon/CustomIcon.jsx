@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const CustomIconContainer = ({ className, onClick, src }) => (
@@ -12,3 +13,8 @@ const CustomIcon = styled(CustomIconContainer)`
 `;
 
 export default CustomIcon;
+
+CustomIcon.propTypes = {
+  onClick: PropTypes.func,
+  src: PropTypes.string,
+};

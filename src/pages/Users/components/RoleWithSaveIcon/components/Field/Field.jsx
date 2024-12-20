@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { threeDots_icon } from "../../../../../../icons";
 import CustomIcon from "../CustomIcon/CustomIcon";
+import PropTypes from "prop-types";
 
 const FieldContainer = ({ className, roleName, visitorLogin, userLogin, setIsMenuSelectOpen }) => (
   <div className={className}>
@@ -21,3 +22,10 @@ export const Field = styled(FieldContainer)`
   border-radius: 15px;
   gap: 15px;
 `;
+
+Field.propTypes = {
+  roleName: PropTypes.string.isRequired,
+  visitorLogin: PropTypes.string.isRequired,
+  userLogin: PropTypes.string.isRequired,
+  setIsMenuSelectOpen: PropTypes.func.isRequired,
+};

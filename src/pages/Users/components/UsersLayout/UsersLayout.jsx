@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { PROP_TYPES } from "../../../../services";
 
 const UsersScrollableLayout = ({ className, children }) => <div className={className}>{children}</div>;
 
@@ -39,3 +40,11 @@ export const ScrollableContainer = styled(UsersLayout)`
   animation: blur-test reverse;
   animation-duration: 1s;
 `;
+
+UsersScrollable.propTypes = {
+  children: PROP_TYPES.CHILDREN,
+};
+
+ScrollableContainer.propTypes = {
+  children: PROP_TYPES.CHILDREN,
+};

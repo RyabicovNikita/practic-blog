@@ -7,6 +7,8 @@ import { selectRoles, selectUser } from "../../../../services/store/selectors/se
 import { Button, Icon } from "../../../../components";
 import { Field } from "./components";
 import styled from "styled-components";
+import { PROP_TYPES } from "../../../../services";
+import PropTypes from "prop-types";
 
 const Container = ({ className, children }) => <div className={className}>{children}</div>;
 
@@ -61,4 +63,16 @@ export const RoleWithSaveIcon = ({ user }) => {
       </StyledContainer>
     </>
   );
+};
+
+StyledContainer.propTypes = {
+  children: PROP_TYPES.CHILDREN,
+};
+
+RoleWithSaveIcon.propTypes = {
+  user: PropTypes.shape({
+    login: PropTypes.string.isRequired,
+    role_id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
+  }),
 };
