@@ -86,7 +86,7 @@ export const NavBarContainer = ({ isMenuOpen, setIsMenuOpen, setContextMenuAnima
         styles={"&:hover {color: gray;transition: 0.6s;cursor: pointer;}"}
         onClick={() => navigate(-1)}
       />
-      <AuthLink to={userLogin ? "/" : "/auth"} onClick={handleLogout}>
+      <AuthLink to={!userLogin && "/auth"} onClick={handleLogout}>
         {userLogin ? "Logout" : "Login"}
       </AuthLink>
       <Icon className="fa fa-bars" onClick={onMenuClick} />

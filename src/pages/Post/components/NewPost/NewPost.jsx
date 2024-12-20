@@ -8,10 +8,12 @@ import { Error } from "../../../../components/Error/Error";
 import { getPostFormParams } from "../../validates";
 import { Icon, PrivateContainer } from "../../../../components";
 import { useSelector } from "react-redux";
-import { selectUserSession } from "../../../../services/store/selectors/selectors";
+import { selectUserRole, selectUserSession } from "../../../../services/store/selectors/selectors";
 
 export const NewPost = () => {
   const userSession = useSelector(selectUserSession);
+  const userRole = useSelector(selectUserRole);
+  const accessRoles = [ROLES.ADMIN];
   const navigate = useNavigate();
   const contentRef = useRef(null);
   const [serverError, setServerError] = useState(null);
@@ -36,6 +38,9 @@ export const NewPost = () => {
       unregister("content");
     }
   };
+  useEffect(() => {
+    if (!accessRoles.includes(userRole)) navigate("/auth");
+  }, [userRole]);
 
   useEffect(() => {
     registerInputs(true);
@@ -75,7 +80,7 @@ export const NewPost = () => {
   };
 
   return (
-    <PrivateContainer error={serverError} access={[ROLES.ADMIN]}>
+    <PrivateContainer error={serverError} access={accessRoles}>
       <form onSubmit={handleSubmit(handleSave)} className="blog">
         <section className="blog__top-content">
           <img alt="" className="blog__main-image" src={postValue.image_url}></img>

@@ -4,8 +4,10 @@ import { getRoles, getUsers, ROLES_ACTION_TYPES, USERS_ACTION_TYPES } from "../.
 import { PrivateContainer } from "../../components";
 import { Table } from "../../components/Table/Table";
 import { RoleWithSaveIcon } from "./components/RoleWithSaveIcon/RoleWithSaveIcon";
-import { selectUsers } from "../../services/store/selectors/selectors";
+import { selectUserRole, selectUsers } from "../../services/store/selectors/selectors";
 import { ScrollableContainer } from "./components";
+import { ROLES } from "../../services";
+import { useNavigate } from "react-router";
 
 const tableStyleProps = {
   table: {
@@ -24,9 +26,12 @@ const tableStyleProps = {
 };
 
 export const Users = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const users = useSelector(selectUsers);
+  const userRole = useSelector(selectUserRole);
   const store = useStore();
+  const accessRoles = [ROLES.ADMIN];
   const [accessError, setAccessError] = useState(null);
   useEffect(() => {
     /*через useSelector в данном случае будет работать некорректно, т.к
@@ -52,6 +57,10 @@ export const Users = () => {
       dispatch({ type: ROLES_ACTION_TYPES.CLEAR_ROLES });
     };
   }, []);
+
+  useEffect(() => {
+    if (!accessRoles.includes(userRole)) navigate("/auth");
+  }, [userRole]);
 
   return (
     <ScrollableContainer>
